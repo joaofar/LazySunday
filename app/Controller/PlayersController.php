@@ -43,7 +43,7 @@ class PlayersController extends AppController {
 		}
 		$this->set('player', $this->Player->read(null, $id));
 
-        $this->set('playerEvo', $this->Player->getPlayerRankingEvo($id));
+        $this->set('playerEvo', $this->Player->playerPointsAvg_lastX($id));
 	}
 
 /**
@@ -123,7 +123,7 @@ class PlayersController extends AppController {
         $players['n_min_pre'] = self::N_MIN_PRE;
 
         //rating
-        $op_rating = array('order' => array('Player.rating' => 'desc'),
+        $op_rating = array('order' => array('Player.ratingLouie' => 'desc'),
             'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         $players['ratingList'] = $this->Player->find('all', $op_rating);
 
@@ -190,7 +190,7 @@ class PlayersController extends AppController {
 
 
 
- /**
+/**
  * teste method
  *
  * @param string $id
@@ -208,7 +208,4 @@ class PlayersController extends AppController {
 
         $this->Player->assists(15);
     }
-
-
-
 }

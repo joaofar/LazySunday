@@ -123,8 +123,7 @@ class Player extends AppModel {
 	);
 
 //Minimum number of attendances required to be accepted in the rating table
-const N_MIN_PRE = 5;
-
+//const N_MIN_PRE = 20;
 
 /**
  * countPresencas method
@@ -690,6 +689,53 @@ const N_MIN_PRE = 5;
         //debug($players);
 
         return $players;
+    }
+
+    /**
+     * calcula a média dos últimos X jogos de playerPoints para os últimos X jogos
+     *
+     * @param
+     * @return
+     */
+
+    public function playerPointsAvg_lastX($id) {
+
+        $X = 20;
+        $lastXGames = $this->Goal->find('all', array('fields' => array('Goal.game_id', 'Goal.player_points'),
+            'conditions' => array('Goal.player_id' => $id),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => $X));
+
+        foreach($lastXGames as $game){
+            $playerPointsAvg_lastX[$game['Goal']['player_points']] = intval($this->playerPointsAvg($id, $game['Goal']['game_id']));
+        }
+
+
+        return $playerPointsAvg_lastX;
+
+    }
+
+    /**
+     * calcula a média dos últimos X jogos de playerPoints para um jogo especifico
+     *
+     * @param
+     * @return
+     */
+
+    public function playerPointsAvg($id, $game_id) {
+
+        $X = 20;
+        $lastXGames = $this->Goal->find('all', array('conditions' => array('Goal.game_id <=' => $game_id, 'Goal.player_id' => $id),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => $X));
+        $plptsSum = 0;
+        foreach($lastXGames as $game){
+            $plptsSum += $game['Goal']['player_points'];
+        }
+
+        $playerPointsAvg = $plptsSum / $X;
+        return round($playerPointsAvg);
+
     }
 
 

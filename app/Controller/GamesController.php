@@ -168,23 +168,6 @@ class GamesController extends AppController {
         $this->set('teams', $teams);
     }
 
-    /**
-     * updateStats method
-     *
-     * @param string $id
-     * @return array
-     */
-    public function teste() {
-        //debug($this->Player->countPresencas(21,10));
-        //debug($this->Player->bestGoalAverage(true));
-        //debug($this->Player->gameRating(56));
-
-        //$teste = $this->Game->playerPoints(55);
-        $teste = $this->Game->teamIdtoGoal();
-        //$teste = $this->Game->allPlayerPoints();
-
-        $this->set('teste', $teste);
-    }
 
 
 /**
@@ -212,6 +195,26 @@ class GamesController extends AppController {
         $this->Game->allPlayerPoints();
     }
 
+/**
+ * teste method
+ *
+ * @param string $id
+ * @return array
+ */
+
+    public function teste() {
+        //debug($this->Player->countPresencas(21,10));
+        //debug($this->Player->bestGoalAverage(true));
+        //debug($this->Player->gameRating(56));
+
+        //$teste = $this->Player->averageRating(15);
+        //$teste = $this->Player->allAverageRating();
+
+        //$this->set('teste', $teste);
+
+        $teste = $this->Game->playerPointsAvg_lastX(20);
+        $this->set('teste', $teste);
+    }
 
 
 }

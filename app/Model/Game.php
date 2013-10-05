@@ -83,7 +83,7 @@ class Game extends AppModel {
 
 
 /**
- * teams_goals method
+ * teamsGoals method
  *
  * @param string $id
  * @return array
@@ -128,18 +128,35 @@ class Game extends AppModel {
 
     }
 
+/**
+ * calcula o player points para todos os jogos
+ *
+ * @param
+ * @return
+ */
 
-    /**
-     * faz o rating de cada jogador no jogo seleccionado
-     *
-     * @param array $team
-     * @return bool
-     */
+    public function allPlayerPoints() {
+
+        $games = $this->find('all');
+
+        foreach($games as $game){
+
+            $game['Game']['id'];
+            $this->playerPoints($game['Game']['id']);
+        }
+    }
+
+/**
+ * faz o rating de cada jogador no jogo seleccionado
+ *
+ * @param array $team
+ * @return bool
+ */
 
     public function playerPoints($id) {
 
         // Peso dos golos e assistências no rating final [0 a 1] ////
-            $pointsWeight = 0.25;
+            $pointsWeight = 0.125;
         // Pontos por jogo
             $pointsPerGame = 5000;
         // Peso dos golos em relação às assistências [0 a 1]
@@ -196,23 +213,8 @@ class Game extends AppModel {
         }
     }
 
-/**
- * calcula o player points para todos os jogos
- *
- * @param
- * @return
- */
 
-    public function allPlayerPoints() {
 
-        $games = $this->find('all');
-
-        foreach($games as $game){
-
-            $game['Game']['id'];
-            $this->playerPoints($game['Game']['id']);
-        }
-    }
 
     /**
      * adiciona o team id a cada golo

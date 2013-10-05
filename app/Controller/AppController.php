@@ -35,7 +35,7 @@ class AppController extends Controller {
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
 
     //Minimum number of attendances required to be accepted in the rating table
-    const N_MIN_PRE = 5;
+    const N_MIN_PRE = 20;
     //echo Configure::read('LazySunday.n_min_pre');
 
     function beforeFilter() {

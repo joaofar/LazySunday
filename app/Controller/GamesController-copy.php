@@ -181,4 +181,26 @@ class GamesController extends AppController {
 
         $this->redirect('/games/view/'.$id);
     }
+
+/**
+ * teste method
+ *
+ * @param string $id
+ * @return array
+ */
+
+    public function teste() {
+        //debug($this->Player->countPresencas(21,10));
+        //debug($this->Player->bestGoalAverage(true));
+        //debug($this->Player->gameRating(56));
+
+        //$teste = $this->Player->averageRating(15);
+        //$teste = $this->Player->allAverageRating();
+
+        //$this->set('teste', $teste);
+
+        $this->Game->playerPointsAvg(20,101);
+    }
+
+
 }
