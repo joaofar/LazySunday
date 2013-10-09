@@ -448,4 +448,5 @@ a:link, a:visited { color:green; }
 a:hover { color: #b62121; }
 
 .playerGraph {
+    /*float: left; */
 }

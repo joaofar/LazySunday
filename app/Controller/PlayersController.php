@@ -42,8 +42,8 @@ class PlayersController extends AppController {
 			throw new NotFoundException(__('Invalid player'));
 		}
 		$this->set('player', $this->Player->read(null, $id));
-
         $this->set('playerEvo', $this->Player->playerPointsAvg_lastX($id));
+        $this->set('allPlayers', $this->Player->allPLayers());
 	}
 
 /**
@@ -158,7 +158,7 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-    public function stats() {
+    public function updateStats() {
         $this->Player->updateStats();
         //$this->redirect(array('action' => 'index'));
     }
@@ -188,6 +188,18 @@ class PlayersController extends AppController {
         $this->set('players', $this->Player->chart());
     }
 
+/**
+ * stats method
+ *
+ * Faz as stats globais do Lazyfoot
+ *
+ * @param
+ * @return
+ */
+    public function stats() {
+
+        $this->set('stats', $this->Player->stats());
+    }
 
 
 /**

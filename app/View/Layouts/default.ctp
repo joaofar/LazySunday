@@ -14,6 +14,7 @@
     <script src="<?php echo $this->webroot; ?>js/jquery-1.7.2.min.js" type="text/javascript" ></script>
     <script src="<?php echo $this->webroot; ?>js/jquery.sparkline.js" type="text/javascript" ></script>
     <script src="<?php echo $this->webroot; ?>js/highcharts.js" type="text/javascript"></script>
+    <script src="<?php echo $this->webroot; ?>js/highcharts-more.js" type="text/javascript"></script>
     <?php echo $scripts_for_layout; ?>
 </head>
 
@@ -26,7 +27,8 @@
         <div id="bottomMenu">
             <ul id="menu">
                 <li><a href="<?php echo $this->webroot; ?>Games">Jogos</a></li>
-                <li><a href="<?php echo $this->webroot; ?>Players/index/0">Jogadores</a></li>
+                <li><a href="<?php echo $this->webroot; ?>Players/index/20">Jogadores</a></li>
+                <li><a href="<?php echo $this->webroot; ?>Players/stats">Stats</a></li>
 <!--                <li><a href="--><?php //echo $this->webroot; ?><!--Players/chart">Stats</a></li>-->
             </ul>
         </div>

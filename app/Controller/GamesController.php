@@ -212,8 +212,9 @@ class GamesController extends AppController {
 
         //$this->set('teste', $teste);
 
-        $teste = $this->Game->playerPointsAvg_lastX(20);
-        $this->set('teste', $teste);
+        //$teste = $this->Game->playerPointsAvg_lastX(20);
+        $teste = $this->Game->gameStats();
+        $this->set('stats', $teste);
     }
 
 

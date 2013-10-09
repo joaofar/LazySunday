@@ -1,4 +1,5 @@
 <?php
+//debug($allPlayers);
 $playerEvo = array_reverse($playerEvo, true);
 ?>
 
@@ -8,10 +9,9 @@ $playerEvo = array_reverse($playerEvo, true);
     $(document).ready(function() {
         chart1 = new Highcharts.Chart({
             chart: {
-                renderTo: 'pgraph',
-               // type: 'spline',
-                height: '650',
-                width: '730'
+                renderTo: 'pgraph'
+                //height: '600',
+                //width: '730'
             },
             credits: {
                 enabled: false
@@ -54,7 +54,7 @@ $playerEvo = array_reverse($playerEvo, true);
                 spline: {
                     dataLabels: {
                         enabled: true,
-                        color: '#8A2908'
+                        color: 'black'
                     },
                     lineWidth: 4,
                     color: 'red',
@@ -79,7 +79,6 @@ $playerEvo = array_reverse($playerEvo, true);
                 {
                 name: 'avg',
                 type: 'spline',
-                //yAxis: 2,
                 data: [<?php foreach($playerEvo as $evo) { echo($evo); echo ', '; } ?>]
             }]
         });
@@ -91,50 +90,63 @@ $playerEvo = array_reverse($playerEvo, true);
     $(document).ready(function() {
         chart2 = new Highcharts.Chart({
             chart: {
-                renderTo: 'pgraph',
-                type: 'line',
-                height: '650',
-                width: '730'
+                renderTo: 'pgraph2',
+                polar: true,
+                type: 'line'
             },
-            credits: {
-                enabled: false
-            },
+
             title: {
-                text: 'Evolução do Ranking'
+                text: 'dados do jogador',
+                x: -80
             },
-            yAxis: {
-                title: {
-                    text: 'Ranking'
-                },
-                min: 100,
-                max: 1000,
-                tickInterval: 100
+
+            pane: {
+                size: '80%'
             },
+
             xAxis: {
-                categories: []
+                categories: ['presenças', 'equipa marcados p/jogo', 'equipa sofridos p/jogo', '% de vitórias', 'assistencias p/ jogo', 'golos p/ jogo'],
+                tickmarkPlacement: 'on',
+                lineWidth: 0
             },
-            plotOptions: {
-                line: {
-                    dataLabels: {
-                        enabled: false
-                    }
-                }
+
+            yAxis: {
+                gridLineInterpolation: 'polygon',
+                lineWidth: 0,
+                min: 0
             },
+
+         //   tooltip: {
+         //       shared: true,
+         //       pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+         //   },
+
             legend: {
-                layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'top',
-                x: -10,
-                y: 100,
-                borderWidth: 0
+                y: 70,
+                layout: 'vertical'
             },
+
             series: [
-                <?php foreach($players as $id => $player):?>
-                {
-                    name: '<?php  echo $id; ?>',
-                    data: [<?php foreach($player as $game) { echo($game); echo ', '; } ?>]
-                },
-                <?php endforeach; ?>
+            <?php foreach($allPlayers as $player) {echo
+            "{
+                name: '".$player['Player']['nome']."',
+                data: [".$player['Player']['equipa_m_p_jogo'].', '
+                        .$player['Player']['equipa_m_p_jogo'].', '
+                        .$player['Player']['equipa_s_p_jogo'].', '
+                        .$player['Player']['vit_pre'].', '
+                        .$player['Player']['assist_p_jogo'].', '
+                        .$player['Player']['golos_p_jogo']."],
+                visible: false,
+                pointPlacement: 'on'
+                },"; } ?>
+            {
+                name: 'Allocated Budget',
+                data: [0, 0, 0, 0, 0, 0],
+                visible: true,
+                pointPlacement: 'on'
+            }
             ]
         });
     });
@@ -144,9 +156,12 @@ $playerEvo = array_reverse($playerEvo, true);
 <h2><?php /* echo __($player['Player']['nome']);*/?></h2>-->
 
     <div id="pgraph2" class="playerGraph">
+        <p>pgrapgh</p>
         <?php echo $this->Html->script('highcharts'); ?>
     </div>
 
     <div id="pgraph" class="playerGraph">
+        <p>pgraph2</p>
         <?php echo $this->Html->script('highcharts'); ?>
     </div>
+

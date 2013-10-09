@@ -81,6 +81,9 @@ class Game extends AppModel {
 		)
 	);
 
+    public $virtualFields = array(
+        'goal_dif' => 'Game.team_a - Game.team_b'
+    );
 
 /**
  * teamsGoals method
@@ -216,12 +219,13 @@ class Game extends AppModel {
 
 
 
-    /**
-     * adiciona o team id a cada golo
-     *
-     * @param
-     * @return
-     */
+/**
+ * teamIdtoGoal() method
+ * adiciona o team id a cada golo
+ *
+ * @param
+ * @return
+ */
 
     public function teamIdtoGoal() {
 
@@ -241,6 +245,82 @@ class Game extends AppModel {
         }
 
         return $goal;
+    }
+
+/**
+ * resultadoFix() method
+ * copia a coluna 'resultado' do jogo para duas colunas, 'team_a' e 'team_b'
+ *
+ * @param
+ * @return
+ */
+
+    public function resultadoFix() {
+
+        $games = $this->find('all');
+
+        foreach($games as $game){
+
+            $teams = explode("-", $game['Game']['resultado']);
+            //$result[$game['Game']['id']] = $teams;
+
+            $this->id = $game['Game']['id'];
+            $this->save(array('Game' => array('team_a' => $teams[0], 'team_b' => $teams[1])));
+        }
+
+        return null;
+    }
+
+/** FUNÇÕES DE STATS */
+
+/**
+ * gameStats() method
+ *
+ * devolve uma array de jogos ordenados pela maior diferença de golos
+ *
+ * @param
+ * @return
+ */
+
+    public function gameStats() {
+
+        $games = $this->find('all');
+
+        /* construcção da array
+        estou a usar uma propriedade virtual do modelo: 'goal_dif' definido no topo do model */
+        foreach($games as $game){
+
+
+            //fazer a equipa a ser sempre a vencedora para ficar mais arrumado nos gráficos
+            if($game['Game']['team_a'] > $game['Game']['team_b']){
+                $team_a = $game['Game']['team_a'];
+                $team_b = $game['Game']['team_b'];
+            }
+            else{
+                $team_a = $game['Game']['team_b'];
+                $team_b = $game['Game']['team_a'];
+            }
+
+            $stats[] = array('id' => $game['Game']['id'],
+                             'team_a' => $team_a,
+                             'team_b' => $team_b,
+                             'goal_sum' => $game['Game']['team_a'] + $game['Game']['team_b'],
+                             'goal_dif' => abs($game['Game']['goal_dif']));
+        }
+
+        //sorting da array
+
+        // Obtain a list of columns
+        foreach ($stats as $key => $row) {
+            $goal_dif[$key]  = $row['goal_dif'];
+            $goal_sum[$key] = $row['goal_sum'];
+        }
+
+        // Sort the data with volume descending, edition ascending
+        // Add $data as the last parameter, to sort by the common key
+        array_multisort($goal_dif, SORT_DESC, $goal_sum, SORT_DESC, $stats);
+
+        return $stats;
     }
 
 

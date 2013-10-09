@@ -126,6 +126,22 @@ class Player extends AppModel {
 //const N_MIN_PRE = 20;
 
 /**
+ * allPlayers method
+ * Devolve uma array com a informação da tabela de jogadores
+ *
+ * @param
+ * @return
+ */
+
+    public function allPlayers() {
+
+        $options = array('order' => array('Player.ratingLouie' => 'desc'),
+            'conditions' => array('Player.presencas >=' => 20));
+        return $this->find('all', $options);
+
+    }
+
+/**
  * countPresencas method
  *
  * @param string $id
@@ -737,6 +753,22 @@ class Player extends AppModel {
         return round($playerPointsAvg);
 
     }
+
+/**
+ * stats method
+ * Faz as stats globais do Lazyfoot
+ *
+ * @param
+ * @return
+ */
+
+    public function stats() {
+
+        return 'teste';
+
+    }
+
+
 
 
 

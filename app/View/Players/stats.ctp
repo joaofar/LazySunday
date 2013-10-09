@@ -1,6 +1,4 @@
-<?php //debug($teste); ?>
-
-<?php $stats = array_slice($stats, 0, 5); ?>
+<?php echo $stats; ?>
 
 <script>
     var chart1; // globally available
@@ -14,13 +12,12 @@
                 text: 'Tareias Históricas'
             },
             xAxis: {
-                categories: [<?php foreach($stats as $game){echo "'".$game['id']." - ".$game['goal_dif']."',";} ?>]
-
+                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Golos'
+                    text: 'Total fruit consumption'
                 }
             },
             legend: {
@@ -34,12 +31,12 @@
             },
             series: [{
                 name: 'Pretos',
-                data: [<?php foreach($stats as $game){echo $game['team_b'].',';} ?>]
+                data: [5, 3, 4, 7, 2]
             }, {
                 name: 'Vermelhos',
-                data: [<?php foreach($stats as $game){echo $game['team_a'].',';} ?>]
+                data: [2, 2, 3, 2, 1]
             }]
-        });
+    });
     });
 </script>
 
@@ -50,5 +47,10 @@
 
 
 <div id="pgraph" class="playerGraph">
+    <?php echo $this->Html->script('highcharts'); ?>
+</div>
+
+
+<div id="pgraph2" class="playerGraph">
     <?php echo $this->Html->script('highcharts'); ?>
 </div>
