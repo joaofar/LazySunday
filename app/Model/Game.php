@@ -132,6 +132,36 @@ class Game extends AppModel {
     }
 
 /**
+ * percentDist() method
+ *
+ * esta função determina qual a percentagem de pontos que a equipa vencedora recebe dependendo na diferença de golos.
+ *
+ * @param
+ * @return
+ */
+
+    public function percentDist() {
+
+        //número de jogos que são necessários ganhar para se ter 100% dos pontos
+        $x = 14;
+
+        //valor base qd a diferença de golos é 0, quer dizer que cada equipa recebe 0.5 (50% dos pontos)
+        $c = 0.5;
+
+        //este valor determina a inclinação da curva
+        $b = 0.0618;
+        $a = ((1 - $c) - $b*$x) / pow($x, 2);
+
+        //equação quadrática para determinar os pontos
+        for($i = 0; $i <= $x; $i++){
+            $y[$i] = $a*pow($i,2) + $b*$i + $c;
+        }
+
+        //devolve uma array com $x entradas e os respectivos valores entre [0.5 e 1]
+        return $y;
+    }
+
+/**
  * calcula o player points para todos os jogos
  *
  * @param
@@ -168,7 +198,10 @@ class Game extends AppModel {
 
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id)));
 
-        $totalGoals = $teams[0]['Team']['golos'] + $teams[1]['Team']['golos'];
+        //$totalGoals = $teams[0]['Team']['golos'] + $teams[1]['Team']['golos'];
+        echo $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
+
+        $percentDist = $this->percentDist();
 
         /* loop para cada equipa
            no 1º loop criam-se os pontos base para cada equipa
@@ -177,7 +210,15 @@ class Game extends AppModel {
         $i=0;
         foreach($teams as $team){
             //pontos totais de cada equipa
-            $teamPoints[$i]['Team'] = ($teams[$i]['Team']['golos'] / $totalGoals) * $pointsPerGame;
+            //$teamPoints[$i]['Team'] = ($teams[$i]['Team']['golos'] / $totalGoals) * $pointsPerGame;
+
+            //debug($team);
+            if($team['Team']['winner'] == 1){
+                $teamPoints[$i]['Team'] = $percentDist[$goalDif] * $pointsPerGame;
+            }
+            else{
+                $teamPoints[$i]['Team'] = (1 - $percentDist[$goalDif]) * $pointsPerGame;
+            }
 
             //pontos base, cada jogador recebe pelo menos estes pontos
             $teamPoints[$i]['Base'] = ($teamPoints[$i]['Team'] * (1 - $pointsWeight))/5;
@@ -271,6 +312,36 @@ class Game extends AppModel {
         return null;
     }
 
+/**
+ * teste() method
+ *
+ * função para testes e experiências
+ *
+ * @param
+ * @return
+ */
+
+    public function teste() {
+
+       /* for($i = 0; $i <= 14; $i++){
+        $var['straight'][$i] = 0.5 + $i*(1/28);
+        $var['log'][$i] = log($i, 28);
+        }*/
+        $x = 14;
+
+        $c = 0.5;
+        $b = 0.0618;
+        $a = ((1 - $c) - $b*$x) / pow($x, 2);
+
+        for($i = 0; $i <= $x; $i++){
+            $y[$i] = $a*pow($i,2) + $b*$i + $c;
+        }
+
+
+        return $y;
+    }
+
+
 /** FUNÇÕES DE STATS */
 
 /**
@@ -291,7 +362,7 @@ class Game extends AppModel {
         foreach($games as $game){
 
 
-            //fazer a equipa a ser sempre a vencedora para ficar mais arrumado nos gráficos
+            //fazer a equipa 'a' ser sempre a vencedora para ficar mais arrumado nos gráficos
             if($game['Game']['team_a'] > $game['Game']['team_b']){
                 $team_a = $game['Game']['team_a'];
                 $team_b = $game['Game']['team_b'];
@@ -308,8 +379,7 @@ class Game extends AppModel {
                              'goal_dif' => abs($game['Game']['goal_dif']));
         }
 
-        //sorting da array
-
+        //Sorting da array
         // Obtain a list of columns
         foreach ($stats as $key => $row) {
             $goal_dif[$key]  = $row['goal_dif'];

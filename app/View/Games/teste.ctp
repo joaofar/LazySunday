@@ -1,43 +1,23 @@
-<?php //debug($teste); ?>
+<?php debug($stats); ?>
 
-<?php $stats = array_slice($stats, 0, 5); ?>
+<?php //$stats = array_slice($stats, 0, 5);
+// <?php foreach($stats as $y){echo $y.",";} ?>
 
 <script>
     var chart1; // globally available
     $(document).ready(function() {
         chart1 = new Highcharts.Chart({
             chart: {
-                type: 'bar',
                 renderTo: 'pgraph'
             },
-            title: {
-                text: 'Tareias Históricas'
-            },
-            xAxis: {
-                categories: [<?php foreach($stats as $game){echo "'".$game['id']." - ".$game['goal_dif']."',";} ?>]
 
+            xAxis: {
+                categories: [<?php foreach($stats as $x => $y){echo $x.",";} ?>]
             },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Golos'
-                }
-            },
-            legend: {
-                backgroundColor: '#FFFFFF',
-                reversed: true
-            },
-            plotOptions: {
-                series: {
-                    stacking: 'normal'
-                }
-            },
+
             series: [{
-                name: 'Pretos',
-                data: [<?php foreach($stats as $game){echo $game['team_b'].',';} ?>]
-            }, {
-                name: 'Vermelhos',
-                data: [<?php foreach($stats as $game){echo $game['team_a'].',';} ?>]
+                name: 'Tokyo',
+                data: [<?php foreach($stats as $y){echo $y.",";} ?>]
             }]
         });
     });

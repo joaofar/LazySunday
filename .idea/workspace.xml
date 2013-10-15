@@ -5,25 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5343b8cf-dd3f-4a92-b91a-674365a3669d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/View/Players/stats.ctp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Game.php" afterPath="$PROJECT_DIR$/app/Model/Game.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/GamesController.php" afterPath="$PROJECT_DIR$/app/Controller/GamesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Player.php" afterPath="$PROJECT_DIR$/app/Model/Player.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/PlayersController.php" afterPath="$PROJECT_DIR$/app/Controller/PlayersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Layouts/default.ctp" afterPath="$PROJECT_DIR$/app/View/Layouts/default.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/webroot/css/styles.css" afterPath="$PROJECT_DIR$/app/webroot/css/styles.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Games/index.ctp" afterPath="$PROJECT_DIR$/app/View/Games/index.ctp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Games/teste.ctp" afterPath="$PROJECT_DIR$/app/View/Games/teste.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Players/view.ctp" afterPath="$PROJECT_DIR$/app/View/Players/view.ctp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LazySunday.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1380765307047" ignored="false" />
-    <file path="/Game.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381288486925" ignored="false" />
+    <file path="/Dummy.txt" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381793187167" ignored="false" />
+    <file path="/Game.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381797674857" ignored="false" />
     <file path="/Player.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381115944550" ignored="false" />
     <file path="/GamesController-copy.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1380856097327" ignored="false" />
-    <file path="/GamesController.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381253520752" ignored="false" />
-    <file path="/teste.ctp" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381258562572" ignored="false" />
+    <file path="/GamesController.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381797227263" ignored="false" />
+    <file path="/teste.ctp" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381794530921" ignored="false" />
     <file path="/PlayersController.php" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381115854193" ignored="false" />
     <file path="/view.ctp" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1381199753512" ignored="false" />
     <file path="/chart.ctp" changelist="5343b8cf-dd3f-4a92-b91a-674365a3669d" time="1380940999260" ignored="false" />
@@ -52,7 +47,7 @@
       <file leaf-file-name="default.ctp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/View/Layouts/default.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-10.461538">
+            <state line="16" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -61,16 +56,25 @@
       <file leaf-file-name="Player.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="227" column="77" selection-start="5101" selection-end="5265" vertical-scroll-proportion="-10.078431">
+            <state line="227" column="77" selection-start="5101" selection-end="5265" vertical-scroll-proportion="-86.46154">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Game.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Model/Game.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="294" column="62" selection-start="8021" selection-end="8021" vertical-scroll-proportion="-11.923077">
+            <state line="216" column="16" selection-start="5539" selection-end="5539" vertical-scroll-proportion="0.63384616">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.ctp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/View/Games/index.ctp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="82" selection-start="558" selection-end="558" vertical-scroll-proportion="-5.8846154">
               <folding />
             </state>
           </provider>
@@ -79,7 +83,7 @@
       <file leaf-file-name="PlayersController.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Controller/PlayersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="77" selection-start="2969" selection-end="3115" vertical-scroll-proportion="-10.0">
+            <state line="126" column="77" selection-start="2969" selection-end="3115" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -88,7 +92,7 @@
       <file leaf-file-name="view.ctp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/View/Players/view.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="27" selection-start="41" selection-end="55" vertical-scroll-proportion="-1.3076923">
+            <state line="2" column="27" selection-start="41" selection-end="55" vertical-scroll-proportion="0.0">
               <folding>
                 <marker date="1381199971000" expanded="true" signature="3284:3304" placeholder="..." />
                 <marker date="1381199971000" expanded="true" signature="4524:4587" placeholder="..." />
@@ -101,7 +105,7 @@
       <file leaf-file-name="stats.ctp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/View/Players/stats.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="6" selection-start="0" selection-end="1351" vertical-scroll-proportion="-21.576923">
+            <state line="55" column="6" selection-start="0" selection-end="1351" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -119,16 +123,16 @@
       <file leaf-file-name="GamesController.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Controller/GamesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="216" column="25" selection-start="5689" selection-end="5689" vertical-scroll-proportion="-18.961538">
+            <state line="215" column="45" selection-start="5666" selection-end="5666" vertical-scroll-proportion="-17.653847">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="teste.ctp" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="teste.ctp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/View/Games/teste.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="72" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.7948718">
+            <state line="16" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="-10.461538">
               <folding />
             </state>
           </provider>
@@ -162,9 +166,10 @@
         <option value="$PROJECT_DIR$/app/Model/Player.php" />
         <option value="$PROJECT_DIR$/app/View/Players/view.ctp" />
         <option value="$PROJECT_DIR$/app/View/Players/stats.ctp" />
+        <option value="$PROJECT_DIR$/app/View/Games/teste.ctp" />
+        <option value="$PROJECT_DIR$/app/View/Games/index.ctp" />
         <option value="$PROJECT_DIR$/app/Controller/GamesController.php" />
         <option value="$PROJECT_DIR$/app/Model/Game.php" />
-        <option value="$PROJECT_DIR$/app/View/Games/teste.ctp" />
       </list>
     </option>
   </component>
@@ -173,9 +178,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="51" />
+    <option name="x" value="56" />
     <option name="y" value="22" />
-    <option name="width" value="1386" />
+    <option name="width" value="1384" />
     <option name="height" value="860" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -204,17 +209,18 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
+              <option name="myItemId" value="lazysunday" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
+              <option name="myItemId" value="lazysunday" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -224,21 +230,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="lazysunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -249,36 +241,10 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webroot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="lazysunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webroot" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -296,51 +262,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="lazysunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="View" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Players" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lazysunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="View" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Layouts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -360,45 +282,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lazysunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LazySunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lazysunday" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controller" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -425,14 +310,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="51" y="22" width="1386" height="860" extended-state="0" />
+    <frame x="56" y="22" width="1384" height="860" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1641791" sideWeight="0.67027026" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16666667" sideWeight="0.67027026" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -508,13 +393,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/View/Games/view.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Controller/GamesController-copy.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="191" column="29" selection-start="5579" selection-end="5579" vertical-scroll-proportion="3.896923">
@@ -524,37 +402,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Model/Team.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Players/chart.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="7" selection-start="7275" selection-end="7275" vertical-scroll-proportion="1.1628959">
-          <folding />
-        </state>
+        <state line="248" column="7" selection-start="7275" selection-end="7275" vertical-scroll-proportion="1.1628959" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/webroot/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/webroot/css/styles.css">
@@ -566,28 +434,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Layouts/default.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-10.461538">
+        <state line="16" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Controller/PlayersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="77" selection-start="2969" selection-end="3115" vertical-scroll-proportion="-10.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="227" column="77" selection-start="5101" selection-end="5265" vertical-scroll-proportion="-10.078431">
+        <state line="126" column="77" selection-start="2969" selection-end="3115" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Players/view.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="27" selection-start="41" selection-end="55" vertical-scroll-proportion="-1.3076923">
+        <state line="2" column="27" selection-start="41" selection-end="55" vertical-scroll-proportion="0.0">
           <folding>
             <marker date="1381199971000" expanded="true" signature="3284:3304" placeholder="..." />
             <marker date="1381199971000" expanded="true" signature="4524:4587" placeholder="..." />
@@ -598,28 +459,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Players/stats.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="6" selection-start="0" selection-end="1351" vertical-scroll-proportion="-21.576923">
+        <state line="55" column="6" selection-start="0" selection-end="1351" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="227" column="77" selection-start="5101" selection-end="5265" vertical-scroll-proportion="-86.46154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/View/Games/index.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="82" selection-start="558" selection-end="558" vertical-scroll-proportion="-5.8846154">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Controller/GamesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="25" selection-start="5689" selection-end="5689" vertical-scroll-proportion="-18.961538">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Model/Game.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="294" column="62" selection-start="8021" selection-end="8021" vertical-scroll-proportion="-11.923077">
+        <state line="215" column="45" selection-start="5666" selection-end="5666" vertical-scroll-proportion="-17.653847">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Games/teste.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="72" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.7948718">
+        <state line="16" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="-10.461538">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Model/Game.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="16" selection-start="5539" selection-end="5539" vertical-scroll-proportion="0.63384616">
           <folding />
         </state>
       </provider>
