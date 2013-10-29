@@ -78,7 +78,20 @@ class Game extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+        'Player' => array(
+            'className' => 'Player',
+            'foreignKey' => '',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
 
     public $virtualFields = array(
@@ -94,41 +107,38 @@ class Game extends AppModel {
 
     public function teamsGoals($id){
 
-        $goaloptions = array('conditions' => array('game_id' => $id));
-        $goals = $this->Goal->find('all', $goaloptions);
+        //encontrar as equipas do jogo
+        $game = $this->find('first', array('conditions' => array('id' => $id)));
 
-
-
+        //encontrar os dados de cada equipa
         $i = 1;
-        $team_1_score = 0;
-        $team_2_score = 0;
-        foreach($goals as $data){
-            if($i <= 5){
-                $team_1_data[$data['Player']['nome']]['golos'] = $data['Goal']['golos'];
-                $team_1_data[$data['Player']['nome']]['assistencias'] = $data['Goal']['assistencias'];
-                $team_1_data[$data['Player']['nome']]['player_points'] = $data['Goal']['player_points'];
+        foreach($game['Team'] as $team){
 
-                $team_1_score =+ $team_1_score + $data['Goal']['golos'];
-            }
-            else{
-                $team_2_data[$data['Player']['nome']]['golos'] = $data['Goal']['golos'];
-                $team_2_data[$data['Player']['nome']]['assistencias'] = $data['Goal']['assistencias'];
-                $team_2_data[$data['Player']['nome']]['player_points'] = $data['Goal']['player_points'];
+            $goaloptions = array('conditions' => array('team_id' => $team['id']));
+            $goals = $this->Goal->find('all', $goaloptions);
 
-                $team_2_score =+ $team_2_score + $data['Goal']['golos'];
+
+            ${'team_'.$i.'_score'} = 0;
+            foreach($goals as $goal){
+
+                ${'team_'.$i.'_data'}[$goal['Player']['nome']] = array('golos' => $goal['Goal']['golos'],
+                                                                       'assistencias' => $goal['Goal']['assistencias'],
+                                                                       'player_points' => $goal['Goal']['player_points'],
+                                                                       'curr_rating' => $goal['Goal']['curr_rating'],
+                                                                       'peso' => $goal['Goal']['peso'],
+                                                                       'basePts' => $goal['Goal']['basePts'],
+                                                                       'spPts' => $goal['Goal']['spPts']);
+
+                ${'team_'.$i.'_score'} += $goal['Goal']['golos'];
             }
 
             $i++;
         }
 
-        //debug($team_1_data);
-
         return array('team_1_data' => $team_1_data,
                      'team_2_data' => $team_2_data,
                      'team_1_score' => $team_1_score,
                      'team_2_score' => $team_2_score);
-
-
     }
 
 /**
@@ -142,14 +152,14 @@ class Game extends AppModel {
 
     public function percentDist() {
 
-        //número de jogos que são necessários ganhar para se ter 100% dos pontos
-        $x = 14;
+        //diferença de golos necessária para se ter 100% dos pontos
+        $x = 16;
 
         //valor base qd a diferença de golos é 0, quer dizer que cada equipa recebe 0.5 (50% dos pontos)
         $c = 0.5;
 
         //este valor determina a inclinação da curva
-        $b = 0.0618;
+        $b = 0.045;
         $a = ((1 - $c) - $b*$x) / pow($x, 2);
 
         //equação quadrática para determinar os pontos
@@ -169,6 +179,8 @@ class Game extends AppModel {
  */
 
     public function allPlayerPoints() {
+
+        //array com todos os jogadores
 
         $games = $this->find('all');
 
@@ -197,11 +209,10 @@ class Game extends AppModel {
         //////////////////////////////////////////////
 
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id)));
-
-        //$totalGoals = $teams[0]['Team']['golos'] + $teams[1]['Team']['golos'];
-        echo $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
-
+        $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
         $percentDist = $this->percentDist();
+
+
 
         /* loop para cada equipa
            no 1º loop criam-se os pontos base para cada equipa
@@ -221,7 +232,7 @@ class Game extends AppModel {
             }
 
             //pontos base, cada jogador recebe pelo menos estes pontos
-            $teamPoints[$i]['Base'] = ($teamPoints[$i]['Team'] * (1 - $pointsWeight))/5;
+            $teamPoints[$i]['Base'] = ($teamPoints[$i]['Team'] * (1 - $pointsWeight));
 
             //pontos a serem distribuidos pelos jogadores que marcaram golos e fizeram assistências
             $teamPoints[$i]['specialPoints'] = $teamPoints[$i]['Team'] * $pointsWeight;
@@ -239,78 +250,67 @@ class Game extends AppModel {
             //este valor descobre-se usando o ratio
             $pointsPerAssist = $pointsPerGoal * $goalAssistWeight;
 
+
+
+          //VALOR DA EQUIPA E RATING DO JOGADOR NA ALTURA DO JOGO
+          //é usado para descobrir o peso de cada jogador na equipa no próximo loop
+            $teamValue = 0;
+          foreach($team['Goal'] as $player){
+
+              //rating deste jogador na altura deste jogo
+              //procurar o último jogo do jogador que é o segundo item neste array
+              $previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => $player['game_id'], 'Goal.player_id' => $player['player_id']),
+                  'order' => array('Goal.id' => 'desc'),
+                  'limit' => 1));
+
+              //se não existirem jogos, usa-se o rating base
+              //se existirem usa-se a função playerPointsAvg para calcular o rating de um jogador para um game_id
+              if(count($previousGame) == 0){
+                  $currRating[$player['player_id']] = $this->Player->findById($player['player_id'])['Player']['ratingBase'];
+              }
+              else{
+                  $currRating[$player['player_id']] = $this->Player->playerPointsAvg($player['player_id'], $previousGame[0]['Goal']['game_id']);
+              }
+              $teamValue += $currRating[$player['player_id']];
+          }
+
+
           foreach($team['Goal'] as $player){
 
               $goalPoints = $player['golos'] * $pointsPerGoal;
               $assistPoints = $player['assistencias'] * $pointsPerAssist;
 
               //somar os pontos base mais os pontos especiais
-              $playerPoints = $teamPoints[$i]['Base'] + ($goalPoints + $assistPoints);
+              $playerPoints = ($teamPoints[$i]['Base'] * ($currRating[$player['player_id']] / $teamValue)) + ($goalPoints + $assistPoints);
 
               //$pointsSave = array('Goal' => array('game_id' => $id, 'player_id' => $player['player_id'], 'player_points' => $playerPoints));
-              $pointsSave = array('Goal' => array('player_points' => $playerPoints));
+              $pointsSave = array('Goal' => array('playerPoints' => $playerPoints,
+                                                  'curr_rating' => $currRating[$player['player_id']],
+                                                  'peso' => round(($currRating[$player['player_id']] / $teamValue), 3) * 100,
+                                                  'spPts' => $goalPoints + $assistPoints,
+                                                  'basePts' => ($teamPoints[$i]['Base'] * ($currRating[$player['player_id']] / $teamValue))));
+
+              //debug($pointsSave);
               $this->Goal->id = $player['id'];
               $this->Goal->save($pointsSave);
+
+              //test array
+             // $testArray[$player['player_id']] = array('playerPoints' => $playerPoints,
+                                           //          'peso na equipa' => $currRating[$player['player_id']] / $teamValue,
+                                             //        'valor da equipa' => $teamValue,
+                                               //      'pontos base' => $teamPoints[$i]['Base'] / 5);
           }
 
           $i++;
         }
+
+        //return $testArray;
     }
 
 
 
 
-/**
- * teamIdtoGoal() method
- * adiciona o team id a cada golo
- *
- * @param
- * @return
- */
 
-    public function teamIdtoGoal() {
-
-        $teams = $this->Team->find('all');
-
-        foreach($teams as $team){
-
-            foreach($team['Player'] as $player){
-            $goals = array('Goal' => array('team_id' => $team['Team']['id']));
-
-            $search = $this->Goal->find('first', array('conditions' => array('Goal.game_id' => $team['Team']['game_id'],
-                                                                   'Goal.player_id' => $player['id'])));
-            $this->Goal->id = $search['Goal']['id'];
-            $this->Goal->save($goals);
-            }
-
-        }
-
-        return $goal;
-    }
-
-/**
- * resultadoFix() method
- * copia a coluna 'resultado' do jogo para duas colunas, 'team_a' e 'team_b'
- *
- * @param
- * @return
- */
-
-    public function resultadoFix() {
-
-        $games = $this->find('all');
-
-        foreach($games as $game){
-
-            $teams = explode("-", $game['Game']['resultado']);
-            //$result[$game['Game']['id']] = $teams;
-
-            $this->id = $game['Game']['id'];
-            $this->save(array('Game' => array('team_a' => $teams[0], 'team_b' => $teams[1])));
-        }
-
-        return null;
-    }
 
 /**
  * teste() method
@@ -342,7 +342,7 @@ class Game extends AppModel {
     }
 
 
-/** FUNÇÕES DE STATS */
+/** FUNÇÕES DE STATS *********************************************************************************/
 
 /**
  * gameStats() method
@@ -393,5 +393,57 @@ class Game extends AppModel {
         return $stats;
     }
 
+/** FUNÇÕES UTILITÁRIAS *********************************************************************************/
 
+/**
+ * teamIdtoGoal() method
+ * adiciona o team id a cada golo
+ *
+ * @param
+ * @return
+ */
+
+    public function teamIdtoGoal() {
+
+        $teams = $this->Team->find('all');
+
+        foreach($teams as $team){
+
+            foreach($team['Player'] as $player){
+                $goals = array('Goal' => array('team_id' => $team['Team']['id']));
+
+                $search = $this->Goal->find('first', array('conditions' => array('Goal.game_id' => $team['Team']['game_id'],
+                    'Goal.player_id' => $player['id'])));
+                $this->Goal->id = $search['Goal']['id'];
+                $this->Goal->save($goals);
+            }
+
+        }
+
+        return $goal;
+    }
+
+/**
+ * resultadoFix() method
+ * copia a coluna 'resultado' do jogo para duas colunas, 'team_a' e 'team_b'
+ *
+ * @param
+ * @return
+ */
+
+    public function resultadoFix() {
+
+        $games = $this->find('all');
+
+        foreach($games as $game){
+
+            $teams = explode("-", $game['Game']['resultado']);
+            //$result[$game['Game']['id']] = $teams;
+
+            $this->id = $game['Game']['id'];
+            $this->save(array('Game' => array('team_a' => $teams[0], 'team_b' => $teams[1])));
+        }
+
+        return null;
+    }
 }

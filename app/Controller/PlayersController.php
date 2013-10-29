@@ -132,6 +132,11 @@ class PlayersController extends AppController {
             'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
         $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
 
+        //topAssists
+        $op_topAssists = array('order' => array('Player.assist_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+        $players['topAssists'] = $this->Player->find('first', $op_topAssists);
+
         //offensiveInfluence
         $op_offensive = array('order' => array('Player.equipa_m_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
             'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
@@ -217,7 +222,12 @@ class PlayersController extends AppController {
         //$teste = $this->Player->allAverageRating();
 
         //$this->set('teste', $teste);
+        //$this->Game->playerPoints(11)
 
-        $this->Player->assists(15);
+        $previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => 32, 'Goal.player_id' => 20),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => 1));
+
+        $this->set('teste', $this->Game->playerPoints(24));
     }
 }

@@ -213,8 +213,21 @@ class GamesController extends AppController {
         //$this->set('teste', $teste);
 
         //$teste = $this->Game->playerPointsAvg_lastX(20);
-        $teste = $this->Game->playerPoints(98);
+        $teste = $this->Game->percentDist();
         $this->set('stats', $teste);
+    }
+
+/**
+ * teste method
+ *
+ * @param string $id
+ * @return array
+ */
+
+    public function percentdist() {
+
+        $percentDist = $this->Game->percentDist();
+        $this->set('stats', $percentDist);
     }
 
 

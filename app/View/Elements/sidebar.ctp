@@ -29,7 +29,7 @@
                         $player['Team'] = array_reverse($player['Team']);
                         // so' nos interessam os ultimos 5 jogos
                         // jogo mais recente 'a direita
-                        for($j=4; $j > -1; $j--) {
+                        for($j=6; $j > -1; $j--) {
                             if($player['Team'][$j]['winner'] == 0) {
                                 // no lazyfoot uma derrota e' representada por '0'
                                 // nas sparklines e' representada por '-1'
@@ -57,6 +57,13 @@
     <?php echo $data['topGoalscorer']['Player']['nome']; ?>
 
     (<?php echo $data['topGoalscorer']['Player']['golos_p_jogo']; ?>)
+</div>
+
+<div class=sideTitle>assist p/ jogo:</div>
+<div class=sideContent>
+    <?php echo $data['topAssists']['Player']['nome']; ?>
+
+    (<?php echo $data['topAssists']['Player']['assist_p_jogo']; ?>)
 </div>
 
 <div class=sideTitle>Equipa M p/ jogo:</div>

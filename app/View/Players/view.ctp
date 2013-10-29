@@ -1,3 +1,9 @@
+<script>
+    $(document).ready(function() {
+        $('.sparktristate').sparkline('html', {type: 'tristate'});
+    });
+</script>
+
 <?php
 //debug($allPlayers);
 $playerEvo = array_reverse($playerEvo, true);
@@ -9,8 +15,8 @@ $playerEvo = array_reverse($playerEvo, true);
     $(document).ready(function() {
         chart1 = new Highcharts.Chart({
             chart: {
-                renderTo: 'pgraph'
-                //height: '600',
+                renderTo: 'pgraph',
+                height: '600'
                 //width: '730'
             },
             credits: {
@@ -154,14 +160,37 @@ $playerEvo = array_reverse($playerEvo, true);
 
 <!--<div class="players view">
 <h2><?php /* echo __($player['Player']['nome']);*/?></h2>-->
-
+<!--
     <div id="pgraph2" class="playerGraph">
         <p>pgrapgh</p>
-        <?php echo $this->Html->script('highcharts'); ?>
-    </div>
+        <?php /*echo $this->Html->script('highcharts'); */?>
+    </div>-->
 
     <div id="pgraph" class="playerGraph">
         <p>pgraph2</p>
         <?php echo $this->Html->script('highcharts'); ?>
     </div>
+
+<span class="sparktristate"><?php
+    if(array_key_exists('Team', $player)) {
+        // sparklines processa o html deste span
+        $player['Team'] = array_reverse($player['Team']);
+        // so' nos interessam os ultimos 5 jogos
+        // jogo mais recente 'a direita
+        for($j=6; $j > -1; $j--) {
+            if($player['Team'][$j]['winner'] == 0) {
+                // no lazyfoot uma derrota e' representada por '0'
+                // nas sparklines e' representada por '-1'
+                echo '-1';
+            } else {
+                echo $player['Team'][$j]['winner'];
+            }
+            // entre cada resultado imprimir virgula
+            // mas o ultimo nao precisa
+            if($j != 0) {
+                echo ",";
+            }
+        }
+    }
+    ?></span>
 

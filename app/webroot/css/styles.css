@@ -315,45 +315,27 @@ div.teams table td{
 }
 div.team1 {
     float: left;
-    background-image: url(../img/pretos.png);
+    /*background-image: url(../img/pretos.png);*/
     height: 318px;
     width: 363px;
  }
 div.team2 {
     float: left;
-    background-image: url(../img/vermelhos.png);
+    /*background-image: url(../img/vermelhos.png);*/
     height: 318px;
     width: 363px;
 }
 
 div.equipa1 {
-    position: relative;
-    top:125px;
-    left:100px;
-    color: #CE9D67;
-    width: 150px;
 }
 
 div.equipa1_res {
-    position: relative;
-    top: 100px;
-    color: #CE9D67;
-    font-size: 28pt;
 }
 
 div.equipa2 {
-    position: relative;
-    top:125px;
-    left:100px;
-    color: white;
-    width: 150px;
 }
 
 div.equipa2_res {
-    position: relative;
-    top: 100px;
-    color: white;
-    font-size: 28pt;
 }
 
 /******* Admin **/

@@ -740,7 +740,10 @@ class Player extends AppModel {
 
     public function playerPointsAvg($id, $game_id) {
 
+        //número de jogos a ir buscar
         $X = 20;
+
+        //últimos X jogos anteriores ao $game_id especificado
         $lastXGames = $this->Goal->find('all', array('conditions' => array('Goal.game_id <=' => $game_id, 'Goal.player_id' => $id),
             'order' => array('Goal.id' => 'desc'),
             'limit' => $X));
@@ -749,9 +752,22 @@ class Player extends AppModel {
             $plptsSum += $game['Goal']['player_points'];
         }
 
-        $playerPointsAvg = $plptsSum / $X;
-        return round($playerPointsAvg);
 
+        /* no caso do jogador ter um número de jogos inferiores ao $X, é compensado usando o ratingBase da tabela de jogadores
+         * para preencher os valores em falta.
+         * isto permite que jogadores novos não oscilem muito na tabela de rating nos primeiros jogos */
+
+        if(count($lastXGames) < $X){
+            $difference = $X - count($lastXGames);
+            $adjust = $difference * $this->findById($id)['Player']['ratingBase'];
+        }
+        else{
+            $adjust = 0;
+        }
+
+
+        $playerPointsAvg = ($plptsSum + $adjust) / $X;
+        return round($playerPointsAvg);
     }
 
 /**
