@@ -124,7 +124,8 @@ class Team extends AppModel {
         //Array of Available Players
         $i = 0;
         $teams['available'] = 0;
-        //$out = 0;
+        $banco = array();
+        $out = array();
         foreach($invitedPlayers['invites'] as $invite) {
 
             if($invite['Invite']['available'] === null) {
@@ -261,10 +262,6 @@ class Team extends AppModel {
         $options = array('conditions' => array('team_id' => $id));
         return $this->PlayersTeam->find('all', $options);
     }
-
-
-
-
 
 
 

@@ -94,7 +94,7 @@ class GamesController extends AppController {
                     }
                 }
             }
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(array('controller' => 'Games', 'action' => 'view', $gameid['Game']['id']));
         }
 
         $options = array('order' => array('Player.conv' => 'asc'));

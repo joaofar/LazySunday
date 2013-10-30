@@ -42,9 +42,16 @@ class PlayersController extends AppController {
 			throw new NotFoundException(__('Invalid player'));
 		}
 		$this->set('player', $this->Player->read(null, $id));
+
+        //para os gráficos 'rating Evo' e 'Pontos por Jogo'
         $this->set('playerEvo', $this->Player->playerPointsAvg_lastX($id));
         //$this->set('allPlayers', $this->Player->allPLayers());
+
+        //para o gráfico 'Diferença de Golos' (mostra vitórias e derrotas por diferença de golos)
         $this->set('winLoseStats', $this->Game->winLoseStats($id));
+
+        //para o gráfico 'Golos e Assistências'
+        $this->set('goals', $this->Player->goalsAssists($id, self::N_MIN_PRE));
 	}
 
 /**
@@ -154,6 +161,9 @@ class PlayersController extends AppController {
         foreach ($goals as $goal) {
             $players['allGoals'] += $goal['Goal']['golos'];
         }
+
+        //nGames
+        $players['nGames'] = $this->Game->gameCount();
 
         return $players;
     }

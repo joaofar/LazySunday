@@ -119,7 +119,22 @@ class Player extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-		)
+		),
+        'Game' => array(
+            'className' => 'Game',
+            'joinTable' => 'games_players',
+            'foreignKey' => 'player_id',
+            'associationForeignKey' => 'game_id',
+            'unique' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+            'deleteQuery' => '',
+            'insertQuery' => ''
+        )
 	);
 
 //Minimum number of attendances required to be accepted in the rating table
@@ -772,16 +787,20 @@ class Player extends AppModel {
     }
 
 /**
- * stats method
- * Faz as stats globais do Lazyfoot
+ * STATS
+ * goalsAssists() method
  *
  * @param
- * @return
+ * @return array
  */
 
-    public function stats() {
+    public function goalsAssists($id, $limit) {
 
-        return 'teste';
+        //golos e assistências dos últimos X jogos
+        $options = array('conditions' => array('player_id' => $id),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => $limit);
+        return $this->Goal->find('all', $options);
 
     }
 

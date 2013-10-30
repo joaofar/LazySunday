@@ -5,11 +5,23 @@
 </script>
 <?php $data = $this->requestAction('Players/sidebarStats'); ?>
 
-<div class=sideTitle>golos marcados</div>
+<div class=sideTitle>game stats:</div>
 <div class=sideContent>
-    <?php echo $data['allGoals']; ?>
+    <table class="sidebar">
+        <tr>
+            <td>nº jogos: </td>
+            <td><?php echo $data['nGames']; ?></td>
+        </tr>
+        <tr>
+            <td>nº golos: </td>
+            <td><?php echo $data['allGoals']; ?></td>
+        </tr>
+    </table>
+
 
 </div>
+
+
 
 <div class=sideTitle>rating: (min <?php echo $data['n_min_pre']; ?> presenças)</div>
 <!--<div class=sideHeuristica>(vitorias/presencas)</div>-->
@@ -52,29 +64,33 @@
     </table>
 </div>
 
-<div class=sideTitle>golos p/ jogo:</div>
+<div class=sideTitle>player stats:</div>
 <div class=sideContent>
-    <?php echo $data['topGoalscorer']['Player']['nome']; ?>
+    <table class="sidebar">
+        <tr>
+            <td>golos p/j: </td>
+            <td><?php echo $data['topGoalscorer']['Player']['nome']; ?>
 
-    (<?php echo $data['topGoalscorer']['Player']['golos_p_jogo']; ?>)
-</div>
+                (<?php echo $data['topGoalscorer']['Player']['golos_p_jogo']; ?>)</td>
+        </tr>
+        <tr>
+            <td>assist p/j: </td>
+            <td><?php echo $data['topAssists']['Player']['nome']; ?>
 
-<div class=sideTitle>assist p/ jogo:</div>
-<div class=sideContent>
-    <?php echo $data['topAssists']['Player']['nome']; ?>
+                (<?php echo $data['topAssists']['Player']['assist_p_jogo']; ?>)</td>
+        </tr>
+        <tr>
+            <td>EM p/j: </td>
+            <td><?php echo $data['offensiveInfluence']['Player']['nome']; ?>
+                (<?php echo $data['offensiveInfluence']['Player']['equipa_m_p_jogo']; ?>)</td>
+        </tr>
+        <tr>
+            <td>ES p/j: </td>
+            <td><?php echo $data['defensiveInfluence']['Player']['nome']; ?>
+                (<?php echo $data['defensiveInfluence']['Player']['equipa_s_p_jogo']; ?>)</td>
+        </tr>
+    </table>
 
-    (<?php echo $data['topAssists']['Player']['assist_p_jogo']; ?>)
-</div>
 
-<div class=sideTitle>Equipa M p/ jogo:</div>
-<div class=sideContent>
-    <?php echo $data['offensiveInfluence']['Player']['nome']; ?>
-    (<?php echo $data['offensiveInfluence']['Player']['equipa_m_p_jogo']; ?>)
-</div>
-
-<div class=sideTitle>Equipa S p/ jogo:</div>
-<div class=sideContent>
-    <?php echo $data['defensiveInfluence']['Player']['nome']; ?>
-    (<?php echo $data['defensiveInfluence']['Player']['equipa_s_p_jogo']; ?>)
 </div>
 

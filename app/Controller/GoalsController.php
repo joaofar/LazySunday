@@ -119,6 +119,7 @@ class GoalsController extends AppController {
 
         foreach($this->request->data['Game'] as $player_id => $data) {
             $playerGoals = array('Goal' => array('game_id' => $id,
+                                                 'team_id' => $data['team_id'],
                                                  'player_id' => $player_id,
                                                  'golos' => $data['golos'],
                                                  'assistencias' => $data['assistencias']));
@@ -157,14 +158,16 @@ class GoalsController extends AppController {
 
         //Change game state to 2
         $this->Game->id = $id;
-        $this->Game->save(array('Game' => array('estado' => 2, 'resultado' => $teamGoals[0].'-'.$teamGoals[1])));
+        $this->Game->save(array('Game' => array('estado' => 2, 'team_a' => $teamGoals[0], 'team_b' => $teamGoals[1])));
 
         //Update rating
-        $this->Player->updateStats();
+        //$this->Player->updateStats();
 
         //Update ratingLouie
-        $this->Game->teamIdtoGoal();
-        $this->Game->allPlayerPoints();
+        //$this->Game->teamIdtoGoal();
+        //Basta calcular o jogo presente, no caso de se querer recalcular tudo usar a função allPlayerPoints()
+        $this->Game->PlayerPoints($id);
+        //Faz as médias para a tabela de jogadores
         $this->Player->allAverageRating();
 
         //Redirect

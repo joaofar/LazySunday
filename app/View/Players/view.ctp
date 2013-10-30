@@ -1,8 +1,9 @@
 <?php
-//debug($playerEvo);
+//debug($goals);
 $playerEvo = array_reverse($playerEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, 20, true);
 $winLoseStats = array_reverse($winLoseStats, true);
+$goals = array_reverse($goals, true);
 ?>
 
 <!-- GRAFICO 1 RATING EVO -->
@@ -188,6 +189,73 @@ $winLoseStats = array_reverse($winLoseStats, true);
 </script>
 
 
+<!-- GRAFICO 4 GOLOS E ASSISTÊNCIAS -->
+<script>
+    var chart4; // globally available
+    $(document).ready(function() {
+        chart4 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'pgraph4',
+                height: '350'
+                //width: '730'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: 'Golos e Assistências'
+            },
+            yAxis: [{ // Primary yAxis
+                title: {
+                    enabled: false,
+                    text: 'golos',
+                    style: {
+                        color: 'green'
+                    }
+                },
+                labels: {
+                    enabled: true,
+                    format: '{value}',
+                    style: {
+                        //color: '#4572A7'
+                    }
+                },
+                opposite: false
+            }
+            ],
+            xAxis: {
+                categories: [<?php foreach($goals as $goal) { echo($goal['Goal']['game_id']); echo ', '; } ?>]
+            },
+            plotOptions: {
+                column: {
+                    dataLabels: {
+                        enabled: false,
+                        color: 'black'
+                    },
+                    /*color: 'purple'*/
+                }
+
+
+            },
+            legend: {
+                enabled: true
+            },
+            series: [{
+                name: 'golos',
+                type: 'column',
+                yAxis: 0,
+                data: [<?php foreach($goals as $goal) { echo($goal['Goal']['golos']); echo ', '; } ?>]
+            },
+                {
+                    name: 'assistências',
+                    type: 'column',
+                    yAxis: 0,
+                    data: [<?php foreach($goals as $goal) { echo($goal['Goal']['assistencias']); echo ', '; } ?>]
+                }]
+        });
+    });
+</script>
+
 
 
     <div id="pgraph" class="playerGraph">
@@ -203,6 +271,11 @@ $winLoseStats = array_reverse($winLoseStats, true);
 
     <div id="pgraph3" class="playerGraph">
         <p>pgraph3</p>
+        <?php echo $this->Html->script('highcharts'); ?>
+    </div>
+
+    <div id="pgraph4" class="playerGraph">
+        <p>pgraph4</p>
         <?php echo $this->Html->script('highcharts'); ?>
     </div>
 

@@ -61,6 +61,7 @@
                             <td><?php echo $this->Form->input($player['id'].".golos", array('label' => false)); ?></td>
                             <td><?php echo $this->Form->input($player['id'].".assistencias", array('label' => false)); ?></td>
                         </tr>
+                        <?php echo $this->Form->hidden($player['id'].".team_id", array('value' => $teams[$i]['Team']['id'])); ?>
                     <?php endforeach; ?>
                 </table>
                 </div>

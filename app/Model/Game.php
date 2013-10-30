@@ -78,22 +78,31 @@ class Game extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		),
+		)
+	);
+
+/**
+ * hasAndBelongsToMany associations
+ *
+ * @var array
+ */
+    public $hasAndBelongsToMany = array(
         'Player' => array(
             'className' => 'Player',
-            'foreignKey' => '',
-            'dependent' => false,
+            'joinTable' => 'games_players',
+            'foreignKey' => 'game_id',
+            'associationForeignKey' => 'player_id',
+            'unique' => true,
             'conditions' => '',
             'fields' => '',
             'order' => '',
             'limit' => '',
             'offset' => '',
-            'exclusive' => '',
             'finderQuery' => '',
-            'counterQuery' => ''
+            'deleteQuery' => '',
+            'insertQuery' => ''
         )
-	);
-
+    );
     public $virtualFields = array(
         'goal_dif' => 'Game.team_a - Game.team_b'
     );
@@ -285,13 +294,13 @@ class Game extends AppModel {
               $playerPoints = ($teamPoints[$i]['Base'] * ($currRating[$player['player_id']] / $teamValue)) + ($goalPoints + $assistPoints);
 
               //$pointsSave = array('Goal' => array('game_id' => $id, 'player_id' => $player['player_id'], 'player_points' => $playerPoints));
-              $pointsSave = array('Goal' => array('playerPoints' => $playerPoints,
+              $pointsSave = array('Goal' => array('player_points' => $playerPoints,
                                                   'curr_rating' => $currRating[$player['player_id']],
                                                   'peso' => round(($currRating[$player['player_id']] / $teamValue), 3) * 100,
                                                   'spPts' => $goalPoints + $assistPoints,
                                                   'basePts' => ($teamPoints[$i]['Base'] * ($currRating[$player['player_id']] / $teamValue))));
 
-              //debug($pointsSave);
+              //debug($playerPoints);
               $this->Goal->id = $player['id'];
               $this->Goal->save($pointsSave);
 
@@ -466,8 +475,6 @@ class Game extends AppModel {
             }
 
         }
-
-        return $goal;
     }
 
 /**
