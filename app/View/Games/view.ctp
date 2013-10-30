@@ -1,7 +1,8 @@
 <div id="gameViewTime">
     <table>
         <tr>
-            <td>Jogo nº<?php echo $n_games;?> / id: (<?php echo $id;?>)</td>
+<!--            <td>Jogo nº--><?php //echo $n_games;?><!-- / id: (--><?php //echo $id;?><!--)</td>-->
+            <td>id: (<?php echo $id;?>)</td>
             <td><?php  echo $this->Time->format('[H:i]  D, d M Y ', $game['Game']['data']); ?></td>
         </tr>
     </table>

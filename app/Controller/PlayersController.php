@@ -239,6 +239,7 @@ class PlayersController extends AppController {
             'order' => array('Goal.id' => 'desc'),
             'limit' => 1));*/
 
-        $this->set('teste', $this->Game->gameCount());
+        $this->set('teste', $this->Player->updateStats());
+        //$this->set('teste', $this->Player->equipaMS(30, 20));
     }
 }

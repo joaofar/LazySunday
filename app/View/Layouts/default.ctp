@@ -27,8 +27,8 @@
         <div id="bottomMenu">
             <ul id="menu">
                 <li><a href="<?php echo $this->webroot; ?>Games">Jogos</a></li>
-                <li><a href="<?php echo $this->webroot; ?>Players/index/20">Jogadores</a></li>
-                <li><a href="<?php echo $this->webroot; ?>Players/stats">Stats</a></li>
+                <li><a href="<?php echo $this->webroot; ?>Players/index/20">Jogadores c/ 20pre</a></li>
+                <li><a href="<?php echo $this->webroot; ?>Players/index">Jogadores</a></li>
 <!--                <li><a href="--><?php //echo $this->webroot; ?><!--Players/chart">Stats</a></li>-->
             </ul>
         </div>

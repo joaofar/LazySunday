@@ -160,14 +160,15 @@ class GoalsController extends AppController {
         $this->Game->id = $id;
         $this->Game->save(array('Game' => array('estado' => 2, 'team_a' => $teamGoals[0], 'team_b' => $teamGoals[1])));
 
-        //Update rating
-        //$this->Player->updateStats();
+
 
         //Update ratingLouie
         //$this->Game->teamIdtoGoal();
         //Basta calcular o jogo presente, no caso de se querer recalcular tudo usar a função allPlayerPoints()
         $this->Game->PlayerPoints($id);
-        //Faz as médias para a tabela de jogadores
+        //Update stats
+        $this->Player->updateStats();
+        //Faz a média do rating para a tabela dos jogadores
         $this->Player->allAverageRating();
 
         //Redirect
