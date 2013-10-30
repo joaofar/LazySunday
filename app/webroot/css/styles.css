@@ -221,7 +221,7 @@ div.index table td{
 }
 
 #escuros_null{
-    color:#7F7F7F;
+    color: #bbbbbb;
 }
 #brancos_null{
     color:#CCC;
@@ -306,37 +306,18 @@ div.team table td{
 }
 
 div.teams {
- height: 330px;
+    height: 600px;
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
 
 }
 div.teams table td{
     padding: 2px;
 
 }
-div.team1 {
-    float: left;
-    /*background-image: url(../img/pretos.png);*/
-    height: 318px;
-    width: 363px;
- }
-div.team2 {
-    float: left;
-    /*background-image: url(../img/vermelhos.png);*/
-    height: 318px;
-    width: 363px;
-}
 
-div.equipa1 {
-}
 
-div.equipa1_res {
-}
 
-div.equipa2 {
-}
-
-div.equipa2_res {
-}
 
 /******* Admin **/
 ul
@@ -375,7 +356,65 @@ div.adminTeam table td{
     padding: 3px;
 }
 
+/******* GAME VIEW **/
+div #gameViewTime {
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+    padding: 10px;
+}
 
+div #gameViewTime table{
+    width: 100%;
+}
+
+div.team1 {
+    float: left;
+}
+div.team2 {
+    float: left;
+    /*background-image: url(../img/vermelhos.png);*/
+}
+
+div.teamContainer {
+    float: left;
+    height: 318px;
+    width: 363px;
+}
+
+div.equipa table{
+    width: 90%
+}
+
+div.equipa_res table {
+    margin-left: 84px;
+}
+
+.score{
+    font-size: 48pt;
+    font-weight: bold;
+}
+
+.convPts{
+    font-size: 24pt;
+    font-weight: bold;
+}
+
+.teamPoints{
+    font-size: 20pt;
+}
+
+.nomejogador{
+    font-weight:bold;
+    font-size: 14pt;
+}
+
+.smalltext{
+    font-size: 8pt;
+}
+
+.shirticon{
+    background-image: url(../img/small-shirt_red(48x42).png);
+}
 
 /******* Players **/
 div.index tr:nth-child(odd)		{ background-color:#eee; }

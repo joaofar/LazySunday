@@ -124,25 +124,33 @@ class Team extends AppModel {
         //Array of Available Players
         $i = 0;
         $teams['available'] = 0;
+        //$out = 0;
         foreach($invitedPlayers['invites'] as $invite) {
 
             if($invite['Invite']['available'] === null) {
+                //por responder
                 $availableList[$i++] = array('id' => $invite['Player']['id'],
-                    'name' => $invite['Player']['nome'],
-                    'rating' => $invite['Player']['rating'],
-                    'presencas' => $invite['Player']['presencas'],
-                    'available' => null);
+                                            'name' => $invite['Player']['nome'],
+                                            'rating' => $invite['Player']['ratingLouie'],
+                                            'presencas' => $invite['Player']['presencas'],
+                                            'available' => null);
 
             }
             elseif($invite['Invite']['available'] == 0) {
-
+                //Não jogam
+                $out[] = array('id' => $invite['Player']['id'],
+                            'name' => $invite['Player']['nome'],
+                            'rating' => $invite['Player']['ratingLouie'],
+                            'presencas' => $invite['Player']['presencas'],
+                            'available' => 0);
             }
             else {
+                //Jogam
                 $availableList[$i++] = array('id' => $invite['Player']['id'],
-                    'name' => $invite['Player']['nome'],
-                    'rating' => $invite['Player']['rating'],
-                    'presencas' => $invite['Player']['presencas'],
-                    'available' => 1);
+                                            'name' => $invite['Player']['nome'],
+                                            'rating' => $invite['Player']['ratingLouie'],
+                                            'presencas' => $invite['Player']['presencas'],
+                                            'available' => 1);
 
                     //sum players that said yes
                     $teams['available'] += 1;
@@ -162,6 +170,12 @@ class Team extends AppModel {
                 'presencas' => 0,
                 'available' => null);
         }
+        //criar uma array com os jogadores extra, o banco
+        $bancoRaw = array_slice($availableList, 10, null, true);
+        for($i = 11; $i <= (count($bancoRaw) + 10); $i++){
+            $banco[$i] = $bancoRaw[$i-1];
+        }
+
         //Cut the array so it has max 10 players
         $availableList = array_slice($availableList, 0, 10);
 
@@ -236,7 +250,10 @@ class Team extends AppModel {
         $teams['team_1_id'] = $currentTeams[0]['Team']['id'];
         $teams['team_2_id'] = $currentTeams[1]['Team']['id'];
 
-        return $teams;
+        //devolve uma array com 3 arrays interiores
+        return $list = array('teams' => $teams,
+                             'banco' => $banco,
+                             'out' => $out);
     }
 
     public function players($id = null){

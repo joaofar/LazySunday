@@ -723,7 +723,8 @@ class Player extends AppModel {
             'limit' => $X));
 
         foreach($lastXGames as $game){
-            $playerPointsAvg_lastX[$game['Goal']['player_points']] = intval($this->playerPointsAvg($id, $game['Goal']['game_id']));
+            $playerPointsAvg_lastX[$game['Goal']['game_id']] = array('ratEvo' => intval($this->playerPointsAvg($id, $game['Goal']['game_id'])),
+                                                                           'gamePts' => $game['Goal']['player_points']);
         }
 
 

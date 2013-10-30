@@ -53,6 +53,8 @@ class GamesController extends AppController {
         //menu dos jogos à esquerda
         $this->set('list_games', array_reverse($this->Game->find('list'), true));
 
+        $this->set('n_games', $this->Game->gameCount());
+        $this->set('id', $id);
         //rebuild player stats
         //$this->presencas();
 

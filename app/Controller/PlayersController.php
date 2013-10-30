@@ -43,7 +43,8 @@ class PlayersController extends AppController {
 		}
 		$this->set('player', $this->Player->read(null, $id));
         $this->set('playerEvo', $this->Player->playerPointsAvg_lastX($id));
-        $this->set('allPlayers', $this->Player->allPLayers());
+        //$this->set('allPlayers', $this->Player->allPLayers());
+        $this->set('winLoseStats', $this->Game->winLoseStats($id));
 	}
 
 /**
@@ -224,10 +225,10 @@ class PlayersController extends AppController {
         //$this->set('teste', $teste);
         //$this->Game->playerPoints(11)
 
-        $previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => 32, 'Goal.player_id' => 20),
+        /*$previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => 32, 'Goal.player_id' => 20),
             'order' => array('Goal.id' => 'desc'),
-            'limit' => 1));
+            'limit' => 1));*/
 
-        $this->set('teste', $this->Game->playerPoints(24));
+        $this->set('teste', $this->Game->gameCount());
     }
 }

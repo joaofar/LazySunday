@@ -121,7 +121,8 @@ class Game extends AppModel {
             ${'team_'.$i.'_score'} = 0;
             foreach($goals as $goal){
 
-                ${'team_'.$i.'_data'}[$goal['Player']['nome']] = array('golos' => $goal['Goal']['golos'],
+                ${'team_'.$i.'_data'}[$goal['Player']['nome']] = array('id' => $goal['Goal']['player_id'],
+                                                                       'golos' => $goal['Goal']['golos'],
                                                                        'assistencias' => $goal['Goal']['assistencias'],
                                                                        'player_points' => $goal['Goal']['player_points'],
                                                                        'curr_rating' => $goal['Goal']['curr_rating'],
@@ -343,6 +344,52 @@ class Game extends AppModel {
 
 
 /** FUNÇÕES DE STATS *********************************************************************************/
+
+/**
+ * gameCount() method
+ *
+ * devolve o número de jogos feitos até hoje
+ *
+ * @param
+ * @return
+ */
+
+    public function gameCount() {
+        return $this->find('count');
+    }
+
+
+/**
+ * winLose() method
+ *
+ * devolve uma array com o histórico de vitórias e derrotas por ordem desc para um determinado jogador
+ * e a diferença de golos para cada jogo. Derrota com um número negativo.
+ *
+ * @param
+ * @return
+ */
+
+    public function winLoseStats($id) {
+
+        $player = $this->Player->findById($id);
+        foreach($player['Team'] as $team){
+
+            $game = $this->findById($team['game_id']);
+            $goal_dif = abs($game['Game']['goal_dif']);
+
+            if($team['winner'] == 1){
+                $winLose[$team['game_id']] = $goal_dif;
+            }
+            else{
+                $winLose[$team['game_id']] = -$goal_dif;
+            }
+
+
+
+        }
+
+        return array_reverse($winLose, true);
+    }
 
 /**
  * gameStats() method
