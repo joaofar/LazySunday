@@ -117,13 +117,13 @@ class Game extends AppModel {
     public function teamsGoals($id){
 
         //encontrar as equipas do jogo
-        $game = $this->find('first', array('conditions' => array('id' => $id)));
+        $game = $this->find('first', array('conditions' => array('id' => $id), 'recursive' => 1));
 
         //encontrar os dados de cada equipa
         $i = 1;
         foreach($game['Team'] as $team){
 
-            $goaloptions = array('conditions' => array('team_id' => $team['id']));
+            $goaloptions = array('conditions' => array('team_id' => $team['id']), 'recursive' => 1);
             $goals = $this->Goal->find('all', $goaloptions);
 
 
@@ -218,7 +218,7 @@ class Game extends AppModel {
             $goalAssistWeight = 0.618;
         //////////////////////////////////////////////
 
-        $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id)));
+        $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
         $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
         $percentDist = $this->percentDist();
 
@@ -276,7 +276,8 @@ class Game extends AppModel {
               //se não existirem jogos, usa-se o rating base
               //se existirem usa-se a função playerPointsAvg para calcular o rating de um jogador para um game_id
               if(count($previousGame) == 0){
-                  $currRating[$player['player_id']] = $this->Player->findById($player['player_id'])['Player']['ratingBase'];
+                  $player = $this->Player->findById($player['player_id']);
+                  $currRating[$player['player_id']] = $player['Player']['ratingBase'];
               }
               else{
                   $currRating[$player['player_id']] = $this->Player->playerPointsAvg($player['player_id'], $previousGame[0]['Goal']['game_id']);
@@ -380,7 +381,8 @@ class Game extends AppModel {
 
     public function winLoseStats($id) {
 
-        $player = $this->Player->findById($id);
+        $player = $this->Player->find('first', array('conditions' => array('Player.id' => $id)
+                                                ,'recursive' => 1));
         foreach($player['Team'] as $team){
 
             $game = $this->findById($team['game_id']);

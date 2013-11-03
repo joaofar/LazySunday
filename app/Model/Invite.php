@@ -73,7 +73,7 @@ class Invite extends AppModel {
  * @return array
  */
     public function invites($id) {
-        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id));
+        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id), 'recursive' => 1);
         $invites = $this->find('all', $options);
         $players = $this->Player->find('list');
 

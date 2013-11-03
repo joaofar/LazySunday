@@ -40,7 +40,7 @@ class GamesController extends AppController {
 
         if($game['Game']['estado'] == 0) {
         //Invites - variaveis para a view
-        $this->set($this->Invite->invites($id));
+        //$this->set($this->Invite->invites($id));
         //Teams
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
         }
@@ -82,8 +82,8 @@ class GamesController extends AppController {
 
             foreach($saveplayers as $key => $player) {
                 $saveplayer = array('Invite' => array(
-                    'game_id' => $gameid['Game']['id'],
-                    'player_id' => str_replace('jogador', '', $key)
+                                    'game_id' => $gameid['Game']['id'],
+                                    'player_id' => str_replace('jogador', '', $key)
                 ));
                 if($player) {
                     $this->Invite->Create();
@@ -165,7 +165,7 @@ class GamesController extends AppController {
 
         //submitGoals
         //Find Teams
-        $options = array('conditions' => array('Team.game_id' => $id));
+        $options = array('conditions' => array('Team.game_id' => $id), 'recursive' => 1);
         $teams = $this->Team->find('all', $options);
         $this->set('teams', $teams);
     }
@@ -214,8 +214,8 @@ class GamesController extends AppController {
 
         //$this->set('teste', $teste);
 
-        //$teste = $this->Game->playerPointsAvg_lastX(20);
-        $teste = $this->Game->percentDist();
+        $teste = $this->Game->playerPoints(108);
+        //$teste = $this->Game->percentDist();
         $this->set('stats', $teste);
     }
 

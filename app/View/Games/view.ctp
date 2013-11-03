@@ -117,39 +117,3 @@
     <?php echo $this->Form->end(); ?>
 <?php endif; ?>
 
-
-
-
-
-<!-----------------INVITES----------------------->
-<?php if($game['Game']['estado'] == 5): ?>
-    <div id="invbase">
-        <?php foreach($invites as $invite): ?>
-        <?php   echo $this->Form->Create('Invite', array('action' => 'updateInvites/'.$game['Game']['id'])); ?>
-        <?php
-            $answered = !is_null($invite['Invite']['available']);
-            $valor = false;
-            if($answered) {
-                if($invite['Invite']['available']) $valor = true;
-            } else {
-                $valor = null;
-            }
-?>
-        <div class="box">
-          <div class="state" style="<?php
-              if($valor) echo 'background-color: #00FF00';
-              elseif(is_null($valor)) echo 'background-color: #c3c3c3';
-              else echo 'background-color: #FF0000';
-              ?>"></div>
-          <div class="rating"><div class="ratingvalor" style="<?php echo 'width:'.$invite['Player']['rating']*0.140;echo 'px'; ?>"></div></div>
-          <div class="rating_n"><?php echo $invite['Player']['rating']; ?></div>
-          <div class="player"><?php echo $invite['Player']['nome']; ?></div>
-          <div class="presence_off presence_txt"><?php echo $this->Form->button('NA', array('name' => $invite['Player']['id'], 'value' => 0, 'div' => false)); ?></div>
-          <div class="presence_on presence_txt"><?php echo $this->Form->button('OK', array('name' => $invite['Player']['id'], 'value' => 1, 'div' => false)); ?></div>
-        </div>
-        <?php echo $this->Form->end(); ?>
-        <?php endforeach; ?>
-     </div>
-<br/>
-<?php endif; ?>
-

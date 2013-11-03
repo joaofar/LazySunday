@@ -335,7 +335,7 @@ class Player extends AppModel {
     public function equipaMS($id = null, $limit = null) {
 
         //data
-        $player = $this->findById($id);
+        $player = $this->find('first', array('conditions' => array('Player.id' => $id), 'recursive' => 1));
         $presencas = $this->countPresencas($id);
         if($presencas <= $limit){
             $presencas_limit = $presencas;
@@ -343,7 +343,7 @@ class Player extends AppModel {
             $presencas_limit = $limit;
         }
 
-        $games = $this->Game->find('all', array('order' => array('Game.id DESC')));
+        $games = $this->Game->find('all', array('order' => array('Game.id DESC'), 'recursive' => 1));
         $ignoreTeams = array(5, 6, 7, 8, 9, 10);
 
 
@@ -882,7 +882,8 @@ class Player extends AppModel {
 
         if(count($lastXGames) < $X){
             $difference = $X - count($lastXGames);
-            $adjust = $difference * $this->findById($id)['Player']['ratingBase'];
+            $player = $this->findById($id);
+            $adjust = $difference * $player['Player']['ratingBase'];
         }
         else{
             $adjust = 0;

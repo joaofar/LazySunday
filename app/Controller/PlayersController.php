@@ -132,7 +132,7 @@ class PlayersController extends AppController {
 
         //rating
         $op_rating = array('order' => array('Player.ratingLouie' => 'desc'),
-            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE), 'recursive' => 1);
         $players['ratingList'] = $this->Player->find('all', $op_rating);
 
         //topGoalscorer
