@@ -20,8 +20,7 @@ class PlayersController extends AppController {
  *
  * @return void
  */
-	public function index($nPre=null) {
-		$this->Player->recursive = 0;
+	public function index($nPre = null) {
 
         if($nPre != null){
             $this->paginate = array('conditions' => array('Player.presencas >=' => $nPre));
@@ -239,7 +238,7 @@ class PlayersController extends AppController {
             'order' => array('Goal.id' => 'desc'),
             'limit' => 1));*/
 
-        $this->set('teste', $this->Player->updateStats());
+        $this->set('teste', $this->Player->updateStats_allPlayers());
         //$this->set('teste', $this->Player->equipaMS(30, 20));
     }
 }

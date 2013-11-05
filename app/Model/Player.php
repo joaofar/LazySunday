@@ -221,7 +221,9 @@ class Player extends AppModel {
  * @return int
  */
     public function countGoals($id = null, $limit = null) {
-        $options = array('conditions' => array('player_id' => $id), 'limit' => $limit);
+        $options = array('conditions' => array('player_id' => $id),
+                         'order' => array('Goal.id DESC'),
+                         'limit' => $limit);
         $goals = $this->Goal->find('all', $options);
 
         $total = 0;
@@ -421,137 +423,98 @@ class Player extends AppModel {
     }
 
 /**
- * updateStats method
- * deixou de ser o sistema de rating principal de passa a fazer as stats para a tabela de jogadores
+ * updateStats_allPlayers
+ * actualiza as stats de todos os jogadores
  *
  * @param string $id
  * @return void
  */
-    public function updateStats() {
 
-        //player array
+    public function updateStats_allPlayers() {
+
         $players = $this->find('all');
-        //variável importante, calcula as stats para os últimos X jogos
+        foreach($players as $player) {
+            $this->updateStats($player['Player']['id']);
+        }
+    }
+
+/**
+ * updateStats method
+ * actualiza as stats de um jogador
+ *
+ * @param string $id
+ * @return void
+ */
+    public function updateStats($id) {
+
         $limit = 20;
 
-        //construct allPlayers array
-        foreach($players as $player) {
-            //var
-            $id = $player['Player']['id'];
+        //PRESENÇAS
+        $Player['presencas'] = $this->countPresencas($id);
 
-            //VICTÓRIAS
-            $allPlayers[$id]['vitorias'] = $this->countWins($id, null);
-            $allPlayers[$id]['vitorias_limit'] = $this->countWins($id, $limit);
-
-            //GOLOS
-            $allPlayers[$id]['golos'] = $this->countGoals($id, null);
-            $allPlayers[$id]['golos_limit'] = $this->countGoals($id, $limit);
-
-            //ASSISTÊNCIAS
-            //$this->assists($id, $limit)
-
-            //PRESENÇAS
-            $allPlayers[$id]['presencas'] = $this->countPresencas($id);
-            if($allPlayers[$id]['presencas'] < $limit){
-                $allPlayers[$id]['presencas_limit'] = $allPlayers[$id]['presencas'];
-            }
-            else{
-                $allPlayers[$id]['presencas_limit'] = $limit;
-            }
-
-            //GOLOS P/ JOGO (DESDE SEMPRE)
-            if($allPlayers[$id]['golos'] != 0) {
-                $allPlayers[$id]['golos_p_jogo'] = round($allPlayers[$id]['golos'] /
-                                                         $allPlayers[$id]['presencas'], 2);
-            }
-            else {
-                $allPlayers[$id]['golos_p_jogo'] = 0;
-            }
-
-            //GOLOS P/ JOGO (LIMIT)
-            if($allPlayers[$id]['golos'] != 0) {
-                $allPlayers[$id]['golos_p_jogo_limit'] = round($allPlayers[$id]['golos_limit'] /
-                    $allPlayers[$id]['presencas_limit'], 2);
-            }
-            else {
-                $allPlayers[$id]['golos_p_jogo_limit'] = 0;
-            }
-
-            //ASSISTÊNCIAS
-            $assists = $this->assists($id, $limit);
-
-            //return $assists;
-            $allPlayers[$id]['assist'] = $assists['assist'];
-            $allPlayers[$id]['assist_p_jogo'] = $assists['assist_p_jogo'];
-            //ASSISTÊNCIAS DESDE SEMPRE
-            $allPlayers[$id]['assist_limit'] = $assists['assist_limit'];
-            $allPlayers[$id]['assist_p_jogo_limit'] = $assists['assist_p_jogo_limit'];
-
-            //EQUIPA M/S
-            $equipaMS = $this->equipaMS($id, $limit);
-
-            $allPlayers[$id]['equipa_m'] = $equipaMS['M'];
-            $allPlayers[$id]['equipa_m_p_jogo'] = $equipaMS['M_p_jogo'];
-            $allPlayers[$id]['equipa_s'] = $equipaMS['S'];
-            $allPlayers[$id]['equipa_s_p_jogo'] = $equipaMS['S_p_jogo'];
-            //EQUIPA M/S (LIMIT)
-            $allPlayers[$id]['equipa_m_limit'] = $equipaMS['M_limit'];
-            $allPlayers[$id]['equipa_m_p_jogo_limit'] = $equipaMS['M_p_jogo_limit'];
-            $allPlayers[$id]['equipa_s_limit'] = $equipaMS['S_limit'];
-            $allPlayers[$id]['equipa_s_p_jogo_limit'] = $equipaMS['S_p_jogo_limit'];
+        if($Player['presencas'] < $limit){
+            $Player['presencas_limit'] = $Player['presencas'];
+        }else{
+            $Player['presencas_limit'] = $limit;
         }
 
-        //save player data
-        foreach($allPlayers as $id => $data) {
+        //VICTÓRIAS
+        $Player['vitorias'] = $this->countWins($id, null);
+        $Player['vitorias_limit'] = $this->countWins($id, $limit);
 
-            //check if user has victories
-            if(!isset($data['vitorias'])){
-                $vit_pre = 0;
-                $data['vitorias'] = 0;
-            }
-            else {
-                $vit_pre = round($data['vitorias']/$data['presencas'], 3);
-                $vit_pre_limit = round($data['vitorias_limit']/$data['presencas_limit'], 3);
-            }
-
-            //check if user has goals
-            if(!isset($data['golos'])) {
-                $data['golos'] = 0;
-            }
-
-
-            $saveplayer = array('Player' => array('presencas' => $data['presencas'],
-
-                                                'vit_pre' => $vit_pre,
-                                                'vit_pre_limit' => $vit_pre_limit,
-
-                                                'golos' => $data['golos'],
-                                                'golos_limit' => $data['golos_limit'],
-                                                'golos_p_jogo' => $data['golos_p_jogo'],
-                                                'golos_p_jogo_limit' => $data['golos_p_jogo_limit'],
-
-                                                'assist' => $data['assist'],
-                                                'assist_limit' => $data['assist_limit'],
-                                                'assist_p_jogo' => $data['assist_p_jogo'],
-                                                'assist_p_jogo_limit' => $data['assist_p_jogo_limit'],
-
-                                                'vitorias' => $data['vitorias'],
-                                                'vitorias_limit' => $data['vitorias_limit'],
-
-                                                'equipa_m' => $data['equipa_m'],
-                                                'equipa_m_p_jogo' => $data['equipa_m_p_jogo'],
-                                                'equipa_s' => $data['equipa_s'],
-                                                'equipa_s_p_jogo' => $data['equipa_s_p_jogo'],
-
-                                                'equipa_m_limit' => $data['equipa_m_limit'],
-                                                'equipa_m_p_jogo_limit' => $data['equipa_m_p_jogo_limit'],
-                                                'equipa_s_limit' => $data['equipa_s_limit'],
-                                                'equipa_s_p_jogo_limit' => $data['equipa_s_p_jogo_limit'],));
-            $this->id = $id;
-            $this->save($saveplayer);
+        //VITÓRIAS / PRESENÇAS
+        if($Player['vitorias'] == 0){
+            $Player['vit_pre'] = 0;
+        }else{
+            $Player['vit_pre'] = round($Player['vitorias'] / $Player['presencas'], 3);
+            $Player['vit_pre_limit'] = round($Player['vitorias_limit'] / $Player['presencas_limit'], 3);
         }
 
-        return $saveplayer;
+        //GOLOS
+        $Player['golos'] = $this->countGoals($id, null);
+        $Player['golos_limit'] = $this->countGoals($id, $limit);
+
+        //GOLOS P/ JOGO (DESDE SEMPRE)
+        if($Player['golos'] != 0) {
+            $Player['golos_p_jogo'] = round($Player['golos'] / $Player['presencas'], 2);
+        }else{
+            $Player['golos_p_jogo'] = 0;
+        }
+        //GOLOS P/ JOGO (LIMIT)
+        if($Player['golos'] != 0) {
+            $Player['golos_p_jogo_limit'] = round($Player['golos_limit'] /
+                $Player['presencas_limit'], 2);
+        }else{
+            $Player['golos_p_jogo_limit'] = 0;
+        }
+
+        //ASSISTÊNCIAS
+        $assists = $this->assists($id, $limit);
+        //ASSISTÊNCIAS (DESDE SEMPRE)
+        $Player['assist'] = $assists['assist'];
+        $Player['assist_p_jogo'] = $assists['assist_p_jogo'];
+        //ASSISTÊNCIAS (LIMIT)
+        $Player['assist_limit'] = $assists['assist_limit'];
+        $Player['assist_p_jogo_limit'] = $assists['assist_p_jogo_limit'];
+
+        //EQUIPA M/S
+        $equipaMS = $this->equipaMS($id, $limit);
+        //EQUIPA M/S (DESDE SEMPRE)
+        $Player['equipa_m'] = $equipaMS['M'];
+        $Player['equipa_m_p_jogo'] = $equipaMS['M_p_jogo'];
+        $Player['equipa_s'] = $equipaMS['S'];
+        $Player['equipa_s_p_jogo'] = $equipaMS['S_p_jogo'];
+        //EQUIPA M/S (LIMIT)
+        $Player['equipa_m_limit'] = $equipaMS['M_limit'];
+        $Player['equipa_m_p_jogo_limit'] = $equipaMS['M_p_jogo_limit'];
+        $Player['equipa_s_limit'] = $equipaMS['S_limit'];
+        $Player['equipa_s_p_jogo_limit'] = $equipaMS['S_p_jogo_limit'];
+
+        //SAVE PLAYER DATA
+        $this->id = $id;
+        $this->save(array('Player' => $Player));
+
+        return $Player;
     }
 
 /**
