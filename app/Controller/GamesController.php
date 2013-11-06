@@ -132,14 +132,28 @@ class GamesController extends AppController {
      * @return void
      */
     public function delete($id = null) {
-        if (!$this->request->is('post')) {
+        /*if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
-        }
+        }*/
         $this->Game->id = $id;
         if (!$this->Game->exists()) {
             throw new NotFoundException(__('Invalid game'));
         }
+
+        //Procurar este jogo e os modelos associados
+        $game = $this->Game->find('first', array('conditions' => array('Game.id' => $id), 'recursive' => 1));
+
+        //Apagar equipas
+        foreach($game['Team'] as $team){
+            $this->Team->delete($team['id']);
+        }
+        //Apagar invites
+        foreach($game['Invite'] as $invite){
+            $this->Invite->delete($invite['id']);
+        }
+        //Apagar o jogo
         if ($this->Game->delete()) {
+
             $this->Session->setFlash(__('Game deleted'));
             $this->redirect(array('action' => 'index'));
         }
@@ -204,18 +218,12 @@ class GamesController extends AppController {
  * @return array
  */
 
-    public function teste() {
-        //debug($this->Player->countPresencas(21,10));
-        //debug($this->Player->bestGoalAverage(true));
-        //debug($this->Player->gameRating(56));
+    public function teste($id) {
 
-        //$teste = $this->Player->averageRating(15);
-        //$teste = $this->Player->allAverageRating();
-
-        //$this->set('teste', $teste);
-
-        $teste = $this->Game->playerPoints(108);
         //$teste = $this->Game->percentDist();
+
+        $teste = $this->Game->find('all', array('conditions' => array('Game.id' => $id), 'recursive' => 1));
+
         $this->set('stats', $teste);
     }
 

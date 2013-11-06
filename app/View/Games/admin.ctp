@@ -7,7 +7,7 @@
         <li><?php echo $this->Html->link(__('Folha de Jogo'), array('action' => 'gs', $game['Game']['id'])); ?></li>
 
         <?php if($game['Game']['estado'] == 0): ?>
-            <li><?php echo $this->Form->postLink('Gravar Equipas','/teams/saveTeams/'.$game['Game']['id']); ?></li>
+            <li><?php echo $this->Form->postLink('Gravar Equipas','/Players/saveTeams/'.$game['Game']['id']); ?></li>
             <li><?php echo $this->Form->postLink('Enviar Emails','/invites/sendEmails/'.$game['Game']['id']); ?></li>
         <?php endif; ?>
         <li>---</li>

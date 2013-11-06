@@ -103,6 +103,13 @@ class Game extends AppModel {
             'insertQuery' => ''
         )
     );
+
+/**
+ * virtual fields
+ *
+ * @var array
+ */
+
     public $virtualFields = array(
         'goal_dif' => 'Game.team_a - Game.team_b'
     );

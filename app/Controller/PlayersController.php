@@ -119,6 +119,54 @@ class PlayersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
+    /**
+     * saveTeams method
+     *
+     * @param string $id
+     * @return array
+     */
+    public function saveTeams($id) {
+        //fetch genereated teams
+        $teams = $this->Team->generate($id, $this->Invite->invites($id));
+
+        //debug($teams);
+
+        //check if there are 10 players who said yes, otherwise exit
+        if($teams['teams']['available'] != 10){
+            throw new ForbiddenException(__('Só podes gravar equipas com 10 jogadores'));
+        }
+
+        for($i = 1; $i <= 2; $i++) {
+            //team count
+            $options = array('conditions' => array('team_id' => $teams['teams']['team_'.$i.'_id']));
+            ${'team_'.$i.'_count'} = $this->PlayersTeam->find('count', $options);
+
+            //validation
+            if(${'team_'.$i.'_count'} == 0) {
+                foreach ($teams['teams']['team_'.$i] as $teamPlayer) {
+
+                    //add player to the join table players_team
+                    $this->PlayersTeam->create();
+                    $this->PlayersTeam->save(array('PlayersTeam' => array('team_id' => $teams['teams']['team_'.$i.'_id'],
+                                                                          'player_id' => $teamPlayer['id'])));
+
+                    //add player to the join table games_players
+                    $this->Game->GamesPlayer->create();
+                    $this->Game->GamesPlayer->save(array('GamesPlayer' => array('game_id' => $id,
+                                                   'player_id' => $teamPlayer['id'])));
+                }
+            }
+        }
+
+        //change game state to 1
+        $this->Game->id = $id;
+        $this->Game->save(array('Game' => array('estado' => 1)));
+
+        //redirect
+        $this->redirect(array('controller' => 'Games', 'action' => 'admin', $id));
+
+    }
+
 /**
  * sidebarStats method
  *
@@ -224,21 +272,8 @@ class PlayersController extends AppController {
  * @return array
  */
     public function teste() {
-        //debug($this->Player->countPresencas(21,10));
-        //debug($this->Player->bestGoalAverage(true));
-        //debug($this->Player->gameRating(56));
 
-        //$teste = $this->Player->averageRating(15);
-        //$teste = $this->Player->allAverageRating();
-
-        //$this->set('teste', $teste);
-        //$this->Game->playerPoints(11)
-
-        /*$previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => 32, 'Goal.player_id' => 20),
-            'order' => array('Goal.id' => 'desc'),
-            'limit' => 1));*/
-
-        $this->set('teste', $this->Player->updateStats_allPlayers());
+        $this->set('teste', $this->Player->updateStats(21));
         //$this->set('teste', $this->Player->equipaMS(30, 20));
     }
 }

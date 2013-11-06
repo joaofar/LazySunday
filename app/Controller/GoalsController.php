@@ -108,15 +108,11 @@ class GoalsController extends AppController {
  */
     public function submitGoals($id) {
 
-        //debug($this->request->data['Game']);
-        //exit;
-
         //variables
         $teamGoals[0] = null;
         $teamGoals[1] = null;
 
         $i = 1;
-
         foreach($this->request->data['Game'] as $player_id => $data) {
             $playerGoals = array('Goal' => array('game_id' => $id,
                                                  'team_id' => $data['team_id'],
@@ -125,6 +121,9 @@ class GoalsController extends AppController {
                                                  'assistencias' => $data['assistencias']));
             $this->Goal->create();
             $this->Goal->save($playerGoals);
+
+            //Update player stats
+            $this->Player->updateStats($player_id);
 
             //First 5 are from team 1, last five from team 2
             if($i++ <= 5) {
@@ -160,14 +159,9 @@ class GoalsController extends AppController {
         $this->Game->id = $id;
         $this->Game->save(array('Game' => array('estado' => 2, 'team_a' => $teamGoals[0], 'team_b' => $teamGoals[1])));
 
-
-
-        //Update ratingLouie
-        //$this->Game->teamIdtoGoal();
         //Basta calcular o jogo presente, no caso de se querer recalcular tudo usar a função allPlayerPoints()
         $this->Game->PlayerPoints($id);
-        //Update stats
-        $this->Player->updateStats();
+
         //Faz a média do rating para a tabela dos jogadores
         $this->Player->allAverageRating();
 

@@ -107,3 +107,6 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+//Número de jogos a considerar no rating
+Configure::write('limit', 20);

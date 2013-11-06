@@ -247,86 +247,7 @@ class Player extends AppModel {
 
     }
 
-/**
- * goalEvo method
- *
- * @param string $id
- * @return array
- *
- * key   gameID
- * value bestGoalAverage at that time
- */
 
-    public function goalEvo(){
-        //data
-        $allGoals = $this->Goal->find('all');
-
-        //cycle through all goals and create and array with this form $array[gameID][playerID][current]
-        //                                                                                    [total]
-        //                                                                                    [golos_p_jogo]
-        foreach($allGoals as $goal){
-
-            //variables
-            $gameID = $goal['Goal']['game_id'];
-            $playerID = $goal['Goal']['player_id'];
-            $golos = $goal['Goal']['golos'];
-
-            //data
-            $player = $this->findById($playerID);
-
-            //playerGoals Array keeps the total of goals game by game
-            if(!isset($playerGoals[$playerID])){
-                $playerGoals[$playerID] = $golos;
-            }
-            else{
-                $playerGoals[$playerID] += $golos;
-            }
-
-            //save array
-            $gameList[$gameID][$playerID]['current'] = $golos;
-            $gameList[$gameID][$playerID]['total'] = $playerGoals[$playerID];
-            $gameList[$gameID][$playerID]['golos_p_jogo'] = round($playerGoals[$playerID] /
-                                                                ($this->countPresencas($playerID, $gameID)), 2);
-
-        }
-
-        //cycle trhough previous array and create $goalEvo[gameID][bestGoalAverage]
-        foreach($gameList as $gameID => $game){
-
-            $bestGoal['average'] = 0;
-
-            foreach($game as $playerID => $player){
-                if($player['golos_p_jogo'] > $bestGoal['average']){
-                    $bestGoal['average'] = $player['golos_p_jogo'];
-                    $bestGoal['id'] = $playerID;
-                }
-
-            }
-
-            if(isset($goalEvoID)){
-                $lastEntry = end($goalEvoID);
-                $key = key($lastEntry);
-                $value = $lastEntry[$key];
-
-
-                if(!array_key_exists($key, $game)){
-                    if($value > $bestGoal['average']){
-                        $bestGoal['average'] = $value;
-                        $bestGoal['id'] = $key;
-                    }
-                }
-            }
-
-            //var used for loop
-            $goalEvoID[$gameID] = array($bestGoal['id'] => $bestGoal['average']);
-            //return var
-            $goalEvo[$gameID] = $bestGoal['average'];
-
-        }
-
-        //return end($goalEvo_);
-        return $goalEvo;
-    }
 
 /**
  * equipaMS method
@@ -447,7 +368,8 @@ class Player extends AppModel {
  */
     public function updateStats($id) {
 
-        $limit = 20;
+        //variavel global guardada em Config/bootstrap.php
+        $limit = Configure::read('limit');
 
         //PRESENÇAS
         $Player['presencas'] = $this->countPresencas($id);
@@ -517,68 +439,7 @@ class Player extends AppModel {
         return $Player;
     }
 
-/**
- * getPlayerRankingEvo devolve um array com o historico de um jogador.
- * o tamanho deste array e' igual ao nr de jogos em que o jogador participou.
- *
- * @param string $id - player_id
- * @return array $playerEvo
- */
-    public function getPlayerRankingEvo($id=null) {
-        $playerEvo = array();
-        $player = $this->read(null, $id);
 
-        //$player['Player']['presencas'] = 0;
-        $player['Player']['presencas'] = 0;
-        $player['Player']['rating'] = 0;
-        $player['Player']['ratingLouie'] = 0;
-        $player['Player']['vitorias'] = 0;
-        $player['Player']['vit_pre'] = 0;
-        $player['Player']['golos'] = 0;
-        $player['Player']['golos_p_jogo'] = 0;
-        $player['Player']['equipa_m'] = 0;
-        $player['Player']['equipa_m_p_jogo'] = 0;
-        $player['Player']['equipa_s'] = 0;
-        $player['Player']['equipa_s_p_jogo'] = 0;
-
-
-        // jogos terminados
-        $games = ClassRegistry::init('Game')->find('list', array('conditions' => array('Game.estado' => 2)));
-        // para cada jogo
-        foreach($games as $gameId => $game) {
-            //echo "gameid=".$gameId.'<br/>';
-
-            // encontrar as equipas onde jogou e actualizar o seu ranking
-            $options = array('conditions' => array('game_id' => $gameId));
-            $teams = $this->Team->find('all', $options);
-
-            // para cada equipa
-            foreach($teams as $team) {
-
-                // se jogou
-                if($this->belongsToTeam($team, $player)) {
-
-                    // actualizar presencas do jogador
-                    $player['Player']['presencas'] += 1;
-
-                    // actualizar vitorias do jogador se a equipa ganhou
-                    if($this->isTeamWinner($team)) {
-                        $player['Player']['vitorias'] += 1;
-                    }
-
-                    // actualizar ranking
-                    $player['Player']['rating'] = round($player['Player']['vitorias']/$player['Player']['presencas'], 3)*1000;
-
-                    //debug($player);
-
-                    // adicionar este jogador/ranking ao array $evo
-                    array_push($playerEvo, $player);
-                }
-            }
-        }
-
-        return $playerEvo;
-    }
 
 /**
  * verifica se um jogador percente a uma equipa
@@ -747,57 +608,14 @@ class Player extends AppModel {
         }
     }
 
+
+
 /**
- * chart method
+ * calcula a média dos últimos X jogos de playerPoints para os últimos X jogos
  *
- * Cria um gráfico highcharts com a evolução simultânea de
- * todos os jogadores usando o sistema do Louie
- *
- * @param none
- * @return array
+ * @param
+ * @return
  */
-    public function chart() {
-
-        //criar uma lista de jogadores com mais de X presenças
-        $playersBulk = $this->find('all', array('conditions' => array('presencas >=' => self::N_MIN_PRE)));
-
-        foreach($playersBulk as $player){
-            $players[$player['Player']['id']][0]=500;
-        }
-
-        //passar jogo a jogo, golo a golo e verificar se o jogador faz parte
-        //não fazendo copia-se o rating anterior
-        $gamesBulk = ClassRegistry::init('Game')->find('all');
-
-        $i = 1;
-        foreach($gamesBulk as $game){
-
-            foreach($game['Goal'] as $goal){
-                if(array_key_exists($goal['player_id'], $players)){
-                $players[$goal['player_id']][$i] = $goal['player_points'];
-                }
-            }
-
-            foreach($players as $id => $player){
-                if(!isset($player[$i])){
-                    $players[$id][$i] = $player[($i - 1)];
-                }
-            }
-
-            $i++;
-        }
-
-        //debug($players);
-
-        return $players;
-    }
-
-    /**
-     * calcula a média dos últimos X jogos de playerPoints para os últimos X jogos
-     *
-     * @param
-     * @return
-     */
 
     public function playerPointsAvg_lastX($id) {
 
