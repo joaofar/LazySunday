@@ -137,8 +137,6 @@ class Player extends AppModel {
         )
 	);
 
-//Minimum number of attendances required to be accepted in the rating table
-//const N_MIN_PRE = 20;
 
 /**
  * allPlayers method
@@ -150,8 +148,10 @@ class Player extends AppModel {
 
     public function allPlayers() {
 
+        $limit = Configure::read('limit');
+
         $options = array('order' => array('Player.ratingLouie' => 'desc'),
-            'conditions' => array('Player.presencas >=' => 20));
+            'conditions' => array('Player.presencas >=' => $limit));
         return $this->find('all', $options);
 
     }
@@ -474,7 +474,8 @@ class Player extends AppModel {
  */
     public function averageRating($id) {
 
-        $lastGames = 20;
+        //definida em bootstrap.php
+        $lastGames = Configure::read('limit');
 
         $ratings = $this->Goal->find('all', array('conditions' => array('Goal.player_id' => $id),
                                                    'order' => array('Goal.game_id DESC'),
@@ -544,7 +545,7 @@ class Player extends AppModel {
                          'assist_p_jogo_limit' => 0);
         }
 
-        if($nGames < 20){
+        if($nGames < $limit){
             $nGames_limit = $nGames;
         }else{
             $nGames_limit = $limit;
@@ -619,7 +620,9 @@ class Player extends AppModel {
 
     public function playerPointsAvg_lastX($id) {
 
-        $X = 20;
+        //definida em bootstrap.php
+        $X = Configure::read('limit');
+
         $lastXGames = $this->Goal->find('all', array('fields' => array('Goal.game_id', 'Goal.player_points'),
             'conditions' => array('Goal.player_id' => $id),
             'order' => array('Goal.id' => 'desc'),
@@ -644,8 +647,8 @@ class Player extends AppModel {
 
     public function playerPointsAvg($id, $game_id) {
 
-        //número de jogos a ir buscar
-        $X = 20;
+        //número de jogos a ir buscar, variavel definida em bootstrap.php
+        $X = Configure::read('limit');
 
         //últimos X jogos anteriores ao $game_id especificado
         $lastXGames = $this->Goal->find('all', array('conditions' => array('Goal.game_id <=' => $game_id, 'Goal.player_id' => $id),

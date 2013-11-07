@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5343b8cf-dd3f-4a92-b91a-674365a3669d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Game.php" afterPath="$PROJECT_DIR$/app/Model/Game.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/GamesController.php" afterPath="$PROJECT_DIR$/app/Controller/GamesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/GoalsController.php" afterPath="$PROJECT_DIR$/app/Controller/GoalsController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Player.php" afterPath="$PROJECT_DIR$/app/Model/Player.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/PlayersController.php" afterPath="$PROJECT_DIR$/app/Controller/PlayersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/TeamsController.php" afterPath="$PROJECT_DIR$/app/Controller/TeamsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Games/admin.ctp" afterPath="$PROJECT_DIR$/app/View/Games/admin.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Config/bootstrap.php" afterPath="$PROJECT_DIR$/app/Config/bootstrap.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LazySunday.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,10 +28,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Player.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Player.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="371" column="40" selection-start="9397" selection-end="9397" vertical-scroll-proportion="-4.6862745" vertical-offset="6068" max-vertical-offset="12019">
+            <state line="153" column="65" selection-start="3641" selection-end="3641" vertical-scroll-proportion="0.6377246" vertical-offset="2175" max-vertical-offset="12070">
               <folding />
             </state>
           </provider>
@@ -72,15 +64,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.ctp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/View/Games/admin.ctp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="75" selection-start="420" selection-end="420" vertical-scroll-proportion="17.153847" vertical-offset="599" max-vertical-offset="1309">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Game.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Model/Game.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -90,28 +73,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Team.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Model/Team.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="69" selection-start="2419" selection-end="2419" vertical-scroll-proportion="-48.384617" vertical-offset="663" max-vertical-offset="4658">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayersController.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PlayersController.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Controller/PlayersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="273" column="29" selection-start="7730" selection-end="7730" vertical-scroll-proportion="1.0963173" vertical-offset="3867" max-vertical-offset="4845">
+            <state line="273" column="29" selection-start="7730" selection-end="7730" vertical-scroll-proportion="-66.69231" vertical-offset="2907" max-vertical-offset="4845">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TeamsController.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Controller/TeamsController.php">
+      <file leaf-file-name="sidebar.ctp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/View/Elements/sidebar.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="0" selection-start="2385" selection-end="2385" vertical-scroll-proportion="-33.692307" vertical-offset="858" max-vertical-offset="1887">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1734">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="default.ctp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/View/Layouts/default.ctp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="103" selection-start="366" selection-end="366" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1156">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppController.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Controller/AppController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="544">
               <folding />
             </state>
           </provider>
@@ -158,8 +150,8 @@
         <option value="$PROJECT_DIR$/app/Controller/GamesController.php" />
         <option value="$PROJECT_DIR$/app/Controller/GoalsController.php" />
         <option value="$PROJECT_DIR$/app/Config/bootstrap.php" />
-        <option value="$PROJECT_DIR$/app/Model/Player.php" />
         <option value="$PROJECT_DIR$/app/Controller/PlayersController.php" />
+        <option value="$PROJECT_DIR$/app/Model/Player.php" />
       </list>
     </option>
   </component>
@@ -528,29 +520,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Model/Invite.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="151" selection-start="1688" selection-end="1688" vertical-scroll-proportion="0.0" vertical-offset="1275" max-vertical-offset="1683">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/View/Games/gs.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="732" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/View/Layouts/gs.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="46" selection-start="1469" selection-end="1469" vertical-scroll-proportion="0.0" vertical-offset="578" max-vertical-offset="1394">
-          <folding>
-            <marker date="1383496077000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1383496077000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1383496077000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../cakephp_242/app/Config/core.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="226" column="79" selection-start="8706" selection-end="8706" vertical-scroll-proportion="0.16855524" vertical-offset="3400" max-vertical-offset="6222">
@@ -628,16 +597,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
+    <entry file="file://$PROJECT_DIR$/app/Controller/AppController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="371" column="40" selection-start="9397" selection-end="9397" vertical-scroll-proportion="-4.6862745" vertical-offset="6068" max-vertical-offset="12019">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="732">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Controller/PlayersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="29" selection-start="7730" selection-end="7730" vertical-scroll-proportion="1.0963173" vertical-offset="3867" max-vertical-offset="4845">
+        <state line="273" column="29" selection-start="7730" selection-end="7730" vertical-scroll-proportion="-66.69231" vertical-offset="2907" max-vertical-offset="4845">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/View/Elements/sidebar.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1734">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/View/Layouts/default.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="103" selection-start="366" selection-end="366" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1156">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="65" selection-start="3641" selection-end="3641" vertical-scroll-proportion="0.6377246" vertical-offset="2175" max-vertical-offset="12070">
           <folding />
         </state>
       </provider>
