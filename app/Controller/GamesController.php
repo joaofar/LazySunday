@@ -151,6 +151,11 @@ class GamesController extends AppController {
         foreach($game['Invite'] as $invite){
             $this->Invite->delete($invite['id']);
         }
+        //Apagar golos
+        foreach($game['Goal'] as $goal){
+            $this->Goal->delete($goal['id']);
+        }
+
         //Apagar o jogo
         if ($this->Game->delete()) {
 
@@ -212,6 +217,37 @@ class GamesController extends AppController {
     }
 
 /**
+ * percentdist method
+ *
+ * @param string $id
+ * @return array
+ */
+
+    public function percentdist() {
+
+        $percentDist = $this->Game->percentDist();
+        $this->set('stats', $percentDist);
+    }
+
+/**
+ * playerPoints method
+ *
+ * @param string $id
+ * @return array
+ */
+
+    public function playerPoints($id) {
+
+        if($id == 'all'){
+            $this->set('playerPoints', $this->Game->playerPoints_allGames());
+        }else{
+            $this->set('playerPoints', $this->Game->playerPoints($id));
+        }
+
+    }
+
+
+/**
  * teste method
  *
  * @param string $id
@@ -227,18 +263,6 @@ class GamesController extends AppController {
         $this->set('stats', $teste);
     }
 
-/**
- * teste method
- *
- * @param string $id
- * @return array
- */
-
-    public function percentdist() {
-
-        $percentDist = $this->Game->percentDist();
-        $this->set('stats', $percentDist);
-    }
 
 
 }

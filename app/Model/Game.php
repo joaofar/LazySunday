@@ -195,10 +195,9 @@ class Game extends AppModel {
  * @return
  */
 
-    public function allPlayerPoints() {
+    public function playerPoints_allGames() {
 
         //array com todos os jogadores
-
         $games = $this->find('all');
 
         foreach($games as $game){
@@ -228,8 +227,6 @@ class Game extends AppModel {
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
         $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
         $percentDist = $this->percentDist();
-
-
 
         /* loop para cada equipa
            no 1º loop criam-se os pontos base para cada equipa
@@ -272,6 +269,8 @@ class Game extends AppModel {
           //VALOR DA EQUIPA E RATING DO JOGADOR NA ALTURA DO JOGO
           //é usado para descobrir o peso de cada jogador na equipa no próximo loop
             $teamValue = 0;
+
+
           foreach($team['Goal'] as $player){
 
               //rating deste jogador na altura deste jogo
@@ -283,8 +282,8 @@ class Game extends AppModel {
               //se não existirem jogos, usa-se o rating base
               //se existirem usa-se a função playerPointsAvg para calcular o rating de um jogador para um game_id
               if(count($previousGame) == 0){
-                  $player = $this->Player->findById($player['player_id']);
-                  $currRating[$player['player_id']] = $player['Player']['ratingBase'];
+                  $playerTable = $this->Player->findById($player['player_id']);
+                  $currRating[$player['player_id']] = $playerTable['Player']['ratingBase'];
               }
               else{
                   $currRating[$player['player_id']] = $this->Player->playerPointsAvg($player['player_id'], $previousGame[0]['Goal']['game_id']);
@@ -312,17 +311,20 @@ class Game extends AppModel {
               $this->Goal->id = $player['id'];
               $this->Goal->save($pointsSave);
 
-              //test array
-             // $testArray[$player['player_id']] = array('playerPoints' => $playerPoints,
-                                           //          'peso na equipa' => $currRating[$player['player_id']] / $teamValue,
-                                             //        'valor da equipa' => $teamValue,
-                                               //      'pontos base' => $teamPoints[$i]['Base'] / 5);
+              //actualizar o rating para a tabela de jogadores, para este jogador
+              $this->Player->averageRating($player['player_id']);
+
+              //debug array
+              $debugArray[$player['player_id']] = array('playerPoints' => $playerPoints,
+                                                        'peso na equipa' => $currRating[$player['player_id']] / $teamValue,
+                                                        'valor da equipa' => $teamValue,
+                                                        'pontos base' => $teamPoints[$i]['Base'] / 5);
           }
 
           $i++;
         }
 
-        //return $testArray;
+        return $debugArray;
     }
 
 

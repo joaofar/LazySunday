@@ -215,16 +215,7 @@ class PlayersController extends AppController {
         return $players;
     }
 
-/**
- * updateStats method
- *
- * @param string $id
- * @return array
- */
-    public function updateStats() {
-        $this->Player->updateStats();
-        //$this->redirect(array('action' => 'index'));
-    }
+
 
 /**
  * allAverageRating method
@@ -266,14 +257,46 @@ class PlayersController extends AppController {
 
 
 /**
+ * updateStats method
+ *
+ * @param string $id
+ * @return array
+ */
+    public function updateStats($id) {
+        if($id == 'all'){
+        $this->set('updateStats', $this->Player->updateStats_allPlayers());
+        }
+        else{
+        $this->set('updateStats', $this->Player->updateStats($id));
+        }
+    }
+
+/**
  * teste method
  *
  * @param string $id
  * @return array
  */
-    public function teste() {
+    public function averageRating($id) {
 
-        $this->set('teste', $this->Player->updateStats(21));
-        //$this->set('teste', $this->Player->equipaMS(30, 20));
+        if($id == 'all'){
+            $this->set('averageRating', $this->Player->averageRating_allPlayers());
+        }
+        else{
+            $this->set('averageRating', $this->Player->averageRating($id));
+        }
+
     }
+
+/**
+ * teste method
+ *
+ * @param string $id
+ * @return array
+ */
+public function teste($id) {
+
+        $this->set('updateStats', $this->Player->averageRating($id));
+
+}
 }

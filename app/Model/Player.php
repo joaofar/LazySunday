@@ -466,7 +466,25 @@ class Player extends AppModel {
         if($team['Team']['winner']) { return true; } else { return false; }
     }
 
+//AVERAGE RATING
 /**
+ * averageRating_allPlayers method
+ * faz a média dos ratings dos ultimos x jogos para todos os jogadores
+ *
+ * @param array $team
+ * @return bool
+ */
+    public function averageRating_allPlayers() {
+
+        $players = $this->find('all');
+
+        foreach($players as $player){
+            $this->averageRating($player['Player']['id']);
+        }
+    }
+
+/**
+ * averageRating method
  * faz a média dos ratings dos ultimos x jogos
  *
  * @param array $team
@@ -489,36 +507,21 @@ class Player extends AppModel {
         }
 
         if($nRatings == 0){
-            return 0;
+            $rating = 0;
         }
         else
         {
-            return ($sumRatings / $nRatings);
+            $rating = ($sumRatings / $nRatings);
         }
+
+        //save
+        $save = array('Player' => array('ratingLouie' => $rating));
+        $this->id = $id;
+        $this->save($save);
 
     }
 
-/**
- * faz a média dos ratings dos ultimos x jogos para todos os jogadores
- *
- * @param array $team
- * @return bool
- */
-    public function allAverageRating() {
 
-       $players = $this->find('all');
-
-        foreach($players as $player){
-
-            //get average
-           $rating = $this->averageRating($player['Player']['id']);
-
-            //save
-            $save = array('Player' => array('ratingLouie' => $rating));
-            $this->id = $player['Player']['id'];
-            $this->save($save);
-        }
-    }
 
 /**
  * calcula as assistências de um determinado jogador

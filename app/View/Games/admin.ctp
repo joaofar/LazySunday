@@ -14,7 +14,7 @@
         <li><?php echo $this->Html->link(__('Update Pl Stats'), array('controller' => 'Players', 'action' => 'stats')); ?></li>
         <li>---</li>
         <li><?php echo $this->Html->link(__('Create Team_ids in Goal Col'), array('controller' => 'Games', 'action' => 'teamIdtoGoal')); ?></li>
-        <li><?php echo $this->Html->link(__('Generate the Louie rating for each game'), array('controller' => 'Games', 'action' => 'allPlayerPoints')); ?></li>
+        <li><?php echo $this->Html->link(__('Generate the Louie rating for each game'), array('controller' => 'Games', 'action' => 'playerPoints_allGames')); ?></li>
         <li><?php echo $this->Html->link(__('Calculate the average for players table'), array('controller' => 'Players', 'action' => 'allAverageRating')); ?></li>
     </ul>
 
