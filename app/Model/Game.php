@@ -176,8 +176,8 @@ class Game extends AppModel {
         $c = 0.5;
 
         //este valor determina a inclinação da curva
-        $b = 0.045;
-        $a = ((1 - $c) - $b*$x) / pow($x, 2);
+        $b = 0.006;
+        $a = ((0.55 - $c) - $b*$x) / pow($x, 2);
 
         //equação quadrática para determinar os pontos
         for($i = 0; $i <= $x; $i++){
@@ -203,7 +203,7 @@ class Game extends AppModel {
         foreach($games as $game){
 
             $game['Game']['id'];
-            $this->playerPoints($game['Game']['id']);
+            $this->playerPoints_new($game['Game']['id']);
         }
     }
 
@@ -327,7 +327,99 @@ class Game extends AppModel {
         return $debugArray;
     }
 
+    /**
+     * playerPoints_new
+     * faz o rating de cada jogador no jogo seleccionado, usando o novo sistema.
+     * O rating final, é o rating no final do jogo.
+     *
+     * @param array $team
+     * @return bool
+     */
 
+    public function playerPoints_new($id) {
+
+        $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
+        $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
+        $percentDist = $this->percentDist();
+
+
+        //PREPARAR PONTOS EQUIPAS
+        foreach($teams as $team){
+
+            $playerPtsSum = 0;
+            foreach($team['Goal'] as $player){
+
+                //rating deste jogador na altura deste jogo
+                //procurar o último jogo do jogador que é o segundo item neste array
+                $previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => $player['game_id'], 'Goal.player_id' => $player['player_id']),
+                    'order' => array('Goal.id' => 'desc'),
+                    'limit' => 1));
+
+                //se não existirem jogos, usa-se o rating base
+                //se existirem usa-se a função playerPointsAvg para calcular o rating de um jogador para um game_id
+                if(count($previousGame) == 0){
+                    $playerTable = $this->Player->findById($player['player_id']);
+                    $currRating[$player['player_id']] = $playerTable['Player']['ratingBase'];
+                }
+                else{
+                    $currRating[$player['player_id']] = $previousGame[0]['Goal']['player_points'];
+                }
+                $playerPtsSum += $currRating[$player['player_id']];
+            }
+            //pontos da equipa antes do jogo
+            $teamPoints[$team['Team']['id']]['before_game'] = $playerPtsSum;
+        }
+
+        //somatório de pontos de ambas as equipas
+        $pointsInPot = 0;
+        foreach($teamPoints as $value){
+            $pointsInPot += $value['before_game'];
+        }
+
+        foreach($teams as $team){
+
+            //calcular a nova distribuição pontos das equipas
+            if($team['Team']['winner'] == 1){
+                $teamPoints[$team['Team']['id']]['after_game'] = (2 * $percentDist[$goalDif]) * $teamPoints[$team['Team']['id']]['before_game'];
+            }
+            elseif($team['Team']['winner'] == 'empate'){
+                $teamPoints[$team['Team']['id']]['after_game'] = $percentDist[0];
+            }
+            else{
+                $teamPoints[$team['Team']['id']]['after_game'] = (2 * (1 - $percentDist[$goalDif])) * $teamPoints[$team['Team']['id']]['before_game'];
+            }
+        }
+
+        //return $teamPoints;
+
+        //PREPARAR PONTOS JOGADORES
+        foreach($teams as $team){
+
+            foreach($team['Goal'] as $player){
+
+                //Calcular os pontos deste jogador
+                $playerPoints = ($teamPoints[$team['Team']['id']]['after_game'] * ($currRating[$player['player_id']] / $teamPoints[$team['Team']['id']]['before_game']));
+
+                $pointsSave = array('Goal' => array('player_points' => $playerPoints,
+                            'curr_rating' => $currRating[$player['player_id']],
+                            'peso' => round(($currRating[$player['player_id']] / $teamPoints[$team['Team']['id']]['before_game']), 3) * 100,
+                            'spPts' => round(($playerPoints - $currRating[$player['player_id']]), 2),
+                            'basePts' => 0));
+
+                //debug($playerPoints);
+                $this->Goal->id = $player['id'];
+                $this->Goal->save($pointsSave);
+
+                //actualizar o rating para a tabela de jogadores, para este jogador
+                $this->Player->saveRating($player['player_id'], $playerPoints);
+
+                //return $pointsSave;
+            }
+
+
+        }
+
+    }
 
 
 

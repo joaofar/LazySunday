@@ -108,5 +108,6 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-//Número de jogos a considerar no rating
+//Variáveis Globais
 Configure::write('limit', 20);
+Configure::write('n_min_pre', 20);

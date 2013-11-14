@@ -255,6 +255,8 @@ class Team extends AppModel {
         return $list = array('teams' => $teams,
                              'banco' => $banco,
                              'out' => $out);
+
+        debug($list);
     }
 
     public function players($id = null){

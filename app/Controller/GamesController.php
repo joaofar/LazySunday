@@ -241,7 +241,7 @@ class GamesController extends AppController {
         if($id == 'all'){
             $this->set('playerPoints', $this->Game->playerPoints_allGames());
         }else{
-            $this->set('playerPoints', $this->Game->playerPoints($id));
+            $this->set('playerPoints', $this->Game->playerPoints_new($id));
         }
 
     }

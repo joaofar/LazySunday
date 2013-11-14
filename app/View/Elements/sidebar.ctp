@@ -33,29 +33,31 @@
             <tr>
                 <td class="num"><?php echo $i++; ?>º</td>
                 <td class="player"><?php echo $this->Html->link(__($player['Player']['nome']), array('controller' => 'Players', 'action' => 'view', $player['Player']['id'])); ?></td>
-                <td class="rank"><?php echo $player['Player']['ratingLouie']; ?></td>
+                <td class="rank"><?php echo round($player['Player']['ratingLouie'], 1); ?></td>
                 <td>
                     <span class="sparktristate"><?php
-                    if(array_key_exists('Team', $player)) {
+
                     // sparklines processa o html deste span
                         $player['Team'] = array_reverse($player['Team']);
                         // so' nos interessam os ultimos 5 jogos
                         // jogo mais recente 'a direita
-                        for($j=6; $j > -1; $j--) {
-                            if($player['Team'][$j]['winner'] == 0) {
-                                // no lazyfoot uma derrota e' representada por '0'
-                                // nas sparklines e' representada por '-1'
-                                echo '-1';
-                            } else {
-                                echo $player['Team'][$j]['winner'];
-                            }
-                            // entre cada resultado imprimir virgula
-                            // mas o ultimo nao precisa
-                            if($j != 0) {
-                                echo ",";
+                        if(count($player['Team']) >= 7 ){
+                            for($j=6; $j > -1; $j--) {
+                                if($player['Team'][$j]['winner'] == 0) {
+                                    // no lazyfoot uma derrota e' representada por '0'
+                                    // nas sparklines e' representada por '-1'
+                                    echo '-1';
+                                } else {
+                                    echo $player['Team'][$j]['winner'];
+                                }
+                                // entre cada resultado imprimir virgula
+                                // mas o ultimo nao precisa
+                                if($j != 0) {
+                                    echo ",";
+                                }
                             }
                         }
-                    }
+
                     ?></span>
                 </td>
             </tr>

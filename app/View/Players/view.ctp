@@ -1,9 +1,12 @@
 <?php
-//debug($goals);
-$playerEvo = array_reverse($playerEvo, true);
+
+$ratingEvo = array_reverse($ratingEvo, true);
+$difEvo = array_reverse($difEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, 20, true);
 $winLoseStats = array_reverse($winLoseStats, true);
 $goals = array_reverse($goals, true);
+
+//debug($playerEvo);
 ?>
 
 <!-- GRAFICO 1 RATING EVO -->
@@ -39,7 +42,7 @@ $goals = array_reverse($goals, true);
                 }
             }],
             xAxis: {
-                categories: [<?php foreach($playerEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
+                categories: [<?php foreach($ratingEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
             },
             plotOptions: {
                 spline: {
@@ -62,7 +65,7 @@ $goals = array_reverse($goals, true);
             series: [{
                 name: 'avg',
                 type: 'spline',
-                data: [<?php foreach($playerEvo as $data) { echo($data['ratEvo']); echo ', '; } ?>]}
+                data: [<?php foreach($ratingEvo as $data) { echo(round($data, 2)); echo ', '; } ?>]}
             ]
         });
     });
@@ -82,7 +85,7 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Pontos por Jogo'
+                text: 'Diferencial'
             },
             yAxis: [{ // Secondary yAxis
                 title: {
@@ -103,7 +106,7 @@ $goals = array_reverse($goals, true);
             }
             ],
             xAxis: {
-                categories: [<?php foreach($playerEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
+                categories: [<?php foreach($difEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
             },
             plotOptions: {
                 column: {
@@ -121,7 +124,7 @@ $goals = array_reverse($goals, true);
                 name: 'game points',
                 type: 'column',
                 yAxis: 0,
-                data: [<?php foreach($playerEvo as $data) { echo($data['gamePts']); echo ', '; } ?>]}
+                data: [<?php foreach($difEvo as $data) { echo($data); echo ', '; } ?>]}
             ]
         });
     });

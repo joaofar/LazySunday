@@ -29,7 +29,7 @@
                                         foreach(${'team_'.$i.'_data'} as $data){
                                             $teamPoints += $data['curr_rating'];
                                                 }
-                                    echo $teamPoints;
+                                    echo round($teamPoints, 2);
                                     ?>pts
                                 </td>
                             </tr>
@@ -42,12 +42,12 @@
                             <?php foreach(${'team_'.$i.'_data'} as $nomejogador => $data): ?>
                             <tr>
                                 <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
-                                <td class="smalltext"style="text-align: right"><?php echo $data['curr_rating']; ?>rt</td>
+                                <td class="smalltext"style="text-align: right"><?php echo round($data['curr_rating'], 1); ?>rt</td>
                                 <td class="smalltext" style="text-align: left">(<?php echo $data['peso']; ?>%)</td>
                                 <td class="nomejogador"><?php echo $this->Html->link(__($nomejogador), array('controller' => 'Players', 'action' => 'view', $data['id'])); ?></td>
                                 <td style="text-align: right"><?php echo $data['golos']."(".$data['assistencias'].")"; ?></td>
 
-                                <td style="text-align: right"><?php echo $data['player_points']; ?>pts</td>
+                                <td style="text-align: right"><?php echo round($data['player_points'], 1); ?>pts</td>
                                 <td class="smalltext" style="text-align: right">(<?php echo $data['basePts']; ?> +</td>
                                 <td class="smalltext" style="text-align: left"><?php echo $data['spPts']; ?>)</td>
                             </tr>

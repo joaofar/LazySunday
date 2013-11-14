@@ -434,9 +434,13 @@ class Player extends AppModel {
 
         //SAVE PLAYER DATA
         $this->id = $id;
-        $this->save(array('Player' => $Player));
+        if ($this->exists()) {
+            $this->save(array('Player' => $Player));
+            return $Player;
+        }else{
+            throw new NotFoundException(__('jogador inválido'));
+        }
 
-        return $Player;
     }
 
 
@@ -467,60 +471,26 @@ class Player extends AppModel {
     }
 
 //AVERAGE RATING
+
+
+
 /**
- * averageRating_allPlayers method
- * faz a média dos ratings dos ultimos x jogos para todos os jogadores
+ * saveRating method
+ * Salva o rating de um jogador para a tabela de jogadores
  *
  * @param array $team
  * @return bool
  */
-    public function averageRating_allPlayers() {
+    public function saveRating($id = null, $rating = null) {
 
-        $players = $this->find('all');
-
-        foreach($players as $player){
-            $this->averageRating($player['Player']['id']);
-        }
-    }
-
-/**
- * averageRating method
- * faz a média dos ratings dos ultimos x jogos
- *
- * @param array $team
- * @return bool
- */
-    public function averageRating($id) {
-
-        //definida em bootstrap.php
-        $lastGames = Configure::read('limit');
-
-        $ratings = $this->Goal->find('all', array('conditions' => array('Goal.player_id' => $id),
-                                                   'order' => array('Goal.game_id DESC'),
-                                                   'limit' => $lastGames));
-
-        $nRatings = count($ratings);
-
-        $sumRatings = 0;
-        foreach($ratings as $rating){
-            $sumRatings += $rating['Goal']['player_points'];
-        }
-
-        if($nRatings == 0){
-            $rating = 0;
-        }
-        else
-        {
-            $rating = ($sumRatings / $nRatings);
-        }
-
-        //save
-        $save = array('Player' => array('ratingLouie' => $rating));
         $this->id = $id;
-        $this->save($save);
+        if ($this->exists() && isset($rating)) {
+            $this->save(array('Player' => array('ratingLouie' => $rating)));
+        }else{
+            throw new NotFoundException(__('jogador ou rating inválido'));
+        }
 
     }
-
 
 
 /**
@@ -589,97 +559,7 @@ class Player extends AppModel {
         return $assists;
     }
 
-/**
- * calcula as assistências para todos os jogadores e salva para a tabela Players
- * assist e assist_p_jogo
- *
- * @param none
- * @return none
- */
-    public function allAssists() {
 
-        $players = $this->find('all');
-
-        foreach($players as $player){
-
-            //get average
-            $assists = $this->assists($player['Player']['id']);
-
-            //save
-            $save = array('Player' => array('assist' => $assists['assist'], 'assist_p_jogo' => $assists['assist_p_jogo']));
-            $this->id = $player['Player']['id'];
-            $this->save($save);
-        }
-    }
-
-
-
-/**
- * calcula a média dos últimos X jogos de playerPoints para os últimos X jogos
- *
- * @param
- * @return
- */
-
-    public function playerPointsAvg_lastX($id) {
-
-        //definida em bootstrap.php
-        $X = Configure::read('limit');
-
-        $lastXGames = $this->Goal->find('all', array('fields' => array('Goal.game_id', 'Goal.player_points'),
-            'conditions' => array('Goal.player_id' => $id),
-            'order' => array('Goal.id' => 'desc'),
-            'limit' => $X));
-
-        foreach($lastXGames as $game){
-            $playerPointsAvg_lastX[$game['Goal']['game_id']] = array('ratEvo' => intval($this->playerPointsAvg($id, $game['Goal']['game_id'])),
-                                                                           'gamePts' => $game['Goal']['player_points']);
-        }
-
-
-        return $playerPointsAvg_lastX;
-
-    }
-
-    /**
-     * calcula a média dos últimos X jogos de playerPoints para um jogo especifico
-     *
-     * @param
-     * @return
-     */
-
-    public function playerPointsAvg($id, $game_id) {
-
-        //número de jogos a ir buscar, variavel definida em bootstrap.php
-        $X = Configure::read('limit');
-
-        //últimos X jogos anteriores ao $game_id especificado
-        $lastXGames = $this->Goal->find('all', array('conditions' => array('Goal.game_id <=' => $game_id, 'Goal.player_id' => $id),
-            'order' => array('Goal.id' => 'desc'),
-            'limit' => $X));
-        $plptsSum = 0;
-        foreach($lastXGames as $game){
-            $plptsSum += $game['Goal']['player_points'];
-        }
-
-
-        /* no caso do jogador ter um número de jogos inferiores ao $X, é compensado usando o ratingBase da tabela de jogadores
-         * para preencher os valores em falta.
-         * isto permite que jogadores novos não oscilem muito na tabela de rating nos primeiros jogos */
-
-        if(count($lastXGames) < $X){
-            $difference = $X - count($lastXGames);
-            $player = $this->findById($id);
-            $adjust = $difference * $player['Player']['ratingBase'];
-        }
-        else{
-            $adjust = 0;
-        }
-
-
-        $playerPointsAvg = ($plptsSum + $adjust) / $X;
-        return round($playerPointsAvg);
-    }
 
 /**
  * STATS

@@ -160,7 +160,7 @@ class GoalsController extends AppController {
         $this->Game->save(array('Game' => array('estado' => 2, 'team_a' => $teamGoals[0], 'team_b' => $teamGoals[1])));
 
         //Basta calcular o jogo presente. No caso de se querer recalcular tudo: usar a função playerPoints_allGames()
-        $this->Game->PlayerPoints($id);
+        $this->Game->PlayerPoints_new($id);
 
         //Redirect
         $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));

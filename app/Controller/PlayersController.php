@@ -42,15 +42,31 @@ class PlayersController extends AppController {
 		}
 		$this->set('player', $this->Player->read(null, $id));
 
-        //para os gráficos 'rating Evo' e 'Pontos por Jogo'
-        $this->set('playerEvo', $this->Player->playerPointsAvg_lastX($id));
-        //$this->set('allPlayers', $this->Player->allPLayers());
+        //para os gráficos 'rating Evo'
+        $options = array(
+            'fields' => array('Goal.game_id', 'Goal.player_points'),
+            'conditions' => array('Goal.player_id' => $id),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => 20
+        );
+
+        $this->set('ratingEvo', $this->Goal->find('list', $options));
+
+        //para o gráfico 'rating evo' //diferencial de rating, quanto subiste ou desceste
+        $options = array(
+            'fields' => array('Goal.game_id', 'Goal.spPts'),
+            'conditions' => array('Goal.player_id' => $id),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => 20
+        );
+
+        $this->set('difEvo', $this->Goal->find('list', $options));
 
         //para o gráfico 'Diferença de Golos' (mostra vitórias e derrotas por diferença de golos)
         $this->set('winLoseStats', $this->Game->winLoseStats($id));
 
         //para o gráfico 'Golos e Assistências'
-        $this->set('goals', $this->Player->goalsAssists($id, self::N_MIN_PRE));
+        $this->set('goals', $this->Player->goalsAssists($id, Configure::read('limit')));
 	}
 
 /**
@@ -175,31 +191,31 @@ class PlayersController extends AppController {
  */
     public function sidebarStats() {
         //min presencas
-        $players['n_min_pre'] = self::N_MIN_PRE;
+        $players['n_min_pre'] = Configure::read('n_min_pre');
 
         //rating
         $op_rating = array('order' => array('Player.ratingLouie' => 'desc'),
-            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE), 'recursive' => 1);
+            'conditions' => array('Player.presencas >=' => $players['n_min_pre']), 'recursive' => 1);
         $players['ratingList'] = $this->Player->find('all', $op_rating);
 
         //topGoalscorer
         $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
-            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
         $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
 
         //topAssists
         $op_topAssists = array('order' => array('Player.assist_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
-            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
         $players['topAssists'] = $this->Player->find('first', $op_topAssists);
 
         //offensiveInfluence
         $op_offensive = array('order' => array('Player.equipa_m_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
-            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
         $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
 
         //defensiveInfluence
         $op_defensive = array('order' => array('Player.equipa_s_p_jogo' => 'asc'),
-            'conditions' => array('Player.presencas >=' => self::N_MIN_PRE));
+            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
         $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
 
         //allGoals
@@ -294,9 +310,9 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-public function teste($id) {
+public function teste() {
 
-        $this->set('updateStats', $this->Player->averageRating($id));
+        $this->set('teste', $this->Player->saveRating(16, 0));
 
 }
 }
