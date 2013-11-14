@@ -19,7 +19,7 @@
 		<td><?php echo $this->Html->link(__($player['Player']['nome']), array('action' => 'view', $player['Player']['id'])); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['presencas']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['rating']); ?>&nbsp;</td>
-        <td><?php echo h($player['Player']['ratingLouie']); ?>&nbsp;</td>
+        <td><?php echo h(round($player['Player']['ratingLouie'], 2)); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['vitorias']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['vit_pre']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['golos_p_jogo']); ?> (<?php echo h($player['Player']['golos']); ?>)&nbsp;</td>

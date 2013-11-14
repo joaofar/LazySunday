@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5343b8cf-dd3f-4a92-b91a-674365a3669d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/AppController.php" afterPath="$PROJECT_DIR$/app/Controller/AppController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Game.php" afterPath="$PROJECT_DIR$/app/Model/Game.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/GamesController.php" afterPath="$PROJECT_DIR$/app/Controller/GamesController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/GoalsController.php" afterPath="$PROJECT_DIR$/app/Controller/GoalsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Player.php" afterPath="$PROJECT_DIR$/app/Model/Player.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Controller/PlayersController.php" afterPath="$PROJECT_DIR$/app/Controller/PlayersController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Model/Team.php" afterPath="$PROJECT_DIR$/app/Model/Team.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Config/bootstrap.php" afterPath="$PROJECT_DIR$/app/Config/bootstrap.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Elements/sidebar.ctp" afterPath="$PROJECT_DIR$/app/View/Elements/sidebar.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Games/view.ctp" afterPath="$PROJECT_DIR$/app/View/Games/view.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Players/view.ctp" afterPath="$PROJECT_DIR$/app/View/Players/view.ctp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Players/index.ctp" afterPath="$PROJECT_DIR$/app/View/Players/index.ctp" />
     </list>
     <ignored path="LazySunday.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,10 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="view.ctp" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="view.ctp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/View/Games/view.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="60" selection-start="1259" selection-end="1259" vertical-scroll-proportion="0.3924964" vertical-offset="255" max-vertical-offset="2125">
+            <state line="31" column="60" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-10.461538" vertical-offset="255" max-vertical-offset="2125">
               <folding />
             </state>
           </provider>
@@ -120,10 +109,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GamesController.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Controller/GamesController.php">
+      <file leaf-file-name="index.ctp" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/View/Players/index.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="31" selection-start="6005" selection-end="6016" vertical-scroll-proportion="-4.45098" vertical-offset="3598" max-vertical-offset="4658">
+            <state line="21" column="66" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.5151515" vertical-offset="0" max-vertical-offset="901">
               <folding />
             </state>
           </provider>
@@ -147,7 +136,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/View/Players/update_stats.ctp" />
         <option value="$PROJECT_DIR$/app/View/Games/player_points.ctp" />
         <option value="$PROJECT_DIR$/app/View/Games/admin.ctp" />
         <option value="$PROJECT_DIR$/app/View/Players/average_rating.ctp" />
@@ -163,6 +151,7 @@
         <option value="$PROJECT_DIR$/app/Config/bootstrap.php" />
         <option value="$PROJECT_DIR$/app/Model/Game.php" />
         <option value="$PROJECT_DIR$/app/View/Games/view.ctp" />
+        <option value="$PROJECT_DIR$/app/View/Players/index.ctp" />
       </list>
     </option>
   </component>
@@ -509,11 +498,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/View/Players/average_rating.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="26" selection-start="26" selection-end="26" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="706" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Model/Team.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="254" column="47" selection-start="7958" selection-end="7958" vertical-scroll-proportion="0.0" vertical-offset="1840" max-vertical-offset="4692">
@@ -563,13 +547,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/View/Elements/sidebar.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="33" selection-start="2303" selection-end="2303" vertical-scroll-proportion="-28.76923" vertical-offset="204" max-vertical-offset="1768">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Model/Player.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="428" column="27" selection-start="11444" selection-end="11444" vertical-scroll-proportion="-11.769231" vertical-offset="6970" max-vertical-offset="10081">
@@ -614,7 +591,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Games/view.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="60" selection-start="1259" selection-end="1259" vertical-scroll-proportion="0.3924964" vertical-offset="255" max-vertical-offset="2125">
+        <state line="31" column="60" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-10.461538" vertical-offset="255" max-vertical-offset="2125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/View/Elements/sidebar.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="33" selection-start="2303" selection-end="2303" vertical-scroll-proportion="-28.76923" vertical-offset="204" max-vertical-offset="1768">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/View/Players/index.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="66" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.5151515" vertical-offset="0" max-vertical-offset="901">
           <folding />
         </state>
       </provider>
