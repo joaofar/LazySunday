@@ -48,8 +48,7 @@
                                 <td style="text-align: right"><?php echo $data['golos']."(".$data['assistencias'].")"; ?></td>
 
                                 <td style="text-align: right"><?php echo round($data['player_points'], 1); ?>pts</td>
-                                <td class="smalltext" style="text-align: right">(<?php echo $data['basePts']; ?> +</td>
-                                <td class="smalltext" style="text-align: left"><?php echo $data['spPts']; ?>)</td>
+                                <td class="smalltext" style="text-align: left">(<?php echo $data['spPts']; ?>)</td>
                             </tr>
                             <?php endforeach; ?>
                         </table>

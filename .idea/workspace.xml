@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5343b8cf-dd3f-4a92-b91a-674365a3669d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Players/index.ctp" afterPath="$PROJECT_DIR$/app/View/Players/index.ctp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/View/Games/view.ctp" afterPath="$PROJECT_DIR$/app/View/Games/view.ctp" />
     </list>
     <ignored path="LazySunday.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,11 +37,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="view.ctp" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="view.ctp" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/View/Games/view.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="60" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-10.461538" vertical-offset="255" max-vertical-offset="2125">
-              <folding />
+            <state line="50" column="80" selection-start="2534" selection-end="2534" vertical-scroll-proportion="0.85858583" vertical-offset="255" max-vertical-offset="2108">
+              <folding>
+                <element signature="n#style#0;n#td#2;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -109,10 +111,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.ctp" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.ctp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/View/Players/index.ctp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="66" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.5151515" vertical-offset="0" max-vertical-offset="901">
+            <state line="21" column="66" selection-start="1386" selection-end="1386" vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="901">
               <folding />
             </state>
           </provider>
@@ -150,8 +152,8 @@
         <option value="$PROJECT_DIR$/app/View/Players/view.ctp" />
         <option value="$PROJECT_DIR$/app/Config/bootstrap.php" />
         <option value="$PROJECT_DIR$/app/Model/Game.php" />
-        <option value="$PROJECT_DIR$/app/View/Games/view.ctp" />
         <option value="$PROJECT_DIR$/app/View/Players/index.ctp" />
+        <option value="$PROJECT_DIR$/app/View/Games/view.ctp" />
       </list>
     </option>
   </component>
@@ -589,13 +591,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/View/Games/view.ctp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="60" selection-start="1259" selection-end="1259" vertical-scroll-proportion="-10.461538" vertical-offset="255" max-vertical-offset="2125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Elements/sidebar.ctp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="56" column="33" selection-start="2303" selection-end="2303" vertical-scroll-proportion="-28.76923" vertical-offset="204" max-vertical-offset="1768">
@@ -605,8 +600,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/View/Players/index.ctp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="66" selection-start="1386" selection-end="1386" vertical-scroll-proportion="0.5151515" vertical-offset="0" max-vertical-offset="901">
+        <state line="21" column="66" selection-start="1386" selection-end="1386" vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="901">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/View/Games/view.ctp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="80" selection-start="2534" selection-end="2534" vertical-scroll-proportion="0.85858583" vertical-offset="255" max-vertical-offset="2108">
+          <folding>
+            <element signature="n#style#0;n#td#2;n#tr#0;n#table#0;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
