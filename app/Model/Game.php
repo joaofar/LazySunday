@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+
 /**
  * Game Model
  *
@@ -114,6 +115,8 @@ class Game extends AppModel {
         'goal_dif' => 'Game.team_a - Game.team_b'
     );
 
+
+
 /**
  * teamsGoals method
  *
@@ -137,14 +140,16 @@ class Game extends AppModel {
             ${'team_'.$i.'_score'} = 0;
             foreach($goals as $goal){
 
-                ${'team_'.$i.'_data'}[$goal['Player']['nome']] = array('id' => $goal['Goal']['player_id'],
-                                                                       'golos' => $goal['Goal']['golos'],
-                                                                       'assistencias' => $goal['Goal']['assistencias'],
-                                                                       'player_points' => $goal['Goal']['player_points'],
-                                                                       'curr_rating' => $goal['Goal']['curr_rating'],
-                                                                       'peso' => $goal['Goal']['peso'],
-                                                                       'basePts' => $goal['Goal']['basePts'],
-                                                                       'spPts' => $goal['Goal']['spPts']);
+              ${'team_'.$i.'_data'}[$goal['Player']['nome']] = array(
+                  'id' => $goal['Goal']['player_id'],
+                  'golos' => $goal['Goal']['golos'],
+                  'assistencias' => $goal['Goal']['assistencias'],
+                  'player_points' => $goal['Goal']['player_points'],
+                  'curr_rating' => $goal['Goal']['curr_rating'],
+                  'peso' => $goal['Goal']['peso'],
+                  'basePts' => $goal['Goal']['basePts'],
+                  'spPts' => $goal['Goal']['spPts']
+                  );
 
                 ${'team_'.$i.'_score'} += $goal['Goal']['golos'];
             }
@@ -152,10 +157,12 @@ class Game extends AppModel {
             $i++;
         }
 
-        return array('team_1_data' => $team_1_data,
-                     'team_2_data' => $team_2_data,
-                     'team_1_score' => $team_1_score,
-                     'team_2_score' => $team_2_score);
+        return array(
+            'team_1_data' => $team_1_data,
+            'team_2_data' => $team_2_data,
+            'team_1_score' => $team_1_score,
+            'team_2_score' => $team_2_score
+            );
     }
 
 /**
@@ -327,6 +334,27 @@ class Game extends AppModel {
         return $debugArray;
     }
 
+
+    /**
+     * ratingFix
+     * Cria um ponto pivot em torno do rating 5
+     * Se um jogador tiver um rating de 5 recebe 100% dos pontos que lhe estavam destinados
+     * Se tiver 10 recebe 0%
+     * Se tiver 0 recebe 200%
+     *
+     *
+     * @param array $team
+     * @return bool
+     */
+
+    public function ratingFix($rating, $dif) {
+        if($dif >= 0){
+            return 2 - (0.2 * $rating);
+        }else{
+            return 0.2 * $rating;
+        }
+
+    }
     /**
      * playerPoints_new
      * faz o rating de cada jogador no jogo seleccionado, usando o novo sistema.
@@ -400,11 +428,19 @@ class Game extends AppModel {
                 //Calcular os pontos deste jogador
                 $playerPoints = ($teamPoints[$team['Team']['id']]['after_game'] * ($currRating[$player['player_id']] / $teamPoints[$team['Team']['id']]['before_game']));
 
+                //aplicar o fix
+                $dif = $playerPoints - $currRating[$player['player_id']];
+                $ratingFix = $this->ratingFix($currRating[$player['player_id']], $dif);
+
+                $newPts = $dif * $ratingFix;
+               // echo $ratingFix."/";
+                $playerPoints = $currRating[$player['player_id']] + $newPts;
+
                 $pointsSave = array('Goal' => array('player_points' => $playerPoints,
                             'curr_rating' => $currRating[$player['player_id']],
                             'peso' => round(($currRating[$player['player_id']] / $teamPoints[$team['Team']['id']]['before_game']), 3) * 100,
-                            'spPts' => round(($playerPoints - $currRating[$player['player_id']]), 2),
-                            'basePts' => 0));
+                            'spPts' => round($newPts, 2),
+                            'basePts' => $teamPoints[$team['Team']['id']]['after_game'] - $teamPoints[$team['Team']['id']]['before_game']));
 
                 //debug($playerPoints);
                 $this->Goal->id = $player['id'];
@@ -420,6 +456,8 @@ class Game extends AppModel {
         }
 
     }
+
+
 
 
 
