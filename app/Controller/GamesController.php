@@ -261,141 +261,91 @@ class GamesController extends AppController {
 
     public function teste() {
 
-        $TrueSkill = new TwoPlayerTrueSkillCalculator();
-        //$TrueSkill = new teamRating();
-
-        $this->set('stats', $TrueSkill);
+        $this->set('teste', $this->rateGame_allGames());
+        // $this->set('teste', $this->Rating->current(20));
+        // $this->set('teste', $this->Rating->ratingExists(21, 11));
     }
 
-    public function eloAll() {
-
-
-        //array com todos os jogadores
+    public function rateGame_allGames() {
+        //array com todos os jogos
         $games = $this->Game->find('all');
 
         foreach($games as $game){
-            $this->eloRating($game['Game']['id']);
+            $this->rateGame($game['Game']['id']);
         }
 
     }
 
 /**
- * playerPoints_elo
- * faz o rating de cada jogador no jogo seleccionado, usando o sistema elo para equipas
+ * rankGames
+ * faz o rating de cada jogador no jogo seleccionado, usando o sistema trueskill
  * O rating final, é o rating no final do jogo.
  *
  * @param array $team
  * @return bool
  */
 
-    public function eloRating($id) {
-        //instanciar a classe teamRating que calcula perdas e ganhos entre equipas de 5 jogadores
-        $teamRating = new teamRating;
+    public function rateGame($id) {
+        
 
         //procurar as equipas deste jogo
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
 
-        $i = 0;
+        //criar arrays 'teamWinner' e 'teamLoser' para o calculo do rating
         foreach($teams as $team){
+            if ($team['Team']['winner'] == 1) {
+                foreach ($team['Player'] as $player) {
+                    //vai buscar o rating mais recente deste jogador
+                    $currentRating = $this->Rating->current($player['id']);
 
-            if($team['Team']['winner'] == 1){
-                $winner = 1;
-            }else{
-                $winner = 0;
-            }
-
-            foreach($team['Goal'] as $player){
-
-                //rating deste jogador na altura deste jogo
-                //procurar o último jogo do jogador que é o segundo item neste array
-                $previousGame = $this->Goal->find('all', array('conditions' => array('Goal.game_id <' => $player['game_id'], 'Goal.player_id' => $player['player_id']),
-                    'order' => array('Goal.id' => 'desc'),
-                    'limit' => 1));
-
-                //se não existirem jogos, usa-se o rating base
-                //se existirem usa-se a função playerPointsAvg para calcular o rating de um jogador para um game_id
-                if(count($previousGame) == 0){
-                    $playerTable = $this->Player->findById($player['player_id']);
-                    $player['curr_rating'] = $playerTable['Player']['rating_base_elo'];
+                    $teamWinner[] = array(
+                        'id' => $player['id'],
+                        'mean' => $currentRating['mean'],
+                        'standard_deviation' => $currentRating['standard_deviation']
+                        );
                 }
-                else{
-                    $player['curr_rating'] = $previousGame[0]['Goal']['player_points'];
-                }
+            } else {
+                foreach ($team['Player'] as $player) {
+                    $currentRating = $this->Rating->current($player['id']);
 
-                $teamArray[$i][] = array(
-                    'id' => $player['player_id'],
-                    'goal_id' => $player['id'],
-                    'winner' => $winner,
-                    'elo' => $player['curr_rating']
-                );
+                    $teamLoser[] = array(
+                        'id' => $player['id'],
+                        'mean' => $currentRating['mean'],
+                        'standard_deviation' => $currentRating['standard_deviation']
+                        );
+                }
             }
-            $i++;
+            
         }
 
-        //usar a class teamRating para calcular quanto é que cada jogador sobe ou desce
-        $teamRating->setTeams($teamArray[0], $teamArray[1]);
-        $teamsWithRating = $teamRating->calculate();
+        //Calcular o novo rating
+        //devolve uma array com os ratings novos
+        $newRatings = $this->trueSkill(array($teamWinner, $teamLoser));
 
-        debug($teamsWithRating);
+        //salvar o rating
+        foreach ($newRatings as $player) {
 
-        //salvar para a tabela golos
-        foreach($teamsWithRating as $key => $team){
+            $ratingExists = $this->Rating->ratingExists($player['id'], $id);
 
-            if($key == 'teamA'){
-                $winProbability = $teamRating->getTeamAWinRate() * 100;
-            }elseif($key == 'teamB'){
-                $winProbability = $teamRating->getTeamBWinRate() * 100;
+            if (!$ratingExists) {
+                $this->Rating->create();
+            } else {
+                $this->Rating->id = $ratingExists;
             }
 
-            foreach($team as $player){
-
-                if($player['winner'] == 1){
-                    $playerPoints =  $player['elo'] + $player['gain'];
-                    $gainLoss = $player['gain'];
-                }elseif($player['winner'] == 0){
-                    $playerPoints =  $player['elo'] - $player['loss'];
-                    $gainLoss = -$player['loss'];
-                }
-
-                $pointsSave = array(
-                    'Goal' => array(
-                        'player_points' => $playerPoints,
-                        'curr_rating' => $player['elo'],
-                        'peso' => $winProbability,
-                        'spPts' => $gainLoss,
-                        'basePts' => 0
-                    )
-                );
-
-                //debug($playerPoints);
-                //save Goal
-                $this->Goal->id = $player['goal_id'];
-                $this->Goal->save($pointsSave);
-
-                $playerList[]=$pointsSave;
-
-                //actualizar o rating para a tabela de jogadores, para este jogador
-                $this->Player->saveRating($player['id'], $playerPoints);
-            }
-
-
-
-
-
+            $this->Rating->save(array('Rating' => array(
+                'game_id' => $id,
+                'player_id' => $player['id'],
+                'mean' => $player['mean'],
+                'standard_deviation' => $player['standard_deviation'])));
         }
-        $this->set('stats', $playerList);
     }
 
 
-     public function trueSkill() 
+     public function trueSkill($teams)
      {
-        //teams
-        $teamWinner = array();
-        $teamLoser = array();
-
-        //calculator
-        $trueSkill = new TrueSkill($teamWinner, $teamLoser);
-        $this->set('trueSkill', $trueSkill->teste());
+        $trueSkill = new TrueSkill($teams);
+        return $trueSkill->getRatings();
      }
 
 

@@ -95,7 +95,20 @@ class Player extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+        'Rating' => array(
+            'className' => 'Rating',
+            'foreignKey' => 'player_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
 
 
@@ -137,6 +150,36 @@ class Player extends AppModel {
         )
 	);
 
+/**
+ * allPlayers method
+ * Devolve uma array com a informação da tabela de jogadores
+ *
+ * @param
+ * @return
+ */
+
+    public function currentRating($id) {
+
+        //rating deste jogador na altura deste jogo
+        //procurar o último jogo do jogador que é o segundo item neste array
+        $previousGame = $this->Goal->find('all', array(
+            'conditions' => array(
+                'Goal.game_id <' => $player['game_id'], 
+                'Goal.player_id' => $player['player_id']),
+            'order' => array('Goal.id' => 'desc'),
+            'limit' => 1));
+
+        //se não existirem jogos, usa-se o rating base
+        //se existirem usa-se a função playerPointsAvg para calcular o rating de um jogador para um game_id
+        if(count($previousGame) == 0){
+            $playerTable = $this->Player->findById($player['player_id']);
+            $player['curr_rating'] = $playerTable['Player']['rating_base_elo'];
+        }
+        else{
+            $player['curr_rating'] = $previousGame[0]['Goal']['player_points'];
+        }
+
+    }
 
 /**
  * allPlayers method

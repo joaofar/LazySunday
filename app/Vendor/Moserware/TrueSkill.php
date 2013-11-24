@@ -22,15 +22,58 @@ use Moserware\Skills\TrueSkill\TwoTeamTrueSkillCalculator;
 
 class TrueSkill
 {
+	public $newRatings = array();
 
-	public function __construct($teamWinner, $teamLoser)
+	public function __construct($teams)
 	{
+		/**
+		 * Objecto onde se define os parametros do calculo do rating
+		 * @param float $mean | rating médio da escala (0 a 10 seria 5)
+		 * @param float $standardDeviation | grau de incerteza (por norma mean/3)
+		 * @param float $beta | spread dos ratings (por norma mean/6)
+		 * @param float $dynamicRange | dinamismo do rating (por norma mean/300)
+		 * @param float $drawProbability | quando deve considerar empates
+		 * @var GameInfo
+		 */
+		$gameInfo = new GameInfo(5, 5/3, 5/5.5, 5/300, 0);
+		$calculator = new TwoTeamTrueSkillCalculator();
+		
+		//create team and player objects
+		foreach ($teams as $key => $team) {
+ 			//create team
+			${'team'.$key} = new Team();
 
+			foreach ($team as $player) {
+				//create player
+				${'player'.$player['id']} = new Player($player['id']);
+				//add player to team
+				${'team'.$key}->addPlayer(
+					${'player'.$player['id']},
+					new Rating($player['mean'], $player['standard_deviation']))
+				;
+			}
+
+			$teamsToRate[] = ${'team'.$key};
+		}
+
+		//calculate
+		$ratings = $calculator->calculateNewRatings($gameInfo, $teamsToRate, array(1, 2));
+
+		//set class variable
+		foreach ($teams as $key => $team) {
+			foreach ($team as $player) {
+				$playerNewRating = $ratings->getRating(${'player'.$player['id']});
+				$this->newRatings[] = array(
+					'id' => $player['id'],
+					'mean' => $playerNewRating->_mean,
+					'standard_deviation' => $playerNewRating->_standardDeviation);
+			}
+		}
 	}
 
-	public function teste()
+	public function getRatings()
 	{
-		return "sucesso";
+		return $this->newRatings;
 	}
 
 	public function tralha_p_arrumar()

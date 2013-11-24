@@ -114,11 +114,12 @@ class GoalsController extends AppController {
 
         $i = 1;
         foreach($this->request->data['Game'] as $player_id => $data) {
-            $playerGoals = array('Goal' => array('game_id' => $id,
-                                                 'team_id' => $data['team_id'],
-                                                 'player_id' => $player_id,
-                                                 'golos' => $data['golos'],
-                                                 'assistencias' => $data['assistencias']));
+            $playerGoals = array('Goal' => array(
+            	'game_id' => $id,
+                'team_id' => $data['team_id'],
+                'player_id' => $player_id,
+                'golos' => $data['golos'],
+                'assistencias' => $data['assistencias']));
             $this->Goal->create();
             $this->Goal->save($playerGoals);
 

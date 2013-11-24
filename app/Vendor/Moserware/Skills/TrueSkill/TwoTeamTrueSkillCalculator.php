@@ -3,6 +3,13 @@
 namespace Moserware\Skills\TrueSkill;
 
 require_once(__DIR__ . '/../SkillCalculator.php');
+require_once(__DIR__ . '/../TeamsRange.php');
+require_once(__DIR__ . '/../PlayersRange.php');
+require_once(__DIR__ . '/../RankSorter.php');
+require_once(__DIR__ . '/../PairwiseComparison.php');
+require_once('DrawMargin.php');
+require_once('TruncatedGaussianCorrectionFunctions.php');
+
 
 use Moserware\Skills\GameInfo;
 use Moserware\Skills\Guard;

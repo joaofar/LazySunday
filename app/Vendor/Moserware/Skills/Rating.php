@@ -7,9 +7,9 @@ class Rating
 {
     const CONSERVATIVE_STANDARD_DEVIATION_MULTIPLIER = 3;
     
-    private $_conservativeStandardDeviationMultiplier;
-    private $_mean;
-    private $_standardDeviation;
+    public $_conservativeStandardDeviationMultiplier;
+    public $_mean;
+    public $_standardDeviation;
 
     /**
      * Constructs a rating.

@@ -310,9 +310,9 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-public function teste() {
+    public function teste($id) {
 
-        $this->set('teste', $this->Player->saveRating(16, 0));
+    $this->set('teste', $this->Rating->current($id));
 
 }
 }

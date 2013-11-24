@@ -1,7 +1,7 @@
 <?php
 namespace Moserware\Skills\TrueSkill;
 
-require "../../Skills/Numerics/GaussianDistribution.php";
+require(__DIR__ . "/../Numerics/GaussianDistribution.php");
 
 use Moserware\Skills\Numerics\GaussianDistribution;
 

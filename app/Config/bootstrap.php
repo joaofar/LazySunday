@@ -113,3 +113,8 @@ CakeLog::config('error', array(
 //Variáveis Globais
 Configure::write('limit', 20);
 Configure::write('n_min_pre', 20);
+
+//Variáveis de Rating
+Configure::write('MEAN', 5);
+Configure::write('STANDARD_DEVIATION', 5/3);
+
