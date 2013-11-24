@@ -198,6 +198,16 @@ class PlayersController extends AppController {
             'conditions' => array('Player.presencas >=' => $players['n_min_pre']), 'recursive' => 1);
         $players['ratingList'] = $this->Player->find('all', $op_rating);
 
+        //ranking TrueSkill
+        $players['trueSkill'] = $this->Rating->rankingList(20);
+        
+        // $playersList = $this->Player->find('list', array(
+        //     'fields' => array('Player.id', 'Player.nome'),
+        //     'conditions' => array('Player.presencas >=' => $players['n_min_pre']),
+        //     'order' => array('Rating.mean' => 'desc'),
+        //     'recursive' => 1
+        //     ));
+
         //topGoalscorer
         $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
             'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
@@ -312,7 +322,7 @@ class PlayersController extends AppController {
  */
     public function teste($id) {
 
-    $this->set('teste', $this->Rating->current($id));
+    $this->set('teste', $this->Rating->rankingList($id));
 
 }
 }

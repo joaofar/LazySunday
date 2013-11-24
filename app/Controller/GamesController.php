@@ -261,12 +261,12 @@ class GamesController extends AppController {
 
     public function teste() {
 
-        $this->set('teste', $this->rateGame_allGames());
-        // $this->set('teste', $this->Rating->current(20));
+        $this->set('teste', $this->rateAllGames());
+        // $this->set('teste', $this->Rating->current(20, 23));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
     }
 
-    public function rateGame_allGames() {
+    public function rateAllGames() {
         //array com todos os jogos
         $games = $this->Game->find('all');
 
@@ -281,8 +281,7 @@ class GamesController extends AppController {
  * faz o rating de cada jogador no jogo seleccionado, usando o sistema trueskill
  * O rating final, é o rating no final do jogo.
  *
- * @param array $team
- * @return bool
+ * @param int $id [game_id]
  */
 
     public function rateGame($id) {
@@ -296,7 +295,7 @@ class GamesController extends AppController {
             if ($team['Team']['winner'] == 1) {
                 foreach ($team['Player'] as $player) {
                     //vai buscar o rating mais recente deste jogador
-                    $currentRating = $this->Rating->current($player['id']);
+                    $currentRating = $this->Rating->current($player['id'], $id);
 
                     $teamWinner[] = array(
                         'id' => $player['id'],
@@ -306,7 +305,7 @@ class GamesController extends AppController {
                 }
             } else {
                 foreach ($team['Player'] as $player) {
-                    $currentRating = $this->Rating->current($player['id']);
+                    $currentRating = $this->Rating->current($player['id'], $id);
 
                     $teamLoser[] = array(
                         'id' => $player['id'],
@@ -328,11 +327,14 @@ class GamesController extends AppController {
             $ratingExists = $this->Rating->ratingExists($player['id'], $id);
 
             if (!$ratingExists) {
+                //cria um novo
                 $this->Rating->create();
             } else {
+                //usa o que já existe
                 $this->Rating->id = $ratingExists;
             }
 
+            //SAVE
             $this->Rating->save(array('Rating' => array(
                 'game_id' => $id,
                 'player_id' => $player['id'],

@@ -21,6 +21,9 @@
 
 </div>
 
+<?php 
+// debug($data['trueSkill'])
+?>
 
 
 <div class=sideTitle>rating: (min <?php echo $data['n_min_pre']; ?> presenças)</div>
@@ -33,7 +36,7 @@
             <tr>
                 <td class="num"><?php echo $i++; ?>º</td>
                 <td class="player"><?php echo $this->Html->link(__($player['Player']['nome']), array('controller' => 'Players', 'action' => 'view', $player['Player']['id'])); ?></td>
-                <td class="rank"><?php echo round($player['Player']['ratingLouie'], 1); ?></td>
+                <td class="rank"><?php echo round($data['trueSkill'][$player['Player']['nome']], 1); ?></td>
                 <td>
                     <span class="sparktristate"><?php
 
