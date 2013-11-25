@@ -117,7 +117,13 @@ class Rating extends AppModel {
 			return $currentRating['Rating'];
 		}
 	}
-
+/**
+ * ratingExists method
+ * 
+ * @param  int $id     player_id
+ * @param  int $gameId
+ * @return int         devolve o id do rating se existir ou falso se não existir
+ */
 	public function ratingExists($id, $gameId)
 	{
 		$rating = $this->find('first', array(
@@ -134,6 +140,13 @@ class Rating extends AppModel {
 		}
 	}
 
+/**
+ * rankingList method
+ * 
+ * (para a sidebar)
+ * @param  int $nMinPre
+ * @return array
+ */
 	public function rankingList($nMinPre = null)
 	{
 		$playersList = $this->Player->find('list', array(
@@ -141,28 +154,26 @@ class Rating extends AppModel {
             'conditions' => array('Player.presencas >=' => $nMinPre)
             ));
 
+		//vai buscar o rating mais actual de cada jogador e cria uma array
 		foreach ($playersList as $id => $name) {
 			$currentRating = $this->current($id);
 
-			$index[$name] = $currentRating['mean'];
-
-			// $playerRatingList[] = array(
-			// 	'id' => $id,
-			// 	'name' => $name,
-			// 	'mean' => $currentRating['mean']);
-
-
-		
+			$playerRatingList[] = array(
+				'id' => $id,
+				'name' => $name,
+				'mean' => $currentRating['mean']);
 		}
 
-		arsort($index);
-		return $index;
+		//array_multisort
+		//criar uma coluna que vai servir de referência, neste caso o rating (mean).
+		foreach ($playerRatingList as $key => $row) {
+		    $mean[$key] = $row['mean'];
+		}
+		array_multisort($mean, SORT_DESC, $playerRatingList);
+
+		return $playerRatingList;
 
 	}
-
-	// 10277
-	// 781 696 971
-	// 204,05€
 
 
 

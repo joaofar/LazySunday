@@ -32,36 +32,13 @@
     <table class="sidebar">
         <?php
         $i = 1;
-        foreach ($data['ratingList'] as $player): ?>
+        foreach ($data['trueSkill'] as $player): ?>
             <tr>
                 <td class="num"><?php echo $i++; ?>º</td>
-                <td class="player"><?php echo $this->Html->link(__($player['Player']['nome']), array('controller' => 'Players', 'action' => 'view', $player['Player']['id'])); ?></td>
-                <td class="rank"><?php echo round($data['trueSkill'][$player['Player']['nome']], 1); ?></td>
+                <td class="player"><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $player['id'])); ?></td>
+                <td class="rank"><?php echo round($player['mean'], 1); ?></td>
                 <td>
-                    <span class="sparktristate"><?php
-
-                    // sparklines processa o html deste span
-                        $player['Team'] = array_reverse($player['Team']);
-                        // so' nos interessam os ultimos 5 jogos
-                        // jogo mais recente 'a direita
-                        if(count($player['Team']) >= 7 ){
-                            for($j=6; $j > -1; $j--) {
-                                if($player['Team'][$j]['winner'] == 0) {
-                                    // no lazyfoot uma derrota e' representada por '0'
-                                    // nas sparklines e' representada por '-1'
-                                    echo '-1';
-                                } else {
-                                    echo $player['Team'][$j]['winner'];
-                                }
-                                // entre cada resultado imprimir virgula
-                                // mas o ultimo nao precisa
-                                if($j != 0) {
-                                    echo ",";
-                                }
-                            }
-                        }
-
-                    ?></span>
+                    <span class="sparktristate"><?php echo $player['tristate'] ?></span>
                 </td>
             </tr>
             <?php endforeach; ?>

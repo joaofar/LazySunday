@@ -193,20 +193,13 @@ class PlayersController extends AppController {
         //min presencas
         $players['n_min_pre'] = Configure::read('n_min_pre');
 
-        //rating
-        $op_rating = array('order' => array('Player.ratingLouie' => 'desc'),
-            'conditions' => array('Player.presencas >=' => $players['n_min_pre']), 'recursive' => 1);
-        $players['ratingList'] = $this->Player->find('all', $op_rating);
-
         //ranking TrueSkill
         $players['trueSkill'] = $this->Rating->rankingList(20);
-        
-        // $playersList = $this->Player->find('list', array(
-        //     'fields' => array('Player.id', 'Player.nome'),
-        //     'conditions' => array('Player.presencas >=' => $players['n_min_pre']),
-        //     'order' => array('Rating.mean' => 'desc'),
-        //     'recursive' => 1
-        //     ));
+
+        foreach ($players['trueSkill'] as $key => $player) {
+            $players['trueSkill'][$key]['tristate'] = $this->Team->tristate($player['id'], 7);
+        }
+
 
         //topGoalscorer
         $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
@@ -298,7 +291,7 @@ class PlayersController extends AppController {
     }
 
 /**
- * teste method
+ * averageRating method
  *
  * @param string $id
  * @return array
@@ -320,9 +313,8 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-    public function teste($id) {
-
-    $this->set('teste', $this->Rating->rankingList($id));
-
-}
+    public function teste()
+    {
+    $this->set('teste', $this->Team->tristate(16, 7));
+    }
 }

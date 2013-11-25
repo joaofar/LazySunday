@@ -261,8 +261,8 @@ class GamesController extends AppController {
 
     public function teste() {
 
-        $this->set('teste', $this->rateAllGames());
-        // $this->set('teste', $this->Rating->current(20, 23));
+        // $this->set('teste', $this->rateAllGames());
+        $this->set('teste', $this->Rating->ratingList(20));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
     }
 

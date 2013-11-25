@@ -265,6 +265,54 @@ class Team extends AppModel {
         return $this->PlayersTeam->find('all', $options);
     }
 
+/**
+ * isWinner method
+ * 
+ * @param  int  $teamID
+ * @return boolean
+ */
+    public function isWinner($teamID)
+    {
+        return $this->find('count', array(
+            'conditions' => array('Team.id' => $teamID, 'Team.winner' => 1) ));
+    }
+
+/**
+ * tristate method
+ * 
+ * Gera uma série com os últimos resultados de um jogador (vitórias, derrotas),
+ * para ser usado pelo sparklines na sidebar
+ * @param  int $playerId
+ * @param  int $limit    número de resultados pretendidos
+ * @return string
+ */
+    public function tristate($playerId, $limit = null)
+    {
+        $tristate = null;
+
+        $teams = $this->PlayersTeam->find('all', array(
+            'conditions' => array('PlayersTeam.player_id' => $playerId),
+            'order' => array('PlayersTeam.id' => 'desc'),
+            'limit' => $limit));
+
+        //inverter porque queremos os resultados mais recentes à direita
+        $teams = array_reverse($teams);
+
+        //trocar o '0' por '-1' para o sparklines
+        foreach ($teams as $team) {
+            if (!$this->isWinner($team['PlayersTeam']['team_id'])) {
+                $tristate .= '-1,';
+            } else {
+                $tristate .= '1,';
+            }
+        }
+
+        //tirar a última virgula (porque não é necessária) e devolver
+        return rtrim($tristate, ",");
+    }
+
+
+
 
 
 }
