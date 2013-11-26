@@ -51,7 +51,7 @@ class GamesController extends AppController {
         }
         else {
         //teams goals - variaveis para a view
-        $this->set($this->Game->teamsGoals($id));
+        $this->set('info', $this->Game->info($id));
         }
 
         //top info
@@ -254,10 +254,10 @@ class GamesController extends AppController {
  * @return array
  */
 
-    public function teste() {
+    public function teste($id) {
 
         // $this->set('teste', $this->rateAllGames());
-        $this->set('teste', $this->Game->info(11));
+        $this->set('teste', $this->Game->info($id));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
     }
 
@@ -287,23 +287,25 @@ class GamesController extends AppController {
 
         //criar arrays 'teamWinner' e 'teamLoser' para o calculo do rating
         foreach($teams as $team){
-            if ($team['Team']['winner'] == 1) {
+            if ($team['Team']['is_winner'] == 1) {
                 foreach ($team['Player'] as $player) {
                     //vai buscar o rating mais recente deste jogador
-                    $currentRating = $this->Rating->current($player['id'], $id);
+                    $currentRating = $this->Rating->get($player['id'], $id);
 
                     $teamWinner[] = array(
                         'id' => $player['id'],
+                        'team_id' => $team['Team']['id'],
                         'mean' => $currentRating['mean'],
                         'standard_deviation' => $currentRating['standard_deviation']
                         );
                 }
             } else {
                 foreach ($team['Player'] as $player) {
-                    $currentRating = $this->Rating->current($player['id'], $id);
+                    $currentRating = $this->Rating->get($player['id'], $id);
 
                     $teamLoser[] = array(
                         'id' => $player['id'],
+                        'team_id' => $team['Team']['id'],
                         'mean' => $currentRating['mean'],
                         'standard_deviation' => $currentRating['standard_deviation']
                         );
@@ -332,6 +334,7 @@ class GamesController extends AppController {
             //SAVE
             $this->Rating->save(array('Rating' => array(
                 'game_id' => $id,
+                'team_id' => $player['team_id'],
                 'player_id' => $player['id'],
                 'mean' => $player['mean'],
                 'standard_deviation' => $player['standard_deviation'])));

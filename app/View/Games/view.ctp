@@ -14,7 +14,7 @@
 
 <?php if($game['Game']['estado'] == 2): ?>
     <div class=teams>
-        <?php for($i = 1; $i <= 2; $i++): ?>
+        <?php for($i = 0; $i <= 1; $i++): ?>
             <!--- Team  --->
             <div class="teamContainer">
 
@@ -22,15 +22,9 @@
                     <div class="equipa_res">
                         <table>
                             <tr>
-                                <td class="score">[<?php echo ${'team_'.$i.'_score'}; ?>]</td>
+                                <td class="score">[<?php echo $info[$i]['Team']['goals']; ?>]</td>
                                 <td class="teamPoints">
-                                    <?php
-                                        $teamPoints = 0;
-                                        foreach(${'team_'.$i.'_data'} as $data){
-                                            $teamPoints += $data['curr_rating'];
-                                                }
-                                    echo round($teamPoints, 2);
-                                    ?>pts
+                                    <?php ?>
                                 </td>
                             </tr>
                         </table>
@@ -39,17 +33,17 @@
                     <!--- CONTENT --->
                     <div>
                         <table>
-                            <?php foreach(${'team_'.$i.'_data'} as $nomejogador => $data): ?>
+                            <?php foreach($info[$i]['Player'] as $id => $player): ?>
                             <tr>
                                 <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
-                                <td class="smalltext"style="text-align: right"><?php echo round($data['curr_rating'], 1); ?>rt</td>
-                                <td class="smalltext" style="text-align: left">(<?php echo $data['peso']; ?>%)</td>
-                                <td class="nomejogador"><?php echo $this->Html->link(__($nomejogador), array('controller' => 'Players', 'action' => 'view', $data['id'])); ?></td>
-                                <td style="text-align: right"><?php echo $data['golos']."(".$data['assistencias'].")"; ?></td>
+                                <td class="smalltext"style="text-align: right"><?php echo round($player['previousRating'], 1); ?>rt</td>
+                                <td class="smalltext" style="text-align: left"><?php  ?></td>
+                                <td class="nomejogador"><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $id)); ?></td>
+                                <td style="text-align: right"><?php echo $player['goals']."(".$player['assists'].")"; ?></td>
 
-                                <td style="text-align: right"><?php echo round($data['player_points'], 1); ?>pts</td>
-                                <td class="smalltext" style="text-align: left">(<?php echo $data['spPts']; ?>)</td>
-                                <td class="smalltext" style="text-align: left">(<?php echo $data['basePts']; ?>)</td>
+                                <td style="text-align: right"><?php echo round($player['currentRating'], 1); ?>pts</td>
+                                <td class="smalltext" style="text-align: left">(<?php echo $player['standardDeviation']; ?>)</td>
+                                <td class="smalltext" style="text-align: left"><?php  ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </table>

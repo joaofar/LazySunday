@@ -46,24 +46,24 @@
     <table class="sidebar">
         <tr>
             <td>golos p/j: </td>
-            <td><?php echo $data['topGoalscorer']['Player']['nome']; ?>
+            <td><?php echo $data['topGoalscorer']['Player']['name']; ?>
 
                 (<?php echo $data['topGoalscorer']['Player']['golos_p_jogo']; ?>)</td>
         </tr>
         <tr>
             <td>assist p/j: </td>
-            <td><?php echo $data['topAssists']['Player']['nome']; ?>
+            <td><?php echo $data['topAssists']['Player']['name']; ?>
 
                 (<?php echo $data['topAssists']['Player']['assist_p_jogo']; ?>)</td>
         </tr>
         <tr>
             <td>EM p/j: </td>
-            <td><?php echo $data['offensiveInfluence']['Player']['nome']; ?>
+            <td><?php echo $data['offensiveInfluence']['Player']['name']; ?>
                 (<?php echo $data['offensiveInfluence']['Player']['equipa_m_p_jogo']; ?>)</td>
         </tr>
         <tr>
             <td>ES p/j: </td>
-            <td><?php echo $data['defensiveInfluence']['Player']['nome']; ?>
+            <td><?php echo $data['defensiveInfluence']['Player']['name']; ?>
                 (<?php echo $data['defensiveInfluence']['Player']['equipa_s_p_jogo']; ?>)</td>
         </tr>
     </table>

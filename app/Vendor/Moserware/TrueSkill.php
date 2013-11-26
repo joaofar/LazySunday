@@ -35,7 +35,7 @@ class TrueSkill
 		 * @param float $drawProbability | quando deve considerar empates
 		 * @var GameInfo
 		 */
-		$gameInfo = new GameInfo(5, 5/3, 5/5.5, 5/300, 0);
+		$gameInfo = new GameInfo(5, 5/3, 4.5, 0.008, 0);
 		$calculator = new TwoTeamTrueSkillCalculator();
 		
 		//create team and player objects
@@ -65,6 +65,7 @@ class TrueSkill
 				$playerNewRating = $ratings->getRating(${'player'.$player['id']});
 				$this->newRatings[] = array(
 					'id' => $player['id'],
+					'team_id' => $player['team_id'],
 					'mean' => $playerNewRating->_mean,
 					'standard_deviation' => $playerNewRating->_standardDeviation);
 			}

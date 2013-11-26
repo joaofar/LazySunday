@@ -315,6 +315,6 @@ class PlayersController extends AppController {
  */
     public function teste()
     {
-    $this->set('teste', $this->sidebarStats());
+    $this->set('teste', $this->Rating->getPrevious(23, 20));
     }
 }

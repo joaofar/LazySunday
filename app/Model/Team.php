@@ -144,7 +144,7 @@ class Team extends AppModel {
             if($invite['Invite']['available'] === null) {
                 //por responder
                 $availableList[$i++] = array('id' => $invite['Player']['id'],
-                                            'name' => $invite['Player']['nome'],
+                                            'name' => $invite['Player']['name'],
                                             'rating' => $invite['Player']['ratingLouie'],
                                             'presencas' => $invite['Player']['presencas'],
                                             'available' => null);
@@ -153,7 +153,7 @@ class Team extends AppModel {
             elseif($invite['Invite']['available'] == 0) {
                 //Não jogam
                 $out[] = array('id' => $invite['Player']['id'],
-                            'name' => $invite['Player']['nome'],
+                            'name' => $invite['Player']['name'],
                             'rating' => $invite['Player']['ratingLouie'],
                             'presencas' => $invite['Player']['presencas'],
                             'available' => 0);
@@ -161,7 +161,7 @@ class Team extends AppModel {
             else {
                 //Jogam
                 $availableList[$i++] = array('id' => $invite['Player']['id'],
-                                            'name' => $invite['Player']['nome'],
+                                            'name' => $invite['Player']['name'],
                                             'rating' => $invite['Player']['ratingLouie'],
                                             'presencas' => $invite['Player']['presencas'],
                                             'available' => 1);
@@ -287,7 +287,7 @@ class Team extends AppModel {
     public function isWinner($teamID)
     {
         return $this->find('count', array(
-            'conditions' => array('Team.id' => $teamID, 'Team.winner' => 1) ));
+            'conditions' => array('Team.id' => $teamID, 'Team.is_winner' => 1) ));
     }
 
 /**

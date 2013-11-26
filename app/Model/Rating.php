@@ -90,47 +90,83 @@ class Rating extends AppModel {
 		)
 	);
 
+/**
+ * defaultRating
+ * 
+ * @var array
+ */
+	public $defaultRating = array(
+		'mean' => 5,
+		'standardDeviation' => 3);
 
 /**
- * current method
+ * get method
  * 
  * Devolve o rating mais recente do jogador
  * @param  int $id [player id]
+ * @param bolean $previous (caso se queira o rating anterior ao currente)
  * @param  int $gameID
  * @return array
  */
-	public function current($id, $gameID = null)
+	public function get($id, $gameID = null)
 	{
 		//verificar se o jogador tem ratings
 		if (!$gameID) {
 			//se não houver gameID, devolve o mais recente
-			$currentRating = $this->find('first', array(
+			$rating = $this->find('first', array(
 			'conditions' => array('Rating.player_id' => $id),
 			'order' => array('id' => 'desc')
 			));
 		} else {
-			$currentRating = $this->find('first', array(
+			$rating = $this->find('first', array(
 			'conditions' => array('Rating.player_id' => $id, 'Rating.game_id <' => $gameID),
 			'order' => array('id' => 'desc')
 			));
 		}
 
-
-		if (!$currentRating) {
+		if (!$rating) {
 			//se não tiver, cria um novo com valores default
-			//estas variáveis estão definidas no bootstrap.php
-			$currentRating = array('Rating' => array(
+			$rating = array(
 				'player_id' => $id,
-                'mean' => Configure::read('MEAN'),
-                'standard_deviation' => Configure::read('STANDARD_DEVIATION')
-                ));
+                'mean' => $this->defaultRating['mean'],
+                'standard_deviation' => $this->defaultRating['standardDeviation']
+                );
 
-            return $currentRating['Rating'];
+            return $rating;
 		}else{
 			//se tiver, devolve a última rating
-			return $currentRating['Rating'];
+			return $rating['Rating'];
 		}
 	}
+
+/**
+ * getPrevious
+ *
+ * devolve o rating do vizinho inferior ao argumento passado
+ * @param  int $id ratingId
+ * @return array
+ */
+	public function getPrevious($id, $playerId)
+	{
+		$this->id = $id;
+		if (!$this->exists()) {
+			throw new NotFoundException(__('Rating Inválido'));
+		}
+
+ 		$previous = $this->find('first', array(
+		'conditions' => array('Rating.player_id' => $playerId,'Rating.id <' => $id),
+		'order' => array('Rating.id' => 'desc')
+		));
+
+		if(!$previous){
+			//se não existir um rating anteriordevolve o rating default
+			return $this->defaultRating;
+		}else{
+			return $previous['Rating'];
+		}
+		
+	}
+
 /**
  * ratingExists method
  * 
@@ -164,18 +200,18 @@ class Rating extends AppModel {
 	public function rankingList($nMinPre = null)
 	{
 		$playersList = $this->Player->find('list', array(
-            'fields' => array('Player.id', 'Player.nome'),
+            'fields' => array('Player.id', 'Player.name'),
             'conditions' => array('Player.presencas >=' => $nMinPre)
             ));
 
 		//vai buscar o rating mais actual de cada jogador e cria uma array
 		foreach ($playersList as $id => $name) {
-			$currentRating = $this->current($id);
+			$rating = $this->get($id);
 
 			$playerRatingList[] = array(
 				'id' => $id,
 				'name' => $name,
-				'mean' => $currentRating['mean']);
+				'mean' => $rating['mean']);
 		}
 
 		//array_multisort
