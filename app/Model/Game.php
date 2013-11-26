@@ -44,7 +44,7 @@ class Game extends AppModel {
 		'Goal' => array(
 			'className' => 'Goal',
 			'foreignKey' => 'game_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -57,7 +57,20 @@ class Game extends AppModel {
 		'Invite' => array(
 			'className' => 'Invite',
 			'foreignKey' => 'game_id',
-			'dependent' => false,
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '0',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'Team' => array(
+			'className' => 'Team',
+			'foreignKey' => 'game_id',
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -67,19 +80,19 @@ class Game extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'Team' => array(
-			'className' => 'Team',
-			'foreignKey' => 'game_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
+    'Rating' => array(
+      'className' => 'Rating',
+      'foreignKey' => 'game_id',
+      'dependent' => true,
+      'conditions' => '',
+      'fields' => '',
+      'order' => '',
+      'limit' => '',
+      'offset' => '',
+      'exclusive' => '',
+      'finderQuery' => '',
+      'counterQuery' => ''
+    )
 	);
 
 /**
@@ -116,6 +129,31 @@ class Game extends AppModel {
     );
 
 
+public function info($id)
+{ 
+  //GAME
+  $game = $this->find('first', array(
+    'conditions' => array('id' => $id), 
+    'recursive' => 1));
+
+  //TEAM
+  //goals
+  foreach ($game['Team'] as $team) {
+    $teamsList[$team['id']][] = $this->Player->findById;
+  }
+  //
+  ////PLAYER
+  //player id
+  //player name
+  //
+  //RATING
+  //player previous rating
+  //player current rating
+  //
+  //GOAL
+  //goals
+  //assists
+}
 
 /**
  * teamsGoals method
@@ -133,8 +171,9 @@ class Game extends AppModel {
         $i = 1;
         foreach($game['Team'] as $team){
 
-            $goaloptions = array('conditions' => array('team_id' => $team['id']), 'recursive' => 1);
-            $goals = $this->Goal->find('all', $goaloptions);
+            $goals = $this->Goal->find('all', array(
+              'conditions' => array('team_id' => $team['id']), 
+              'recursive' => 1));
 
 
             ${'team_'.$i.'_score'} = 0;
@@ -335,17 +374,17 @@ class Game extends AppModel {
     }
 
 
-    /**
-     * ratingFix
-     * Cria um ponto pivot em torno do rating 5
-     * Se um jogador tiver um rating de 5 recebe 100% dos pontos que lhe estavam destinados
-     * Se tiver 10 recebe 0%
-     * Se tiver 0 recebe 200%
-     *
-     *
-     * @param array $team
-     * @return bool
-     */
+/**
+ * ratingFix
+ * Cria um ponto pivot em torno do rating 5
+ * Se um jogador tiver um rating de 5 recebe 100% dos pontos que lhe estavam destinados
+ * Se tiver 10 recebe 0%
+ * Se tiver 0 recebe 200%
+ *
+ *
+ * @param array $team
+ * @return bool
+ */
 
     public function ratingFix($rating, $dif) {
         if($dif >= 0){
@@ -355,14 +394,14 @@ class Game extends AppModel {
         }
 
     }
-    /**
-     * playerPoints_new
-     * faz o rating de cada jogador no jogo seleccionado, usando o novo sistema.
-     * O rating final, é o rating no final do jogo.
-     *
-     * @param array $team
-     * @return bool
-     */
+/**
+ * playerPoints_new
+ * faz o rating de cada jogador no jogo seleccionado, usando o novo sistema.
+ * O rating final, é o rating no final do jogo.
+ *
+ * @param array $team
+ * @return bool
+ */
 
     public function playerPoints_new($id) {
 

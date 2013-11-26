@@ -44,8 +44,6 @@ class GamesController extends AppController {
         $game = $this->Game->findById($id);
 
         if($game['Game']['estado'] == 0) {
-        //Invites - variaveis para a view
-        //$this->set($this->Invite->invites($id));
         //Teams
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
         }
@@ -55,13 +53,10 @@ class GamesController extends AppController {
         //teams goals - variaveis para a view
         $this->set($this->Game->teamsGoals($id));
         }
-        //menu dos jogos à esquerda
-        //$this->set('list_games', array_reverse($this->Game->find('list'), true));
 
+        //top info
         $this->set('n_games', $this->Game->gameCount());
         $this->set('id', $id);
-        //rebuild player stats
-        //$this->presencas();
 
 	}
 
@@ -262,7 +257,7 @@ class GamesController extends AppController {
     public function teste() {
 
         // $this->set('teste', $this->rateAllGames());
-        $this->set('teste', $this->Rating->ratingList(20));
+        $this->set('teste', $this->Game->info(11));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
     }
 

@@ -67,6 +67,20 @@ class Rating extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
+		'Game' => array(
+			'className' => 'Game',
+			'foreignKey' => 'game_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Team' => array(
+			'className' => 'Team',
+			'foreignKey' => 'team_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'Player' => array(
 			'className' => 'Player',
 			'foreignKey' => 'player_id',

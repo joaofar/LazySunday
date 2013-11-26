@@ -73,7 +73,7 @@ class Player extends AppModel {
 		'Goal' => array(
 			'className' => 'Goal',
 			'foreignKey' => 'player_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -86,7 +86,7 @@ class Player extends AppModel {
 		'Invite' => array(
 			'className' => 'Invite',
 			'foreignKey' => 'player_id',
-			'dependent' => false,
+			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
@@ -99,7 +99,7 @@ class Player extends AppModel {
         'Rating' => array(
             'className' => 'Rating',
             'foreignKey' => 'player_id',
-            'dependent' => false,
+            'dependent' => true,
             'conditions' => '',
             'fields' => '',
             'order' => '',
