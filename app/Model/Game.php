@@ -181,8 +181,8 @@ public function info($id)
 
               ${'team_'.$i.'_data'}[$goal['Player']['nome']] = array(
                   'id' => $goal['Goal']['player_id'],
-                  'golos' => $goal['Goal']['golos'],
-                  'assistencias' => $goal['Goal']['assistencias'],
+                  'goals' => $goal['Goal']['goals'],
+                  'assists' => $goal['Goal']['assists'],
                   'player_points' => $goal['Goal']['player_points'],
                   'curr_rating' => $goal['Goal']['curr_rating'],
                   'peso' => $goal['Goal']['peso'],
@@ -190,7 +190,7 @@ public function info($id)
                   'spPts' => $goal['Goal']['spPts']
                   );
 
-                ${'team_'.$i.'_score'} += $goal['Goal']['golos'];
+                ${'team_'.$i.'_score'} += $goal['Goal']['goals'];
             }
 
             $i++;
@@ -271,7 +271,7 @@ public function info($id)
         //////////////////////////////////////////////
 
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
-        $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
+        $goalDif = abs($teams[0]['Team']['goals'] - $teams[1]['Team']['goals']);
         $percentDist = $this->percentDist();
 
         /* loop para cada equipa
@@ -298,15 +298,15 @@ public function info($id)
             $teamPoints[$i]['specialPoints'] = $teamPoints[$i]['Team'] * $pointsWeight;
 
             //total de assistências nesta equipa
-            $teams[$i]['Team']['assistencias'] = 0;
+            $teams[$i]['Team']['assists'] = 0;
 
             foreach($team['Goal'] as $player){
-                $teams[$i]['Team']['assistencias'] += $player['assistencias'];
+                $teams[$i]['Team']['assists'] += $player['assists'];
             }
 
             //IMPORTANTE -> pontos por cada Golo. Segue a proporção indicada em $goalAssistWeight
-            $pointsPerGoal = $teamPoints[$i]['specialPoints'] / ($teams[$i]['Team']['golos'] +
-                                                                $teams[$i]['Team']['assistencias'] * $goalAssistWeight);
+            $pointsPerGoal = $teamPoints[$i]['specialPoints'] / ($teams[$i]['Team']['goals'] +
+                                                                $teams[$i]['Team']['assists'] * $goalAssistWeight);
             //este valor descobre-se usando o ratio
             $pointsPerAssist = $pointsPerGoal * $goalAssistWeight;
 
@@ -340,8 +340,8 @@ public function info($id)
 
           foreach($team['Goal'] as $player){
 
-              $goalPoints = $player['golos'] * $pointsPerGoal;
-              $assistPoints = $player['assistencias'] * $pointsPerAssist;
+              $goalPoints = $player['goals'] * $pointsPerGoal;
+              $assistPoints = $player['assists'] * $pointsPerAssist;
 
               //somar os pontos base mais os pontos especiais
               $playerPoints = ($teamPoints[$i]['Base'] * ($currRating[$player['player_id']] / $teamValue)) + ($goalPoints + $assistPoints);
@@ -406,7 +406,7 @@ public function info($id)
     public function playerPoints_new($id) {
 
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
-        $goalDif = abs($teams[0]['Team']['golos'] - $teams[1]['Team']['golos']);
+        $goalDif = abs($teams[0]['Team']['goals'] - $teams[1]['Team']['goals']);
         $percentDist = $this->percentDist();
 
 

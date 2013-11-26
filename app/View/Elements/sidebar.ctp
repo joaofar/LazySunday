@@ -21,11 +21,6 @@
 
 </div>
 
-<?php 
-// debug($data['trueSkill'])
-?>
-
-
 <div class=sideTitle>rating: (min <?php echo $data['n_min_pre']; ?> presenças)</div>
 <!--<div class=sideHeuristica>(vitorias/presencas)</div>-->
 <div class=sideContent>

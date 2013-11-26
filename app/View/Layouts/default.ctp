@@ -40,7 +40,7 @@
         <div id="noOverlapTop"></div>
         <div id="sidebarWrapper">
             <div id="sidebarContent">
-                <h3><?php echo $this->element('sidebar');?></h3>
+                <h3><?php echo $this->element('sidebar'); ?></h3>
             </div>
         </div>
         <div id="contentInnerWrapper">

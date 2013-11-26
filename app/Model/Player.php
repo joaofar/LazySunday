@@ -50,7 +50,7 @@ class Player extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'golos' => array(
+		'goals' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -271,7 +271,7 @@ class Player extends AppModel {
 
         $total = 0;
         foreach($goals as $goal) {
-            $total += $goal['Goal']['golos'];
+            $total += $goal['Goal']['goals'];
         }
 
         return $total;
@@ -340,10 +340,10 @@ class Player extends AppModel {
 
                     //... and played in this team
                    if(in_array($team['id'], $teamsPlayed)){
-                       $equipaM[$team['game_id']] = $team['golos'];
+                       $equipaM[$team['game_id']] = $team['goals'];
                    }
                    else{
-                       $equipaS[$team['game_id']] = $team['golos'];
+                       $equipaS[$team['game_id']] = $team['goals'];
                    }
                 }
 
@@ -435,18 +435,18 @@ class Player extends AppModel {
             $Player['vit_pre_limit'] = round($Player['vitorias_limit'] / $Player['presencas_limit'], 3);
         }
 
-        //GOLOS
-        $Player['golos'] = $this->countGoals($id, null);
+        //goals
+        $Player['goals'] = $this->countGoals($id, null);
         $Player['golos_limit'] = $this->countGoals($id, $limit);
 
         //GOLOS P/ JOGO (DESDE SEMPRE)
-        if($Player['golos'] != 0) {
-            $Player['golos_p_jogo'] = round($Player['golos'] / $Player['presencas'], 2);
+        if($Player['goals'] != 0) {
+            $Player['golos_p_jogo'] = round($Player['goals'] / $Player['presencas'], 2);
         }else{
             $Player['golos_p_jogo'] = 0;
         }
         //GOLOS P/ JOGO (LIMIT)
-        if($Player['golos'] != 0) {
+        if($Player['goals'] != 0) {
             $Player['golos_p_jogo_limit'] = round($Player['golos_limit'] /
                 $Player['presencas_limit'], 2);
         }else{
@@ -573,8 +573,8 @@ class Player extends AppModel {
         $assists['assist'] = 0;
         foreach($games as $game){
             //criar lista para poder cortar e usar mais tarde noas stats com limite
-            $assistsList[] = $game['Goal']['assistencias'];
-            $assists['assist'] += $game['Goal']['assistencias'];
+            $assistsList[] = $game['Goal']['assists'];
+            $assists['assist'] += $game['Goal']['assists'];
         }
 
         //somar assistências dentro do limite definido

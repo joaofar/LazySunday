@@ -225,7 +225,7 @@ class PlayersController extends AppController {
         $goals = $this->Goal->find('all');
         $players['allGoals'] = 0;
         foreach ($goals as $goal) {
-            $players['allGoals'] += $goal['Goal']['golos'];
+            $players['allGoals'] += $goal['Goal']['goals'];
         }
 
         //nGames
@@ -315,6 +315,6 @@ class PlayersController extends AppController {
  */
     public function teste()
     {
-    $this->set('teste', $this->Team->tristate(16, 7));
+    $this->set('teste', $this->sidebarStats());
     }
 }
