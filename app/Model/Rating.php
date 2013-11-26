@@ -97,7 +97,7 @@ class Rating extends AppModel {
  */
 	public $defaultRating = array(
 		'mean' => 5,
-		'standardDeviation' => 3);
+		'standardDeviation' => 1.666);
 
 /**
  * get method

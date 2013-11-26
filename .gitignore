@@ -22,3 +22,5 @@ Thumbs.db
 lazysunday.sublime-project
 
 lazysunday.sublime-workspace
+
+app/Plugin/DebugKit/
