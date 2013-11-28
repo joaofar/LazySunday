@@ -42,25 +42,31 @@ class PlayersController extends AppController {
 		}
 		$this->set('player', $this->Player->read(null, $id));
 
-        //para os gráficos 'rating Evo'
-        $options = array(
-            'fields' => array('Goal.game_id', 'Goal.player_points'),
-            'conditions' => array('Goal.player_id' => $id),
-            'order' => array('Goal.id' => 'desc'),
+        //mean
+        $this->set('mean', $this->Rating->find('list', array(
+            'fields' => array('Rating.game_id', 'Rating.mean'),
+            'conditions' => array('Rating.player_id' => $id),
+            'order' => array('Rating.id' => 'desc'),
             'limit' => 20
-        );
+        )));
 
-        $this->set('ratingEvo', $this->Goal->find('list', $options));
+        //standard deviation
+        $this->set('standardDeviation', $this->Rating->find('list', array(
+            'fields' => array('Rating.game_id', 'Rating.standard_deviation'),
+            'conditions' => array('Rating.player_id' => $id),
+            'order' => array('Rating.id' => 'desc'),
+            'limit' => 20
+        )));
 
         //para o gráfico 'rating evo' //diferencial de rating, quanto subiste ou desceste
-        $options = array(
-            'fields' => array('Goal.game_id', 'Goal.spPts'),
-            'conditions' => array('Goal.player_id' => $id),
-            'order' => array('Goal.id' => 'desc'),
-            'limit' => 20
-        );
+        // $options = array(
+        //     'fields' => array('Goal.game_id', 'Goal.spPts'),
+        //     'conditions' => array('Goal.player_id' => $id),
+        //     'order' => array('Goal.id' => 'desc'),
+        //     'limit' => 20
+        // );
 
-        $this->set('difEvo', $this->Goal->find('list', $options));
+        // $this->set('difEvo', $this->Goal->find('list', $options));
 
         //para o gráfico 'Diferença de Golos' (mostra vitórias e derrotas por diferença de golos)
         $this->set('winLoseStats', $this->Game->winLoseStats($id));
@@ -315,6 +321,6 @@ class PlayersController extends AppController {
  */
     public function teste()
     {
-    $this->set('teste', $this->Rating->getPrevious(23, 20));
+    $this->set('teste', $this->Invite->getInvited(11));
     }
 }

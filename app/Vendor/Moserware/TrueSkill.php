@@ -35,7 +35,7 @@ class TrueSkill
 		 * @param float $drawProbability | quando deve considerar empates
 		 * @var GameInfo
 		 */
-		$gameInfo = new GameInfo(5, 1.666, 5/6, 3/300, 0);
+		$gameInfo = new GameInfo(5, 1.666, 0.833, 0.166, 0);
 		$calculator = new TwoTeamTrueSkillCalculator();
 		
 		//create team and player objects

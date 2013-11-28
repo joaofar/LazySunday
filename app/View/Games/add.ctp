@@ -16,7 +16,9 @@
                         if($i <= 10){$value = true;}
                         else {$value = false;}
                     ?>
-                <td width="20"><?php echo $this->Form->checkbox('jogador'.$key, array('checked' => $value)); ?></td>
+                <td width="20"><?php echo $this->Form->checkbox(
+                    'jogador'.$key, 
+                    array('checked' => $value)); ?></td>
                 <td><?php echo $player; ?></td>
             </tr>
             <?php $i++; ?>

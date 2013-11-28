@@ -1,7 +1,7 @@
 <?php
 
-$ratingEvo = array_reverse($ratingEvo, true);
-$difEvo = array_reverse($difEvo, true);
+$mean = array_reverse($mean, true);
+$standardDeviation = array_reverse($standardDeviation, true);// $difEvo = array_reverse($difEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, 20, true);
 $winLoseStats = array_reverse($winLoseStats, true);
 $goals = array_reverse($goals, true);
@@ -23,7 +23,7 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Evolução do Rating'
+                text: 'rating evo'
             },
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -35,14 +35,15 @@ $goals = array_reverse($goals, true);
                 },
                 title: {
                     enabled: false,
-                    text: 'rating evo',
+                    text: 'mean',
                     style: {
                         color: 'red'
                     }
                 }
-            }],
+                }
+            ],
             xAxis: {
-                categories: [<?php foreach($ratingEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
+                categories: [<?php foreach($mean as $gameId => $value) { echo($gameId); echo ', '; } ?>]
             },
             plotOptions: {
                 spline: {
@@ -62,10 +63,77 @@ $goals = array_reverse($goals, true);
             legend: {
                 enabled: false
             },
-            series: [{
-                name: 'avg',
-                type: 'spline',
-                data: [<?php foreach($ratingEvo as $data) { echo(round($data, 2)); echo ', '; } ?>]}
+            series: [
+                {
+                    name: 'mean',
+                    type: 'spline',
+                    data: [<?php foreach($mean as $value) { echo(round($value, 2)); echo ', '; } ?>]
+                },
+            ]
+        });
+    });
+</script>
+
+<!-- GRAFICO 5 STANDARD DEVIATION -->
+<script>
+    var chart1; // globally available
+    $(document).ready(function() {
+        chart5 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'pgraph5',
+                height: '300'
+                //width: '730'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: 'standard deviation'
+            },
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    enabled: false,
+                    format: '{value} rt',
+                    style: {
+                        color: 'red'
+                    }
+                },
+                title: {
+                    enabled: false,
+                    text: 'mean',
+                    style: {
+                        color: 'red'
+                    }
+                }
+                }
+            ],
+            xAxis: {
+                categories: [<?php foreach($standardDeviation as $gameId => $value) { echo($gameId); echo ', '; } ?>]
+            },
+            plotOptions: {
+                spline: {
+                    dataLabels: {
+                        enabled: true,
+                        color: 'black'
+                    },
+                    lineWidth: 4,
+                    // color: 'red',
+                    marker: {
+                        enabled: true
+                    }
+                },
+
+
+            },
+            legend: {
+                enabled: false
+            },
+            series: [
+                {
+                    name: 'mean',
+                    type: 'spline',
+                    data: [<?php foreach($standardDeviation as $value) { echo(round($value, 2)); echo ', '; } ?>]
+                },
             ]
         });
     });
@@ -267,7 +335,7 @@ $goals = array_reverse($goals, true);
     </div>
 
 
-    <div id="pgraph2" class="playerGraph">
+    <div id="pgraph5" class="playerGraph">
         <p>pgraph2</p>
         <?php echo $this->Html->script('highcharts'); ?>
     </div>

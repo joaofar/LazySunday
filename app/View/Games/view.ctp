@@ -18,36 +18,36 @@
             <!--- Team  --->
             <div class="teamContainer">
 
-                    <!--- HEADER --->
-                    <div class="equipa_res">
-                        <table>
-                            <tr>
-                                <td class="score">[<?php echo $info[$i]['Team']['goals']; ?>]</td>
-                                <td class="teamPoints">
-                                    <?php ?>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+            <!--- HEADER --->
+            <div class="equipa_res">
+                <table>
+                    <tr>
+                        <td class="score">[<?php echo $details[$i]['Team']['score']; ?>]</td>
+                        <td class="teamPoints">
+                            <?php ?>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-                    <!--- CONTENT --->
-                    <div>
-                        <table>
-                            <?php foreach($info[$i]['Player'] as $id => $player): ?>
-                            <tr>
-                                <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
-                                <td class="smalltext"style="text-align: right"><?php echo round($player['previousRating'], 1); ?>rt</td>
-                                <td class="smalltext" style="text-align: left"><?php  ?></td>
-                                <td class="nomejogador"><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $id)); ?></td>
-                                <td style="text-align: right"><?php echo $player['goals']."(".$player['assists'].")"; ?></td>
+            <!--- CONTENT --->
+            <div>
+                <table>
+                    <?php foreach($details[$i]['Player'] as $id => $player): ?>
+                    <tr>
+                        <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
+                        <td class="smalltext"style="text-align: right"><?php echo round($player['previousRating'], 1); ?>rt</td>
+                        <td class="smalltext" style="text-align: left"><?php  ?></td>
+                        <td class="nomejogador"><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $id)); ?></td>
+                        <td style="text-align: right"><?php echo $player['goals']."(".$player['assists'].")"; ?></td>
 
-                                <td style="text-align: right"><?php echo round($player['currentRating'], 1); ?>pts</td>
-                                <td class="smalltext" style="text-align: left">(<?php echo $player['standardDeviation']; ?>)</td>
-                                <td class="smalltext" style="text-align: left"><?php  ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </table>
-                    </div>
+                        <td style="text-align: right"><?php echo round($player['currentRating'], 1); ?>pts</td>
+                        <td class="smalltext" style="text-align: left">(<?php echo $player['difference']; ?>)</td>
+                        <td class="smalltext" style="text-align: left"><?php echo $player['standardDeviation']; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
 
             </div>
         <?php endfor; ?>
@@ -91,7 +91,7 @@
                                         <td><?php
                                             if($player['available'] != 1) { echo $this->Html->image('null.png'); }
                                             else{ echo $this->Html->image('ok.png'); } ?></td>
-                                        <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
+                                        <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.($i - 1).'.png'); ?></td>
                                         <td class="num"><?php echo $key; ?>º</td>
 
                                         <td class="nomejogador"><?php echo $player['name']; ?></td>

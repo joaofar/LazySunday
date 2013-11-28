@@ -129,40 +129,51 @@ class Game extends AppModel {
 	);
 
 
-public function info($id)
-{ 
-	//find teams
-	$teams = $this->Team->find('all', array(
-		'conditions' => array('Team.game_id' => $id),
-	    'recursive' => 1));
 
-	//find players and build array for view
-	$i = 0;
-	foreach ($teams as $team) {
-	//team info
-	$info[$i]['Team'] = array('goals' => $team['Team']['goals']);
+/**
+ * details  method
+ * 
+ * @param  int $id
+ * @return array     varivel para ser usada na view
+ */
+	public function details($id)
+	{ 
+		//TEAMS
+		$teams = $this->Team->find('all', array(
+			'conditions' => array('Team.game_id' => $id),
+		    'recursive' => 1));
+		
+		$i = 0;
+		foreach ($teams as $team) {
+		//TEAM SCORE
+		$details[$i]['Team'] = array('score' => $team['Team']['score']);
 
-		//player info
-		foreach ($team['Player'] as $player) {
-			$info[$i]['Player'][$player['id']]['name'] = $player['name'];
+			//PLAYERS PERFORMANCE DETAILS
+			foreach ($team['Rating'] as $rating) {
+				$previousRating = $this->Rating->getPrevious($rating['id'], $rating['player_id']);
+
+				$details[$i]['Player'][$rating['player_id']] = array(
+					'currentRating' => $rating['mean'],
+					'previousRating' => $previousRating['mean'],
+					'difference' => $rating['mean'] - $previousRating['mean'],
+					'standardDeviation' => $rating['standard_deviation']
+					);
+			}
+			
+			foreach ($team['Player'] as $player) {
+				$details[$i]['Player'][$player['id']]['name'] = $player['name'];
+			}
+
+			foreach ($team['Goal'] as $goal) {
+			    $details[$i]['Player'][$goal['player_id']]['goals'] = $goal['goals'];
+			    $details[$i]['Player'][$goal['player_id']]['assists'] = $goal['assists'];
+		  	}
+
+		  	$i++;
 		}
-
-		foreach ($team['Rating'] as $rating) {
-			$info[$i]['Player'][$rating['player_id']]['currentRating'] = $rating['mean'];
-			$info[$i]['Player'][$rating['player_id']]['standardDeviation'] = $rating['standard_deviation'];
-			$previousRating = $this->Rating->getPrevious($rating['id'], $rating['player_id']);
-			$info[$i]['Player'][$rating['player_id']]['previousRating'] = $previousRating['mean'];
-		}
-
-		foreach ($team['Goal'] as $goal) {
-		    $info[$i]['Player'][$goal['player_id']]['goals'] = $goal['goals'];
-		    $info[$i]['Player'][$goal['player_id']]['assists'] = $goal['assists'];
-	  	}
-
-	  	$i++;
+		//GAME DETAILS
+	  	return $details;
 	}
-  	return $info;
-}
 
 /**
  * teamsGoals method
@@ -575,7 +586,7 @@ public function info($id)
 			$game = $this->findById($team['game_id']);
 			$goal_dif = abs($game['Game']['goal_dif']);
 
-			if($team['winner'] == 1){
+			if($team['is_winner'] == 1){
 				$winLose[$team['game_id']] = $goal_dif;
 			}
 			else{

@@ -38,7 +38,10 @@ class GamesController extends AppController {
         $this->Game->id = $id;
 		if (!$this->Game->exists()) {
 			throw new NotFoundException(__('Invalid game'));
-		}
+		}       
+        //title info
+        $this->set('n_games', $this->Game->gameCount());
+        $this->set('id', $id);
 		$this->set('game', $this->Game->read(null, $id));
 
         $game = $this->Game->findById($id);
@@ -46,29 +49,18 @@ class GamesController extends AppController {
         if($game['Game']['estado'] == 0) {
         //Teams
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
+        } else {
+        //Game details
+        $this->set('details', $this->Game->details($id));
         }
-        elseif($game['Game']['estado'] == 1) {
-        }
-        else {
-        //teams goals - variaveis para a view
-        $this->set('info', $this->Game->info($id));
-        }
-
-        //top info
-        $this->set('n_games', $this->Game->gameCount());
-        $this->set('id', $id);
 
 	}
 
-
-
-
-
-    /**
-     * add method
-     *
-     * @return void
-     */
+/**
+ * add method
+ *
+ * @return void
+ */
     public function add() {
         if ($this->request->is('post')) {
 
@@ -88,17 +80,17 @@ class GamesController extends AppController {
                 if($player) {
                     $this->Invite->Create();
                     if($this->Invite->save($saveplayer)) {
-                        $this->Session->setFlash(__('The game has been saved'));
+                        // $this->Session->setFlash(__('The game has been saved'));
                     } else {
-                        $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
+                        // $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
                     }
                 }
             }
             $this->redirect(array('controller' => 'Games', 'action' => 'view', $gameid['Game']['id']));
         }
 
-        $options = array('order' => array('Player.conv' => 'asc'));
-        $players = $this->Player->find('list', $options);
+        
+        $players = $this->Player->find('list', array('order' => array('Player.conv' => 'asc')));
         $this->set(compact('players'));
     }
 
@@ -115,10 +107,10 @@ class GamesController extends AppController {
         }
         if ($this->request->is('post') || $this->request->is('put')) {
             if ($this->Game->save($this->request->data)) {
-                $this->Session->setFlash(__('The game has been saved'));
+                // $this->Session->setFlash(__('The game has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
+                // $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
             }
         } else {
             $this->request->data = $this->Game->read(null, $id);
@@ -140,21 +132,21 @@ class GamesController extends AppController {
             throw new NotFoundException(__('Invalid game'));
         }
 
-        //Procurar este jogo e os modelos associados
-        $game = $this->Game->find('first', array('conditions' => array('Game.id' => $id), 'recursive' => 1));
+        // //Procurar este jogo e os modelos associados
+        // $game = $this->Game->find('first', array('conditions' => array('Game.id' => $id), 'recursive' => 1));
 
-        //Apagar equipas
-        foreach($game['Team'] as $team){
-            $this->Team->delete($team['id']);
-        }
-        //Apagar invites
-        foreach($game['Invite'] as $invite){
-            $this->Invite->delete($invite['id']);
-        }
-        //Apagar golos
-        foreach($game['Goal'] as $goal){
-            $this->Goal->delete($goal['id']);
-        }
+        // //Apagar equipas
+        // foreach($game['Team'] as $team){
+        //     $this->Team->delete($team['id']);
+        // }
+        // //Apagar invites
+        // foreach($game['Invite'] as $invite){
+        //     $this->Invite->delete($invite['id']);
+        // }
+        // //Apagar golos
+        // foreach($game['Goal'] as $goal){
+        //     $this->Goal->delete($goal['id']);
+        // }
 
         //Apagar o jogo
         if ($this->Game->delete()) {
@@ -257,8 +249,10 @@ class GamesController extends AppController {
     public function teste($id) {
 
         // $this->set('teste', $this->rateAllGames());
-        $this->set('teste', $this->Game->info($id));
+        // $this->Session->setFlash(__('teste'));
+        // $this->set('teste', $this->Invite->invites($id));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
+        $this->set('teste', $this->Invite->get('not_invited', $id));
     }
 
     public function rateAllGames() {

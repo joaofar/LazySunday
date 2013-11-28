@@ -124,8 +124,7 @@ class Team extends AppModel {
     public function generate($id = null, $invitedPlayers) {
 
         //Find Teams
-        $options = array('conditions' => array('Team.game_id' => $id));
-        $currentTeams = $this->find('all', $options);
+        $currentTeams = $this->find('all', array('conditions' => array('Team.game_id' => $id)));
 
         //Create Teams if they don't exist
         for($i = count($currentTeams); $i < 2; $i++) {

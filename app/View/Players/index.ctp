@@ -2,7 +2,7 @@
 <!--	<h2>--><?php //echo __('Jogadores');?><!--</h2>-->
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><h2><?php echo $this->Paginator->sort('nome', 'Nome');?></h2></th>
+			<th><h2><?php echo $this->Paginator->sort('name', 'Nome');?></h2></th>
 			<th><h2><?php echo $this->Paginator->sort('presencas', 'Pre');?></h2></th>
 			<th><h2><?php echo $this->Paginator->sort('rating', 'R');?></h2></th>
             <th><h2><?php echo $this->Paginator->sort('ratingLouie','R Louie');?></h2></th>
@@ -16,7 +16,7 @@
 	<?php
 	foreach ($players as $player): ?>
 	<tr>
-		<td><?php echo $this->Html->link(__($player['Player']['nome']), array('action' => 'view', $player['Player']['id'])); ?>&nbsp;</td>
+		<td><?php echo $this->Html->link(__($player['Player']['name']), array('action' => 'view', $player['Player']['id'])); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['presencas']); ?>&nbsp;</td>
 		<td><?php echo h($player['Player']['rating']); ?>&nbsp;</td>
         <td><?php echo h(round($player['Player']['ratingLouie'], 2)); ?>&nbsp;</td>

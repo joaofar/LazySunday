@@ -65,16 +65,89 @@ class Invite extends AppModel {
 		)
 	);
 
+/**
+ * get method
+ * 
+ * @param  string $type ('invited' or 'not_invited')
+ * @param  int $id   game_id
+ * @return array
+ */
+public function get($type, $id)
+{	
+	//find invites
+	$invites = $this->find('list', array(
+		'order' => array('Player.conv' => 'asc'),
+        'conditions' => array('game_id' => $id),
+        'fields' => array('player_id'),
+        'contain' => array('Player.fields' => array('Player.conv'))
+        ));
+
+	switch ($type) {
+		case 'invited';
+			//find invited Players
+			$invited = $this->Player->find('all', array(
+				'conditions' => array('id' => $invites),
+				'contain' => array(
+					'Rating.fields' => array('mean'), 
+					'Rating.limit' => 1)
+				));
+
+			//create array for view
+			foreach ($invited as $player) {
+				$list['invited'][] = array(
+					'id' => $player['Player']['id'],
+					'name' => $player['Player']['name'],
+					'mean' => $player['Rating'][0]['mean']
+					);
+			}
+
+			return $list;
+			break;
+
+		case 'not_invited':
+			//find not invited players
+			$notInvited = $this->Player->find('all', array(
+				'conditions' => array('id !=' => $invites),
+				'contain' => array(
+					'Rating.fields' => array('mean'), 
+					'Rating.limit' => 1)
+				));
+
+			//create array for view
+			foreach ($notInvited as $player) {
+				$list['not_invited'][] = array(
+					'id' => $player['Player']['id'],
+					'name' => $player['Player']['name'],
+					'mean' => $player['Rating'][0]['mean']
+					);
+			}
+
+			return $list;
+			break;
+
+		
+	}
+
+	// foreach ( as $player) {
+	// 	$invited[] = $player['Player'];
+	// };
+
+	// return $this->Player->find('all', array(
+	// 	'conditions' => array('game_id' => $gameId)
+	// 	));
+}
 
 /**
  * invites method
  *
- * @param string $id
+ * @param int $id gameId
  * @return array
  */
     public function invites($id) {
-        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id), 'recursive' => 1);
-        $invites = $this->find('all', $options);
+        $invites = $this->find('all', array(
+        	'order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 
+        	'conditions' => array('game_id' => $id), 
+        	'recursive' => 1));
         $players = $this->Player->find('list');
 
         foreach($invites as $invite) {

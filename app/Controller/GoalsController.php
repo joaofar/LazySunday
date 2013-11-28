@@ -166,4 +166,5 @@ class GoalsController extends AppController {
         //Redirect
         $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
     }
+    
 }

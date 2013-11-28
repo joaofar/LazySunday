@@ -13,7 +13,7 @@ class Player extends AppModel {
  *
  * @var string
  */
-	public $displayField = 'nome';
+	public $displayField = 'name';
 /**
  * Validation rules
  *
@@ -76,7 +76,7 @@ class Player extends AppModel {
 			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'id DESC',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
@@ -89,7 +89,7 @@ class Player extends AppModel {
 			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'id DESC',
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
@@ -102,7 +102,7 @@ class Player extends AppModel {
             'dependent' => true,
             'conditions' => '',
             'fields' => '',
-            'order' => '',
+            'order' => 'id DESC',
             'limit' => '',
             'offset' => '',
             'exclusive' => '',
