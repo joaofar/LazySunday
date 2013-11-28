@@ -57,9 +57,9 @@
 
                     <?php foreach($teams[$i]['Player'] as $player): ?>
                         <tr>
-                            <td><?php echo $player['nome']; ?></td>
-                            <td><?php echo $this->Form->input($player['id'].".golos", array('label' => false)); ?></td>
-                            <td><?php echo $this->Form->input($player['id'].".assistencias", array('label' => false)); ?></td>
+                            <td><?php echo $player['name']; ?></td>
+                            <td><?php echo $this->Form->input($player['id'].".goals", array('label' => false)); ?></td>
+                            <td><?php echo $this->Form->input($player['id'].".assists", array('label' => false)); ?></td>
                         </tr>
                         <?php echo $this->Form->hidden($player['id'].".team_id", array('value' => $teams[$i]['Team']['id'])); ?>
                     <?php endforeach; ?>

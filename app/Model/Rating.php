@@ -90,6 +90,7 @@ class Rating extends AppModel {
 		)
 	);
 
+
 /**
  * defaultRating
  * 

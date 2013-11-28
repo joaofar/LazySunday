@@ -118,8 +118,8 @@ class GoalsController extends AppController {
             	'game_id' => $id,
                 'team_id' => $data['team_id'],
                 'player_id' => $player_id,
-                'golos' => $data['golos'],
-                'assistencias' => $data['assistencias']));
+                'goals' => $data['goals'],
+                'assists' => $data['assists']));
             $this->Goal->create();
             $this->Goal->save($playerGoals);
 
@@ -128,10 +128,10 @@ class GoalsController extends AppController {
 
             //First 5 are from team 1, last five from team 2
             if($i++ <= 5) {
-                $teamGoals[0] += $data['golos'];
+                $teamGoals[0] += $data['goals'];
             }
             else{
-                $teamGoals[1] += $data['golos'];
+                $teamGoals[1] += $data['goals'];
             }
 
         }
@@ -144,27 +144,34 @@ class GoalsController extends AppController {
         }
 
         //saveTeam result
-        $options = array('conditions' => array('Team.game_id' => $id));
-        $teams = $this->Team->find('all', $options);
+        $teams = $this->Team->find('all', array(
+        	'conditions' => array('Team.game_id' => $id)
+        	));
+
         foreach($teams as $key => $team) {
             $this->Game->Team->id = $team['Team']['id'];
             if($key == $winnerTeam) {
-                $teamScore = array('Team' => array('golos' => $teamGoals[$key], 'winner' => 1));
+                $teamScore = array('Team' => array(
+                	'score' => $teamGoals[$key], 
+                	'is_winner' => 1));
             } else {
-                $teamScore = array('Team' => array('golos' => $teamGoals[$key], 'winner' => 0));
+                $teamScore = array('Team' => array(
+                	'score' => $teamGoals[$key], 
+                	'is_winner' => 0));
             }
             $this->Game->Team->save($teamScore);
         };
 
         //Change game state to 2
         $this->Game->id = $id;
-        $this->Game->save(array('Game' => array('estado' => 2, 'team_a' => $teamGoals[0], 'team_b' => $teamGoals[1])));
+        $this->Game->save(array('Game' => array(
+        	'estado' => 2, 
+        	'team_a' => $teamGoals[0], 
+        	'team_b' => $teamGoals[1]
+        	)));
 
-        //Basta calcular o jogo presente. No caso de se querer recalcular tudo: usar a função playerPoints_allGames()
-        $this->Game->PlayerPoints_new($id);
-
-        //Redirect
-        $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
+        //rate Game
+        $this->redirect(array('controller' => 'Games', 'action' => 'rateGame', $id));
     }
     
 }

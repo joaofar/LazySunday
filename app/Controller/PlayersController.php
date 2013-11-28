@@ -149,33 +149,34 @@ class PlayersController extends AppController {
      */
     public function saveTeams($id) {
         //fetch genereated teams
-        $teams = $this->Team->generate($id, $this->Invite->invites($id));
-
-        //debug($teams);
+        $teams = $this->Team->generate($id, $this->Invite->get($id, 'invited'));
 
         //check if there are 10 players who said yes, otherwise exit
-        if($teams['teams']['available'] != 10){
+        if($teams['lineUpStatus'] != 10){
             throw new ForbiddenException(__('Só podes gravar equipas com 10 jogadores'));
         }
 
-        for($i = 1; $i <= 2; $i++) {
+        for($i = 0; $i <= 1; $i++) {
             //team count
-            $options = array('conditions' => array('team_id' => $teams['teams']['team_'.$i.'_id']));
-            ${'team_'.$i.'_count'} = $this->PlayersTeam->find('count', $options);
+            $playersTeamCount[$i] = $this->PlayersTeam->find('count', array(
+                'conditions' => array('team_id' => $teams['teams'][$i]['Team']['id'])
+                ));
 
             //validation
-            if(${'team_'.$i.'_count'} == 0) {
-                foreach ($teams['teams']['team_'.$i] as $teamPlayer) {
+            if($playersTeamCount[$i] == 0) {
+                foreach ($teams['teams'][$i]['Player'] as $player) {
 
                     //add player to the join table players_team
                     $this->PlayersTeam->create();
-                    $this->PlayersTeam->save(array('PlayersTeam' => array('team_id' => $teams['teams']['team_'.$i.'_id'],
-                                                                          'player_id' => $teamPlayer['id'])));
+                    $this->PlayersTeam->save(array('PlayersTeam' => array(
+                        'team_id' => $teams['teams'][$i]['Team']['id'], 
+                        'player_id' => $player['id'])));
 
                     //add player to the join table games_players
                     $this->Game->GamesPlayer->create();
-                    $this->Game->GamesPlayer->save(array('GamesPlayer' => array('game_id' => $id,
-                                                   'player_id' => $teamPlayer['id'])));
+                    $this->Game->GamesPlayer->save(array(
+                        'GamesPlayer' => array('game_id' => $id, 
+                            'player_id' => $player['id'])));
                 }
             }
         }
@@ -319,8 +320,8 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-    public function teste()
+    public function teste($id)
     {
-    $this->set('teste', $this->Invite->getInvited(11));
+    $this->set('teste', $this->Invite->getInvited($id));
     }
 }

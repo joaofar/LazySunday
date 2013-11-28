@@ -245,7 +245,7 @@ class Player extends AppModel {
 
         $wins = 0;
         foreach($presencas as $team){
-        $options = array('conditions' => array('Team.id' => $team['PlayersTeam']['team_id'], 'winner' => 1));
+        $options = array('conditions' => array('Team.id' => $team['PlayersTeam']['team_id'], 'is_winner' => 1));
             if($this->Team->find('first', $options)) {
                 $wins += 1;
             }
@@ -340,10 +340,10 @@ class Player extends AppModel {
 
                     //... and played in this team
                    if(in_array($team['id'], $teamsPlayed)){
-                       $equipaM[$team['game_id']] = $team['goals'];
+                       $equipaM[$team['game_id']] = $team['score'];
                    }
                    else{
-                       $equipaS[$team['game_id']] = $team['goals'];
+                       $equipaS[$team['game_id']] = $team['score'];
                    }
                 }
 
@@ -510,7 +510,7 @@ class Player extends AppModel {
  * @return bool
  */
     private function isTeamWinner($team) {
-        if($team['Team']['winner']) { return true; } else { return false; }
+        if($team['Team']['is_winner']) { return true; } else { return false; }
     }
 
 //AVERAGE RATING

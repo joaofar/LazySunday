@@ -48,7 +48,7 @@ class GamesController extends AppController {
 
         if($game['Game']['estado'] == 0) {
         //Teams
-        $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
+        $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
         } else {
         //Game details
         $this->set('details', $this->Game->details($id));
@@ -252,7 +252,7 @@ class GamesController extends AppController {
         // $this->Session->setFlash(__('teste'));
         // $this->set('teste', $this->Invite->invites($id));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
-        $this->set('teste', $this->Invite->get('not_invited', $id));
+        $this->set('teste', $this->Invite->get($id));
     }
 
     public function rateAllGames() {

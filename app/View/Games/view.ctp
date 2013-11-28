@@ -60,13 +60,13 @@
 <?php if($game['Game']['estado'] == 0): ?>
     <?php   echo $this->Form->Create('Invite', array('action' => 'updateInvites/'.$game['Game']['id'])); ?>
         <div class="teams">
-            <?php for($i = 1; $i <= 4; $i++): ?>
+            <?php for($i = 0; $i <= 3; $i++): ?>
                 <?php
                     switch ($i) {
-                        case 1: $list = $generatedTeams['teams']['team_'.$i]; $header = $generatedTeams['teams']['team_'.$i.'_rating']; break;
-                        case 2: $list = $generatedTeams['teams']['team_'.$i]; $header = $generatedTeams['teams']['team_'.$i.'_rating']; break;
-                        case 3: $list = $generatedTeams['banco'];             $header = 'Banco'                                       ; break;
-                        case 4: $list = $generatedTeams['out'];               $header = 'Out'                                         ; break;
+                        case 0: $list = $generatedTeams['teams'][$i]['Player']; $header = round($generatedTeams['teams'][$i]['Team']['rating'], 1); break;
+                        case 1: $list = $generatedTeams['teams'][$i]['Player']; $header = round($generatedTeams['teams'][$i]['Team']['rating'], 1); break;
+                        case 2: $list = $generatedTeams['bench'];               $header = 'Banco'                                                 ; break;
+                        case 3: $list = $generatedTeams['out'];                 $header = 'Out'                                                   ; break;
 
                     }
                 ?>
@@ -91,11 +91,11 @@
                                         <td><?php
                                             if($player['available'] != 1) { echo $this->Html->image('null.png'); }
                                             else{ echo $this->Html->image('ok.png'); } ?></td>
-                                        <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.($i - 1).'.png'); ?></td>
-                                        <td class="num"><?php echo $key; ?>º</td>
+                                        <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
+                                        <td class="num"><?php echo ($key + 1); ?>º</td>
 
                                         <td class="nomejogador"><?php echo $player['name']; ?></td>
-                                        <td><?php echo $player['rating']; ?> rt</td>
+                                        <td><?php echo round($player['mean'], 1); ?> rt</td>
                                         <td><?php echo $this->Form->button('NA', array('name' => $player['id'], 'value' => 0, 'div' => false)); ?></td>
                                         <td><?php echo $this->Form->button('OK', array('name' => $player['id'], 'value' => 1, 'div' => false)); ?></td>
                                     </tr>
