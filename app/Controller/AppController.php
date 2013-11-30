@@ -34,7 +34,7 @@ class AppController extends Controller {
 
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
 
-    public $components = array('DebugKit.Toolbar');
+    // public $components = array('DebugKit.Toolbar');
 
     function beforeFilter() {
 
