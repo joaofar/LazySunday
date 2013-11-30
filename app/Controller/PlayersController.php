@@ -12,9 +12,13 @@ class PlayersController extends AppController {
         if ($this->action == 'view')
         {
             //$this->Player->setPlayersRankingEvo();
+            //return true;
+            
 
         }
     }
+
+
 /**
  * index method
  *
@@ -144,50 +148,47 @@ class PlayersController extends AppController {
     /**
      * saveTeams method
      *
-     * @param string $id
-     * @return array
+     * @param int $id
+     * @return void
      */
     public function saveTeams($id) {
-        //fetch genereated teams
+        // fetch genereated teams
         $teams = $this->Team->generate($id, $this->Invite->get($id, 'invited'));
 
-        //check if there are 10 players who said yes, otherwise exit
+        // check if there are 10 players who said yes, otherwise exit
         if($teams['lineUpStatus'] != 10){
             throw new ForbiddenException(__('Só podes gravar equipas com 10 jogadores'));
         }
 
-        for($i = 0; $i <= 1; $i++) {
-            //team count
-            $playersTeamCount[$i] = $this->PlayersTeam->find('count', array(
-                'conditions' => array('team_id' => $teams['teams'][$i]['Team']['id'])
-                ));
-
-            //validation
-            if($playersTeamCount[$i] == 0) {
-                foreach ($teams['teams'][$i]['Player'] as $player) {
-
-                    //add player to the join table players_team
-                    $this->PlayersTeam->create();
-                    $this->PlayersTeam->save(array('PlayersTeam' => array(
-                        'team_id' => $teams['teams'][$i]['Team']['id'], 
-                        'player_id' => $player['id'])));
-
-                    //add player to the join table games_players
-                    $this->Game->GamesPlayer->create();
-                    $this->Game->GamesPlayer->save(array(
-                        'GamesPlayer' => array('game_id' => $id, 
-                            'player_id' => $player['id'])));
-                }
+        // PREPARE save arrays with the correct structure
+        // using the saveAll method (cakephp: saveMany + saveAssociated) 
+        foreach ($teams['teams'] as $key => $team) {
+            // array for games_players
+            $saveGame['Game']['id'] = $id;
+            // array for players_teams
+            $saveTeam[$key]['Team'] = array(
+                'id' => $team['Team']['id'], 
+                'rating' => $team['Team']['rating']
+                );
+            // same for players
+            foreach ($team['Player'] as $player) {
+                $saveGame['Player'][]['player_id'] = $player['id'];
+                $saveTeam[$key]['Player'][]['player_id'] = $player['id'];
             }
         }
+        // SAVE
+        // with this array structure we can populate the joins with this command: saveAll()
+        // note that the correct structure is ['Player'][$i]['player_id'] and not ['Player'][$i]['id']
+        if (!$this->Game->saveAll($saveGame)){ return false; }
+        if (!$this->Team->saveAll($saveTeam)){ return false; }
 
-        //change game state to 1
+        //update game stage
         $this->Game->id = $id;
-        $this->Game->save(array('Game' => array('estado' => 1)));
+        $this->Game->set('estado', 1);
+        if (!$this->Game->save()) { return false; }
 
         //redirect
         $this->redirect(array('controller' => 'Games', 'action' => 'admin', $id));
-
     }
 
 /**

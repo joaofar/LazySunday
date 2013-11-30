@@ -228,13 +228,21 @@ class GamesController extends AppController {
  * @return array
  */
 
-    public function teste($id) {
+    public function teste() {
+
+
+        $data = array(
+            'Game' => array('team_a' => 24, 'team_b' => 42, 'estado' => 66),
+            'Player' => array('id' => 20)
+            );
+
+        // $this->Game->saveAll($data);
 
         // $this->set('teste', $this->rateAllGames());
         // $this->Session->setFlash(__('teste'));
         // $this->set('teste', $this->Invite->invites($id));
         // $this->set('teste', $this->Rating->ratingExists(21, 11));
-        $this->set('teste', $this->Invite->get($id));
+        // $this->set('teste', $this->Game->saveAll($data));
     }
 
     public function rateAllGames() {
@@ -244,7 +252,6 @@ class GamesController extends AppController {
         foreach($games as $game){
             $this->rateGame($game['Game']['id']);
         }
-
     }
 
 /**
@@ -256,8 +263,6 @@ class GamesController extends AppController {
  */
 
     public function rateGame($id) {
-        
-
         //procurar as equipas deste jogo
         $teams = $this->Team->find('all', array('conditions' => array('Team.game_id' => $id), 'recursive' => 1));
 
@@ -287,7 +292,6 @@ class GamesController extends AppController {
                         );
                 }
             }
-            
         }
 
         //Calcular o novo rating
@@ -319,7 +323,11 @@ class GamesController extends AppController {
         $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
     }
 
-
+/**
+ * trueSkill method
+ * @param  array $teams array com 2 equipas e respectivos jogadores [mean e standard deviation]
+ * @return array        ratings actualizados
+ */
      public function trueSkill($teams)
      {
         $trueSkill = new TrueSkill($teams);
@@ -383,6 +391,7 @@ class GamesController extends AppController {
         // rate Game
         $this->rateGame($id);
     }
+
 
 
 

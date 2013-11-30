@@ -592,11 +592,7 @@ class Game extends AppModel {
 			else{
 				$winLose[$team['game_id']] = -$goal_dif;
 			}
-
-
-
 		}
-
 		return array_reverse($winLose, true);
 	}
 

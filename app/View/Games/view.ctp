@@ -1,3 +1,5 @@
+
+
 <div id="gameViewTime">
     <table>
         <tr>
@@ -10,15 +12,15 @@
     <?php //debug($generatedTeams['out']); ?>
 
 
-    <!--- JOGO TERMINADO --->
+    <!-- JOGO TERMINADO -->
 
 <?php if($game['Game']['estado'] == 2): ?>
     <div class=teams>
         <?php for($i = 0; $i <= 1; $i++): ?>
-            <!--- Team  --->
+            <!-- Team  -->
             <div class="teamContainer">
 
-            <!--- HEADER --->
+            <!-- HEADER -->
             <div class="equipa_res">
                 <table>
                     <tr>
@@ -30,7 +32,7 @@
                 </table>
             </div>
 
-            <!--- CONTENT --->
+            <!-- CONTENT -->
             <div>
                 <table>
                     <?php foreach($details[$i]['Player'] as $id => $player): ?>
@@ -39,7 +41,14 @@
                         <td class="smalltext"style="text-align: right"><?php echo round($player['previousRating'], 1); ?>rt</td>
                         <td class="smalltext" style="text-align: left"><?php  ?></td>
                         <td class="nomejogador"><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $id)); ?></td>
-                        <td style="text-align: right"><?php echo $player['goals']."(".$player['assists'].")"; ?></td>
+                        <td class="goalsAssists" style="text-align: right">
+                            <?php
+                                // se se gravar apenas os golos das equipas, isto dá erro ao ver o jogo
+                                // é portanto preciso filtrar os casos onde não há golos
+                                if (isset($player['goals'])) {
+                                    echo $player['goals']."(".$player['assists'].")"; 
+                                }
+                            ?></td>
 
                         <td style="text-align: right"><?php echo round($player['currentRating'], 1); ?>pts</td>
                         <td class="smalltext" style="text-align: left">(<?php echo $player['difference']; ?>)</td>
@@ -55,8 +64,8 @@
 <?php endif; ?>
 
 
-    <!--- CONVOCATÓRIA --->
-    <!--- O código é reusado 4 vezes para gerar quatro listas: 2 x equipas, 1 x banco e 1 x out --->
+    <!-- CONVOCATÓRIA -->
+    <!-- O código é reusado 4 vezes para gerar quatro listas: 2 x equipas, 1 x banco e 1 x out -->
 <?php if($game['Game']['estado'] == 0): ?>
     <?php   echo $this->Form->Create('Invite', array('action' => 'updateInvites/'.$game['Game']['id'])); ?>
         <div class="teams">
