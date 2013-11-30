@@ -131,24 +131,6 @@ class GamesController extends AppController {
         if (!$this->Game->exists()) {
             throw new NotFoundException(__('Invalid game'));
         }
-
-        // //Procurar este jogo e os modelos associados
-        // $game = $this->Game->find('first', array('conditions' => array('Game.id' => $id), 'recursive' => 1));
-
-        // //Apagar equipas
-        // foreach($game['Team'] as $team){
-        //     $this->Team->delete($team['id']);
-        // }
-        // //Apagar invites
-        // foreach($game['Invite'] as $invite){
-        //     $this->Invite->delete($invite['id']);
-        // }
-        // //Apagar golos
-        // foreach($game['Goal'] as $goal){
-        //     $this->Goal->delete($goal['id']);
-        // }
-
-        //Apagar o jogo
         if ($this->Game->delete()) {
 
             $this->Session->setFlash(__('Game deleted'));
@@ -266,11 +248,11 @@ class GamesController extends AppController {
     }
 
 /**
- * rankGames
+ * rateGame
  * faz o rating de cada jogador no jogo seleccionado, usando o sistema trueskill
  * O rating final, é o rating no final do jogo.
  *
- * @param int $id [game_id]
+ * @param int $id game_id
  */
 
     public function rateGame($id) {
@@ -333,6 +315,8 @@ class GamesController extends AppController {
                 'mean' => $player['mean'],
                 'standard_deviation' => $player['standard_deviation'])));
         }
+
+        $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));
     }
 
 
@@ -341,6 +325,64 @@ class GamesController extends AppController {
         $trueSkill = new TrueSkill($teams);
         return $trueSkill->getRatings();
      }
+
+/**
+ * submitScore method
+ * 
+ * grava os resultados de um jogo na base de dados
+ * @param int $id game_id
+ * @return void
+ */
+    public function submitScore($id) {
+
+        // save Goals/Assists
+        if (isset($this->request->data['Goal'])) {
+            // save all goals and assists
+            if(!$this->Goal->saveMany($this->request->data['Goal'])){
+                return false;
+            }
+            
+            //prepare team data
+            foreach ($this->request->data['Goal'] as $player) {
+                $teamGoals[$player['team_id']][] = $player['goals'];
+            }
+
+            foreach ($teamGoals as $teamId => $goals) {
+                $this->request->data['Team'][] = array(
+                    'id' => $teamId, 
+                    'score' => array_sum($goals)
+                    );
+            }
+        }
+
+        // update Teams score/is_winner
+        if (isset($this->request->data['Team'])) {
+            
+            // descobrir qual a equipa vencedora
+            if($this->request->data['Team'][0]['score'] > $this->request->data['Team'][1]['score']) {
+                $this->request->data['Team'][0]['is_winner'] = 1;
+                $this->request->data['Team'][1]['is_winner'] = 0;
+            } else {
+                $this->request->data['Team'][0]['is_winner'] = 0;
+                $this->request->data['Team'][1]['is_winner'] = 1;
+            }
+                
+            if (!$this->Team->saveMany($this->request->data['Team'])){
+                 return false;
+            }
+            
+        }
+
+        // change game state to 2
+        $this->Game->id = $id;
+        $this->Game->save(array('estado' => 2, 
+            'team_a' => $this->request->data['Team'][0]['score'], 
+            'team_b' => $this->request->data['Team'][1]['score']
+            ));
+
+        // rate Game
+        $this->rateGame($id);
+    }
 
 
 

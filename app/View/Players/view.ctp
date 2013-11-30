@@ -23,7 +23,10 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'rating evo'
+                text: 'rating'
+            },
+            subtitle: {
+                text: 'evolução nos últimos jogos'
             },
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -88,7 +91,10 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'standard deviation'
+                text: 'grau de incerteza do rating'
+            },
+            subtitle: {
+                text: '(um valor mais baixo é melhor)'
             },
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -153,7 +159,7 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Diferencial'
+                text: 'diferencial'
             },
             yAxis: [{ // Secondary yAxis
                 title: {
@@ -212,7 +218,10 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Diferença de Golos'
+                text: 'diferença de golos'
+            },
+            subtitle: {
+                text: 'A tua equipa ganhou ou perdeu por:'
             },
             yAxis: [{ // Terciary yAxis
                 title: {
@@ -274,7 +283,7 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Golos e Assistências'
+                text: 'golos e assistências'
             },
             yAxis: [{ // Primary yAxis
                 title: {
@@ -315,19 +324,19 @@ $goals = array_reverse($goals, true);
                 name: 'golos',
                 type: 'column',
                 yAxis: 0,
-                data: [<?php foreach($goals as $goal) { echo($goal['Goal']['golos']); echo ', '; } ?>]
+                data: [<?php foreach($goals as $goal) { echo($goal['Goal']['goals']); echo ', '; } ?>]
             },
                 {
                     name: 'assistências',
                     type: 'column',
                     yAxis: 0,
-                    data: [<?php foreach($goals as $goal) { echo($goal['Goal']['assistencias']); echo ', '; } ?>]
+                    data: [<?php foreach($goals as $goal) { echo($goal['Goal']['assists']); echo ', '; } ?>]
                 }]
         });
     });
 </script>
 
-
+    <div><h1><?php echo $player['Player']['name']; ?></h1></div>
 
     <div id="pgraph" class="playerGraph">
         <p>pgrapgh</p>

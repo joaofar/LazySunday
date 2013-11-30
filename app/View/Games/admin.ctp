@@ -43,9 +43,29 @@
 
 <?php if($game['Game']['estado'] == 1): ?>
     <div class="submit_goals">
-        <?php //debug($teams); ?>
+        
+        <!-- FORM / SUBMIT SCORE ONLY -->
+        <?php echo $this->Form->Create('Team', array(
+        'url' => array('controller' => 'Games', 'action' => 'submitScore', $game['Game']['id']))); ?>
+        <table>
+            <?php echo $this->Form->hidden('0.id', array('value' => $teams[0]['Team']['id'])); ?>
+            <?php echo $this->Form->hidden('1.id', array('value' => $teams[1]['Team']['id'])); ?>
+            <tr>
+                <td><?php echo $this->Form->input('0.score'); ?></td>
+                <td><?php echo $this->Form->input('1.score'); ?></td>
+            </tr>
+        </table>
 
-        <?php echo $this->Form->Create(null, array('url' => '/Goals/submitGoals/'.$game['Game']['id'])); ?>
+        <?php echo $this->Form->End('Submit Score'); ?>
+        
+
+        <!-- FORM / SUBMIT GOALS -->
+        <?php echo $this->Form->Create('Goal', array(
+            'url' => array('controller' => 'Games', 'action' => 'submitScore', $game['Game']['id']),
+            'inputDefaults' => array('label' => false)
+            )); ?>
+
+            <?php $j=0; ?>
             <?php for($i=0; $i <= 1; $i++):?>
                 <div class="adminTeam">
                 <table>
@@ -54,19 +74,24 @@
                         <th>Golos</th>
                         <th>Assist.</th>
                     </tr>
-
+                    
+                    
                     <?php foreach($teams[$i]['Player'] as $player): ?>
+                    
+                    <?php echo $this->Form->hidden($j.'.game_id', array('value' => $game['Game']['id'])); ?>
+                    <?php echo $this->Form->hidden($j.'.player_id', array('value' => $player['id'])); ?>
+                    <?php echo $this->Form->hidden($j.'.team_id', array('value' => $teams[$i]['Team']['id'])); ?>
                         <tr>
                             <td><?php echo $player['name']; ?></td>
-                            <td><?php echo $this->Form->input($player['id'].".goals", array('label' => false)); ?></td>
-                            <td><?php echo $this->Form->input($player['id'].".assists", array('label' => false)); ?></td>
+                            <td><?php echo $this->Form->input($j.'.goals'); ?></td>
+                            <td><?php echo $this->Form->input($j.'.assists'); ?></td>
                         </tr>
-                        <?php echo $this->Form->hidden($player['id'].".team_id", array('value' => $teams[$i]['Team']['id'])); ?>
+                    <?php $j++; ?> 
                     <?php endforeach; ?>
                 </table>
                 </div>
             <?php endfor; ?>
-        <?php echo $this->Form->end('Submit'); ?>
+        <?php echo $this->Form->end('Submit Goals'); ?>
 
     </div>
 <?php endif; ?>
