@@ -34,10 +34,29 @@ class AppController extends Controller {
 
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
 
-    // public $components = array('DebugKit.Toolbar');
+    public $components = array('DebugKit.Toolbar');
 
     function beforeFilter() {
 
 
+    }
+
+/**
+ * sidebarMenuItem method
+ *
+ * cria um item para o menu da sidebar
+ * @param  string $title      
+ * @param  string $controller 
+ * @param  string $action     
+ * @param  string $value      
+ * @return array
+ */
+    public function sidebarMenuItem($title, $controller, $action, $value = null)
+    {
+    	return array(
+    		'title' => $title,
+    		'controller' => $controller,
+    		'action' => $action,
+    		'value' => $value);
     }
 }

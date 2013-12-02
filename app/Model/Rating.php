@@ -104,8 +104,7 @@ class Rating extends AppModel {
  * get method
  * 
  * Devolve o rating mais recente do jogador
- * @param  int $id [player id]
- * @param bolean $previous (caso se queira o rating anterior ao currente)
+ * @param  int $id player_id
  * @param  int $gameID
  * @return array
  */
@@ -125,15 +124,17 @@ class Rating extends AppModel {
 			));
 		}
 
+		// se não tiver, cria um novo com valores default
 		if (!$rating) {
-			//se não tiver, cria um novo com valores default
-			$rating = array(
+			$rating['Rating'] = array(
 				'player_id' => $id,
                 'mean' => $this->defaultRating['mean'],
                 'standard_deviation' => $this->defaultRating['standardDeviation']
                 );
 
-            return $rating;
+			$this->create();
+			$this->save($rating);
+            return $rating['Rating'];
 		}else{
 			//se tiver, devolve a última rating
 			return $rating['Rating'];
@@ -202,7 +203,7 @@ class Rating extends AppModel {
 	{
 		$playersList = $this->Player->find('list', array(
             'fields' => array('Player.id', 'Player.name'),
-            'conditions' => array('Player.presencas >=' => $nMinPre)
+            'conditions' => array('Player.games_played >=' => $nMinPre)
             ));
 
 		//vai buscar o rating mais actual de cada jogador e cria uma array
@@ -223,7 +224,6 @@ class Rating extends AppModel {
 		array_multisort($mean, SORT_DESC, $playerRatingList);
 
 		return $playerRatingList;
-
 	}
 
 

@@ -25,6 +25,13 @@ class GamesController extends AppController {
 	public function index() {
 		$games = $this->Game->find('all', array('order' => array('Game.id' => 'desc')));
 		$this->set('games', $games);
+
+        // sidebar menu
+        $sidebarMenu = array(
+            $this->sidebarMenuItem('criar um jogo', 'Games', 'view', 11),
+            $this->sidebarMenuItem('ver um jogador', 'Players', 'view', 20)
+            );
+        $this->set('sidebarMenu', $sidebarMenu);
 	}
 
 /**
@@ -161,6 +168,11 @@ class GamesController extends AppController {
         $options = array('conditions' => array('Team.game_id' => $id), 'recursive' => 1);
         $teams = $this->Team->find('all', $options);
         $this->set('teams', $teams);
+
+        // sidebar menu
+        $sidebarMenu = array(
+            $this->sidebarMenuItem('delete game', 'Games', 'delete', $id)
+            );
     }
 
 

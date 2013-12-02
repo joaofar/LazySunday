@@ -19,6 +19,7 @@ class PlayersController extends AppController {
     }
 
 
+
 /**
  * index method
  *
@@ -27,7 +28,7 @@ class PlayersController extends AppController {
 	public function index($nPre = null) {
 
         if($nPre != null){
-            $this->paginate = array('conditions' => array('Player.presencas >=' => $nPre));
+            $this->paginate = array('conditions' => array('Player.games_played >=' => $nPre));
         }
 
 		$this->set('players', $this->paginate());
@@ -198,7 +199,7 @@ class PlayersController extends AppController {
  * @return array
  */
     public function sidebarStats() {
-        //min presencas
+        //min games_played
         $players['n_min_pre'] = Configure::read('n_min_pre');
 
         //ranking TrueSkill
@@ -210,23 +211,23 @@ class PlayersController extends AppController {
 
 
         //topGoalscorer
-        $op_topGoalscorer = array('order' => array('Player.golos_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
-            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
+        $op_topGoalscorer = array('order' => array('Player.goals_average' => 'desc', 'Player.games_played' => 'desc'),
+            'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
 
         //topAssists
-        $op_topAssists = array('order' => array('Player.assist_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
-            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
+        $op_topAssists = array('order' => array('Player.assists_average' => 'desc', 'Player.games_played' => 'desc'),
+            'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['topAssists'] = $this->Player->find('first', $op_topAssists);
 
         //offensiveInfluence
-        $op_offensive = array('order' => array('Player.equipa_m_p_jogo' => 'desc', 'Player.presencas' => 'desc'),
-            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
+        $op_offensive = array('order' => array('Player.team_scored_average' => 'desc', 'Player.games_played' => 'desc'),
+            'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
 
         //defensiveInfluence
-        $op_defensive = array('order' => array('Player.equipa_s_p_jogo' => 'asc'),
-            'conditions' => array('Player.presencas >=' => $players['n_min_pre']));
+        $op_defensive = array('order' => array('Player.team_conceded_average' => 'asc'),
+            'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
 
         //allGoals

@@ -9,11 +9,9 @@
         </tr>
     </table>
 </div>
-    <?php //debug($generatedTeams['out']); ?>
 
 
     <!-- JOGO TERMINADO -->
-
 <?php if($game['Game']['estado'] == 2): ?>
     <div class=teams>
         <?php for($i = 0; $i <= 1; $i++): ?>
