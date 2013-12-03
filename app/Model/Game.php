@@ -125,7 +125,7 @@ class Game extends AppModel {
  */
 
 	public $virtualFields = array(
-		'goal_dif' => 'Game.team_a - Game.team_b'
+		'goal_dif' => 'Game.team_a_score - Game.team_b_score'
 	);
 
 

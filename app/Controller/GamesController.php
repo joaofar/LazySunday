@@ -53,7 +53,7 @@ class GamesController extends AppController {
 
         $game = $this->Game->findById($id);
 
-        if($game['Game']['estado'] == 0) {
+        if($game['Game']['stage'] == 'roster') {
         //Teams
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
         } else {
@@ -72,7 +72,7 @@ class GamesController extends AppController {
         if ($this->request->is('post')) {
 
             $savegame['Game'] = array_slice($this->request->data['Game'], 0, 1);
-            $savegame['Game']['estado'] = 0;
+            $savegame['Game']['stage'] = 'roster';
 
             $saveplayers = array_slice($this->request->data['Game'], 1);
 
@@ -148,6 +148,21 @@ class GamesController extends AppController {
     }
 
 /**
+ * new method
+ *
+ * 
+ * @param  int $id
+ * @return [type]     [description]
+ */
+    public function roster($id)
+    {   
+        //check if stage is correct
+        $this->isStage($id, 'roster');
+        $this->set('game', $this->Game->findById($id));
+        $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
+    }
+
+/**
  * admin method
  *
  * @param string $id
@@ -175,7 +190,21 @@ class GamesController extends AppController {
             );
     }
 
-
+/**
+ * isStage method
+ *
+ * validação da acção (roster, closed, view) em relação ao estado do jogo
+ * @param  int  $id    
+ * @param  string  $stage
+ * @return void
+ */
+    public function isStage($id, $stage)
+    {
+        $game = $this->Game->findById($id);
+        if ($game['Game']['stage'] !== $stage) {
+            $this->redirect(array('action' => $game['Game']['stage'], $id));    
+        }
+    }
 
 /**
  * gameSheet method
@@ -244,7 +273,7 @@ class GamesController extends AppController {
 
 
         $data = array(
-            'Game' => array('team_a' => 24, 'team_b' => 42, 'estado' => 66),
+            'Game' => array('team_a' => 24, 'team_b' => 42, 'stage' => 66),
             'Player' => array('id' => 20)
             );
 
@@ -395,9 +424,9 @@ class GamesController extends AppController {
 
         // change game state to 2
         $this->Game->id = $id;
-        $this->Game->save(array('estado' => 2, 
-            'team_a' => $this->request->data['Team'][0]['score'], 
-            'team_b' => $this->request->data['Team'][1]['score']
+        $this->Game->save(array('stage' => 'view', 
+            'team_a_score' => $this->request->data['Team'][0]['score'], 
+            'team_b_score' => $this->request->data['Team'][1]['score']
             ));
 
         // rate Game

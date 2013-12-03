@@ -41,7 +41,27 @@ class Invite extends AppModel {
 		),
 	);
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+ //The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * hasMany associations
+ * 
+ * @var array
+ */
+public $hasMany = array(
+		'Rating' => array(
+			'className' => 'Rating',
+			'foreignKey' => '',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		));
 
 /**
  * belongsTo associations
@@ -122,6 +142,10 @@ class Invite extends AppModel {
 
 				if ($type == 'not_invited') {
 					$player['Invite'][0] = array('id' => null, 'available' => null);
+				}
+
+				if (!isset($player['Rating'][0]['mean'])) {
+					$player['Rating'][0]['mean'] = $this->Rating->get($player['Player']['id']);
 				}
 
 				$list[$type][] = array(
