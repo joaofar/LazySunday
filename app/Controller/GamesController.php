@@ -194,6 +194,7 @@ class GamesController extends AppController {
  * isStage method
  *
  * validação da acção (roster, closed, view) em relação ao estado do jogo
+ * caso não esteja certa, o utilizador é redireccionado para a accção correcta
  * @param  int  $id    
  * @param  string  $stage
  * @return void

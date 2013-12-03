@@ -479,8 +479,9 @@ class Player extends AppModel {
         $gameId = 59;
 
         //encontrar as assistências que são guardadas na tabela dos golos
-        $games = $this->Goal->find('all', array('conditions' => array('game_id >=' => $gameId, 'player_id =' => $id),
-                                                'order' => array('Goal.id' => 'desc')));
+        $games = $this->Goal->find('all', array(
+            'conditions' => array('game_id >=' => $gameId, 'player_id =' => $id),
+            'order' => array('Goal.id' => 'desc')));
 
 
         //nº de jogos com assistências
