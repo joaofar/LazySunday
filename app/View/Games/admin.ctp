@@ -6,7 +6,7 @@
 
         <li><?php echo $this->Html->link(__('Folha de Jogo'), array('action' => 'gs', $game['Game']['id'])); ?></li>
 
-        <?php if($game['Game']['estado'] == 0): ?>
+        <?php if($game['Game']['stage'] == 'roster'): ?>
             <li><?php echo $this->Form->postLink('Gravar Equipas','/Players/saveTeams/'.$game['Game']['id']); ?></li>
             <li><?php echo $this->Form->postLink('Enviar Emails','/invites/sendEmails/'.$game['Game']['id']); ?></li>
         <?php endif; ?>
@@ -20,7 +20,7 @@
 
 </div>
 
-<?php if($game['Game']['estado'] == 0): ?>
+<?php if($game['Game']['stage'] == 'roster'): ?>
     <div class="notinvited">
         <h2><?php  echo __('Bench');?></h2>
         <table>
@@ -41,7 +41,7 @@
     </div>
 <?php endif; ?>
 
-<?php if($game['Game']['estado'] == 1): ?>
+<?php if($game['Game']['stage'] == 'roster_closed'): ?>
     <div class="submit_goals">
         
         <!-- FORM / SUBMIT SCORE ONLY -->

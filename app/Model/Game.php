@@ -672,28 +672,4 @@ class Game extends AppModel {
 
 		}
 	}
-
-/**
- * resultadoFix() method
- * copia a coluna 'resultado' do jogo para duas colunas, 'team_a' e 'team_b'
- *
- * @param
- * @return
- */
-
-	public function resultadoFix() {
-
-		$games = $this->find('all');
-
-		foreach($games as $game){
-
-			$teams = explode("-", $game['Game']['resultado']);
-			//$result[$game['Game']['id']] = $teams;
-
-			$this->id = $game['Game']['id'];
-			$this->save(array('Game' => array('team_a' => $teams[0], 'team_b' => $teams[1])));
-		}
-
-		return null;
-	}
 }

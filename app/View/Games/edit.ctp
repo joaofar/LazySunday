@@ -4,9 +4,8 @@
 		<legend><?php echo __('Edit Game'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('data');
-		echo $this->Form->input('resultado');
-		echo $this->Form->input('estado');
+		echo $this->Form->input('date');
+		echo $this->Form->input('stage');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>

@@ -185,7 +185,7 @@ class PlayersController extends AppController {
 
         //update game stage
         $this->Game->id = $id;
-        $this->Game->set('estado', 1);
+        $this->Game->set('stage', 'roster_closed');
         if (!$this->Game->save()) { return false; }
 
         //redirect

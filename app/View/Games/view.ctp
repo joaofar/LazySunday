@@ -5,14 +5,14 @@
         <tr>
 <!--            <td>Jogo nº--><?php //echo $n_games;?><!-- / id: (--><?php //echo $id;?><!--)</td>-->
             <td>id: (<?php echo $id;?>)</td>
-            <td><?php  echo $this->Time->format('[H:i]  D, d M Y ', $game['Game']['data']); ?></td>
+            <td><?php  echo $this->Time->format('[H:i]  D, d M Y ', $game['Game']['date']); ?></td>
         </tr>
     </table>
 </div>
 
 
     <!-- JOGO TERMINADO -->
-<?php if($game['Game']['estado'] == 2): ?>
+<?php if($game['Game']['stage'] == 'view'): ?>
     <div class=teams>
         <?php for($i = 0; $i <= 1; $i++): ?>
             <!-- Team  -->

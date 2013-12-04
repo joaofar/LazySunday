@@ -16,10 +16,10 @@
 	<tr>
 		<td><?php echo h($invite['Invite']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($invite['Game']['data'], array('controller' => 'games', 'action' => 'view', $invite['Game']['id'])); ?>
+			<?php echo $this->Html->link($invite['Game']['date'], array('controller' => 'games', 'action' => 'view', $invite['Game']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($invite['Player']['nome'], array('controller' => 'players', 'action' => 'view', $invite['Player']['id'])); ?>
+			<?php echo $this->Html->link($invite['Player']['name'], array('controller' => 'players', 'action' => 'view', $invite['Player']['id'])); ?>
 		</td>
 		<td><?php echo h($invite['Invite']['available']); ?>&nbsp;</td>
 		<td><?php echo h($invite['Invite']['answered']); ?>&nbsp;</td>

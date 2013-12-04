@@ -171,8 +171,6 @@ class InvitesController extends AppController {
     public function sendEmails($id = null) {
         $invites = $this->Invite->invites($id);
 
-        //debug($invites['invites'][0]);
-
         // init
         $email = new CakeEmail('gmail');
         $email->template('convocatoria', 'pbento');
@@ -185,7 +183,7 @@ class InvitesController extends AppController {
 
         // a data e' a mesma para todos os invites
         // TODO: formatar a data
-        $gameDateSql = $invites['invites'][0]['Game']['data'];
+        $gameDateSql = $invites['invites'][0]['Game']['date'];
         //echo $this->Time->format('d M, Y', $gameDateSql);
         $email->viewVars(array('gameDate' => $gameDateSql));
 

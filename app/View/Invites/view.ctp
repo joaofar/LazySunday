@@ -8,12 +8,12 @@
 		</dd>
 		<dt><?php echo __('Game'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($invite['Game']['data'], array('controller' => 'games', 'action' => 'view', $invite['Game']['id'])); ?>
+			<?php echo $this->Html->link($invite['Game']['date'], array('controller' => 'games', 'action' => 'view', $invite['Game']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Player'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($invite['Player']['nome'], array('controller' => 'players', 'action' => 'view', $invite['Player']['id'])); ?>
+			<?php echo $this->Html->link($invite['Player']['name'], array('controller' => 'players', 'action' => 'view', $invite['Player']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Available'); ?></dt>
