@@ -1,25 +1,5 @@
-<div class="admin_sidebar">
-    <h2>Admin</h2>
-    <ul>
-        <li><?php echo $this->Html->link(__('Back to View'), array('action' => 'view', $game['Game']['id'])); ?></li>
 
-
-        <li><?php echo $this->Html->link(__('Folha de Jogo'), array('action' => 'gs', $game['Game']['id'])); ?></li>
-
-        <?php if($game['Game']['stage'] == 'roster'): ?>
-            <li><?php echo $this->Form->postLink('Gravar Equipas','/Players/saveTeams/'.$game['Game']['id']); ?></li>
-            <li><?php echo $this->Form->postLink('Enviar Emails','/invites/sendEmails/'.$game['Game']['id']); ?></li>
-        <?php endif; ?>
-        <li>---</li>
-        <li><?php echo $this->Html->link(__('Update Pl Stats'), array('controller' => 'Players', 'action' => 'stats')); ?></li>
-        <li>---</li>
-        <li><?php echo $this->Html->link(__('Create Team_ids in Goal Col'), array('controller' => 'Games', 'action' => 'teamIdtoGoal')); ?></li>
-        <li><?php echo $this->Html->link(__('Generate the Louie rating for each game'), array('controller' => 'Games', 'action' => 'playerPoints_allGames')); ?></li>
-        <li><?php echo $this->Html->link(__('Calculate the average for players table'), array('controller' => 'Players', 'action' => 'allAverageRating')); ?></li>
-    </ul>
-
-</div>
-
+<!-- Convidar jogadores -->
 <?php if($game['Game']['stage'] == 'roster'): ?>
     <div class="notinvited">
         <h2><?php  echo __('Bench');?></h2>
@@ -28,12 +8,18 @@
                 <th>Convidar</th>
                 <th>Jogador</th>
             </tr>
-            <?php echo $this->Form->Create(null, array('url' => '/Invites/addInvites/'.$game['Game']['id'])); ?>
-            <?php foreach($notinvited as $key => $player): ?>
+            <?php echo $this->Form->Create('Player', array('url' => array(
+                'controller' => 'Invites',
+                'action' => 'addInvites',
+                $game['Game']['id'])
+                )); ?>
+            <?php foreach($not_invited as $key => $player): ?>
 
             <tr>
-                <td width="20"><?php echo $this->Form->checkbox('jogador'.$key); ?></td>
-                <td><?php echo $player; ?></td>
+                <?php echo $this->Form->hidden('Player.'.$key.'.id', array('value' => $player['id'])); ?>
+                <td width="20"><?php echo $this->Form->checkbox('Player.'.$key.'.value'); ?></td>
+                <td><?php echo $player['name']; ?></td>
+                <td><?php echo $player['mean']; ?></td>
             </tr>
             <?php endforeach; ?>
             <tr><td><?php echo $this->Form->end('Go!'); ?></td><td></td></tr>

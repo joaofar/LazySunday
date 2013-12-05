@@ -161,30 +161,5 @@ public $hasMany = array(
 	}
 
 
-/**
- * invites method
- *
- * @param int $id gameId
- * @return array
- */
-    public function invites($id) {
-        $invites = $this->find('all', array(
-        	'order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 
-        	'conditions' => array('game_id' => $id), 
-        	'recursive' => 1));
-        $players = $this->Player->find('list');
 
-        foreach($invites as $invite) {
-            $invite_list[$invite['Invite']['player_id']] = null;
-        }
-        foreach($players as $key => $player) {
-            if(!array_key_exists($key, $invite_list)) {
-                $notinvited[$key] = $player;
-            }
-        }
-
-        return array('invites' => $invites,
-                     'notinvited' => $notinvited);
-
-    }
 }

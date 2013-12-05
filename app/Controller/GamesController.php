@@ -41,6 +41,8 @@ class GamesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+    //check if stage is correct
+        $this->isStage($id, 'view');
 
         $this->Game->id = $id;
 		if (!$this->Game->exists()) {
@@ -175,8 +177,8 @@ class GamesController extends AppController {
         }
         $this->set('game', $this->Game->read(null, $id));
 
-        //Invites - variaveis para a view
-        $this->set($this->Invite->invites($id));
+        //lista de jogadores não convidados
+        $this->set($this->Invite->get($id, 'not_invited'));
 
         //submitGoals
         //Find Teams
@@ -186,8 +188,14 @@ class GamesController extends AppController {
 
         // sidebar menu
         $sidebarMenu = array(
-            $this->sidebarMenuItem('delete game', 'Games', 'delete', $id)
+            $this->sidebarMenuItem('folha de jogo', 'Games', 'gs', $id),
+            $this->sidebarMenuItem('enviar emails', 'Invites', 'sendEmails', $id),
+            $this->sidebarMenuItem('gravar equipas', 'Players', 'saveTeams', $id),
+            $this->sidebarMenuItem('apagar jogo', 'Games', 'delete', $id),
+            $this->sidebarMenuItem('voltar à convocatória', 'Games', 'roster', $id)
             );
+
+        $this->set('sidebarMenu', $sidebarMenu);
     }
 
 /**
@@ -243,23 +251,6 @@ class GamesController extends AppController {
 
         $percentDist = $this->Game->percentDist();
         $this->set('stats', $percentDist);
-    }
-
-/**
- * playerPoints method
- *
- * @param string $id
- * @return array
- */
-
-    public function playerPoints($id) {
-
-        if($id == 'all'){
-            $this->set('playerPoints', $this->Game->playerPoints_allGames());
-        }else{
-            $this->set('playerPoints', $this->Game->playerPoints_new($id));
-        }
-
     }
 
 
