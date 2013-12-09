@@ -25,11 +25,15 @@ class PlayersController extends AppController {
  *
  * @return void
  */
-	public function index($nPre = null) {
-
-        if($nPre != null){
-            $this->paginate = array('conditions' => array('Player.games_played >=' => $nPre));
-        }
+	public function index($nPre = 0) {
+        
+        $this->paginate = array(
+            'conditions' => array('Player.games_played >=' => $nPre),
+            'contain' => array(
+                'Rating.mean',
+                'Rating.limit' => 1)
+            );
+        
 
 		$this->set('players', $this->paginate());
 	}
@@ -189,7 +193,7 @@ class PlayersController extends AppController {
         if (!$this->Game->save()) { return false; }
 
         //redirect
-        $this->redirect(array('controller' => 'Games', 'action' => 'admin', $id));
+        $this->redirect(array('controller' => 'Games', 'action' => 'submitScore', $id));
     }
 
 /**

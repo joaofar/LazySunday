@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Player $Player
  * @property Game $Game
  */
-class Goal extends AppModel {
+class Assist extends AppModel {
 /**
  * Display field
  *
@@ -39,7 +39,7 @@ class Goal extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'goals' => array(
+		'assists' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',

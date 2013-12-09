@@ -23,15 +23,16 @@ class GamesController extends AppController {
  * @return void
  */
 	public function index() {
-		$games = $this->Game->find('all', array('order' => array('Game.id' => 'desc')));
-		$this->set('games', $games);
-
-        // sidebar menu
-        $sidebarMenu = array(
-            $this->sidebarMenuItem('criar um jogo', 'Games', 'view', 11),
-            $this->sidebarMenuItem('ver um jogador', 'Players', 'view', 20)
+		// $this->set('games', $this->Game->find('all', array(
+  //           'order' => array('Game.id' => 'desc'),
+  //           'contain' => array('Team.score')
+  //           )));
+        $this->paginate = array(
+            'order' => array('id' => 'DESC'),
+            'contain' => array('Team.score')
             );
-        $this->set('sidebarMenu', $sidebarMenu);
+
+        $this->set('games', $this->paginate());
 	}
 
 /**
@@ -89,18 +90,25 @@ class GamesController extends AppController {
                 if($player) {
                     $this->Invite->Create();
                     if($this->Invite->save($saveplayer)) {
-                        // $this->Session->setFlash(__('The game has been saved'));
+                        $this->Session->setFlash(__('The game has been saved'));
                     } else {
-                        // $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
+                        $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
                     }
                 }
             }
-            $this->redirect(array('controller' => 'Games', 'action' => 'view', $gameid['Game']['id']));
+            $this->redirect(array('action' => 'view', $gameid['Game']['id']));
         }
 
         
-        $players = $this->Player->find('list', array('order' => array('Player.conv' => 'asc')));
-        $this->set(compact('players'));
+        $players = $this->Player->find('all', array(
+            'order' => array('conv' => 'asc'),
+            'fields' => array('id', 'name'),
+            'contain' => array(
+                'Rating.mean',
+                'Rating.limit' => 1)
+            ));
+
+        $this->set('players', $players);
     }
 
     /**
@@ -182,9 +190,7 @@ class GamesController extends AppController {
 
         //submitGoals
         //Find Teams
-        $options = array('conditions' => array('Team.game_id' => $id), 'recursive' => 1);
-        $teams = $this->Team->find('all', $options);
-        $this->set('teams', $teams);
+        
 
         // sidebar menu
         $sidebarMenu = array(
@@ -374,55 +380,28 @@ class GamesController extends AppController {
  * @param int $id game_id
  * @return void
  */
-    public function submitScore($id) {
+    public function submitScore($id)
+    {
+        $this->isStage($id, 'roster_closed');
 
-        // save Goals/Assists
-        if (isset($this->request->data['Goal'])) {
-            // save all goals and assists
-            if(!$this->Goal->saveMany($this->request->data['Goal'])){
-                return false;
-            }
-            
-            //prepare team data
-            foreach ($this->request->data['Goal'] as $player) {
-                $teamGoals[$player['team_id']][] = $player['goals'];
-            }
+        if ($this->request->is('post')) {
+            // save score
+            if ($this->Game->submitScore($this->request->data)){
 
-            foreach ($teamGoals as $teamId => $goals) {
-                $this->request->data['Team'][] = array(
-                    'id' => $teamId, 
-                    'score' => array_sum($goals)
-                    );
+                // change game state to 'view' (game over)
+                $this->Game->id = $id;
+                $this->Game->save(array('stage' => 'view'));
+
+                // rate Game
+                $this->rateGame($id);
             }
+        } else {
+            // set view variables
+            $this->set('game', $this->Game->findById($id));
+            $this->set('teams', $this->Team->find('all', array(
+                'conditions' => array('Team.game_id' => $id), 
+                'recursive' => 1)));
         }
-
-        // update Teams score/is_winner
-        if (isset($this->request->data['Team'])) {
-            
-            // descobrir qual a equipa vencedora
-            if($this->request->data['Team'][0]['score'] > $this->request->data['Team'][1]['score']) {
-                $this->request->data['Team'][0]['is_winner'] = 1;
-                $this->request->data['Team'][1]['is_winner'] = 0;
-            } else {
-                $this->request->data['Team'][0]['is_winner'] = 0;
-                $this->request->data['Team'][1]['is_winner'] = 1;
-            }
-                
-            if (!$this->Team->saveMany($this->request->data['Team'])){
-                 return false;
-            }
-            
-        }
-
-        // change game state to 2
-        $this->Game->id = $id;
-        $this->Game->save(array('stage' => 'view', 
-            'team_a_score' => $this->request->data['Team'][0]['score'], 
-            'team_b_score' => $this->request->data['Team'][1]['score']
-            ));
-
-        // rate Game
-        $this->rateGame($id);
     }
 
 

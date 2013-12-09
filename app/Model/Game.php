@@ -124,9 +124,9 @@ class Game extends AppModel {
  * @var array
  */
 
-	public $virtualFields = array(
-		'goal_dif' => 'Game.team_a_score - Game.team_b_score'
-	);
+	// public $virtualFields = array(
+	// 	'goal_dif' => 'Game.team_a_score - Game.team_b_score'
+	// );
 
 
 
@@ -159,15 +159,24 @@ class Game extends AppModel {
 					'standardDeviation' => $rating['standard_deviation']
 					);
 			}
-			
+			// name
 			foreach ($team['Player'] as $player) {
 				$details[$i]['Player'][$player['id']]['name'] = $player['name'];
 			}
-
+			// goals
 			foreach ($team['Goal'] as $goal) {
 			    $details[$i]['Player'][$goal['player_id']]['goals'] = $goal['goals'];
-			    $details[$i]['Player'][$goal['player_id']]['assists'] = $goal['assists'];
 		  	}
+		  	// assists
+			if (isset($team['Assist'][0])) {
+				foreach ($team['Assist'] as $assist) {
+			    $details[$i]['Player'][$assist['player_id']]['assists'] = $assist['assists'];
+		  		}
+			} else {
+				foreach ($team['Player'] as $player) {
+				$details[$i]['Player'][$player['id']]['assists'] = null;
+				}
+			}
 
 		  	$i++;
 		}
@@ -516,8 +525,53 @@ class Game extends AppModel {
 
 	}
 
+/**
+ * submitScore method
+ * 
+ * @param  array $data [$this->request->data]
+ * @return boolean
+ */
+	public function submitScore($data)
+	{
+		// save Goals/Assists
+        if (isset($data['Goal'])) {
+            // save all goals and assists
+            if(!$this->Goal->saveMany($data['Goal'])){
+                return false;
+            }
+            
+            //prepare team data
+            foreach ($data['Goal'] as $player) {
+                $teamGoals[$player['team_id']][] = $player['goals'];
+            }
 
+            foreach ($teamGoals as $teamId => $goals) {
+                $data['Team'][] = array(
+                    'id' => $teamId, 
+                    'score' => array_sum($goals)
+                    );
+            }
+        }
 
+        // update Teams score/is_winner
+        if (isset($data['Team'])) {
+            
+            // descobrir qual a equipa vencedora
+            if ($data['Team'][0]['score'] > $data['Team'][1]['score']) {
+                $data['Team'][0]['is_winner'] = 1;
+                $data['Team'][1]['is_winner'] = 0;
+            } else {
+                $data['Team'][0]['is_winner'] = 0;
+                $data['Team'][1]['is_winner'] = 1;
+            }
+                
+            if (!$this->Team->saveMany($data['Team'])){
+            	return false;
+            }
+        }
+
+        return true;
+	}
 
 
 
@@ -566,6 +620,21 @@ class Game extends AppModel {
 		return $this->find('count');
 	}
 
+/**
+ * goalDifference method
+ * 
+ * @param  int $id game_id
+ * @return int
+ */
+	public function goalDifference($id)
+	{
+		$game = $this->find('first', array(
+				'conditions' => array('id' => $id),
+				'contain' => array('Team.score')
+				));
+
+		return abs($game['Team'][0]['score'] - $game['Team'][1]['score']);
+	}
 
 /**
  * winLose() method
@@ -579,18 +648,20 @@ class Game extends AppModel {
 
 	public function winLoseStats($id) {
 
-		$player = $this->Player->find('first', array('conditions' => array('Player.id' => $id)
-												,'recursive' => 1));
+		$player = $this->Player->find('first', array(
+			'conditions' => array('Player.id' => $id),
+			'contain' => array('Team')
+			));
+
 		foreach($player['Team'] as $team){
 
-			$game = $this->findById($team['game_id']);
-			$goal_dif = abs($game['Game']['goal_dif']);
+			$goalDifference = $this->goalDifference($team['game_id']);
 
 			if($team['is_winner'] == 1){
-				$winLose[$team['game_id']] = $goal_dif;
+				$winLose[$team['game_id']] = $goalDifference;
 			}
 			else{
-				$winLose[$team['game_id']] = -$goal_dif;
+				$winLose[$team['game_id']] = - $goalDifference;
 			}
 		}
 		return array_reverse($winLose, true);

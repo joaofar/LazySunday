@@ -1,3 +1,6 @@
+<div>
+    <h1>Convocatória</h1>
+</div>
 
 <div class="teams">
 <?php for($i = 0; $i <= 3; $i++): ?>
