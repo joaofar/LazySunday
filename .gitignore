@@ -24,3 +24,7 @@ lazysunday.sublime-project
 lazysunday.sublime-workspace
 
 app/Plugin/DebugKit/
+
+app/webroot/img/shirt_gradient_1.png
+
+app/webroot/img/shirt_gradient_2.png

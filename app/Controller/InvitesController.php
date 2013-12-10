@@ -145,7 +145,12 @@ class InvitesController extends AppController {
 		}
 
 		$this->Invite->set('available', $reply);
-		$this->Invite->save();
+		if ($this->Invite->save()) {
+			$this->Session->setFlash(__('saved'));
+		} else {
+			$this->Session->setFlash(__('error saving'));
+		}
+		
 
         $this->redirect(array(
         	'controller' => 'Games', 

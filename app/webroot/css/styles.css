@@ -408,18 +408,136 @@ div.team2 {
 }
 
 div.teamContainer {
+    
     float: left;
     height: 318px;
     width: 363px;
 }
 
-div.equipa table{
-    width: 90%
+div#pretos {
+  height: 100%;  
 }
 
-div.equipa_res table {
+div#vermelhos {
+  height: 100%;  
+}
+
+div#vermelhos tr{
+}
+
+div.teamHeader table {
+    padding-top: 20px;
     margin-left: 84px;
 }
+
+/* ROSTER TABLES */
+div.teamContent caption{
+    font-size: 14pt;
+    font-weight: bold;
+}
+div.teamContent table{
+    width: 85%;
+    border-spacing: 0;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+div.teamContent table th{
+    border-bottom: 2px solid black;
+    font-variant: small-caps;
+    padding: 12px 0px 6px 0px;
+    font-weight: bold;
+}
+div.teamContent table th.teamName{
+    font-size: 16pt;
+    text-align: left;
+    padding-left: 6px;
+}
+div.teamContent table th{
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+}
+div.teamContent table th.pretos{
+background-image: url(../img/small_shirt_1.png);
+}
+div.teamContent table th.vermelhos{
+background-image: url(../img/small_shirt_0.png);
+}
+div.teamContent table th.banco{
+background-image: url(../img/small_shirt_2.png);
+}
+div.teamContent table th.out{
+background-image: url(../img/small_shirt_3.png);
+}
+
+div.teamContent table tr{
+    border-bottom: 1px dashed #CCC;
+}
+
+div.teamContent table td{
+    padding: 3px 2px 3px 2px;
+}
+
+div.teamContent td.null{
+    color: #CCC;
+    font-size: 10pt;
+}
+div.teamContent td.pretos{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #333333;
+}
+div.teamContent td.vermelhos{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #cc3300;
+}
+div.teamContent td.banco{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #CCC;
+}
+div.teamContent td.out{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #cc3300;
+}
+
+div.teamContent td.name{
+    width: 50%;
+    font-variant: small-caps;
+}
+
+div.teamContent td.rating{
+    font-size: 10pt;
+}
+
+/*OK/NA buttons*/
+div.teamContent button{
+    padding: 6px;
+    font-variant: small-caps;
+}
+
+div.teamContent td.OK button:hover{
+    color: white;
+    background-color: #66ff66;
+}
+div.teamContent td.NA button:hover{
+    background-color: #ff6666;
+    color: white;
+}
+
+
+
 
 .score{
     font-size: 48pt;

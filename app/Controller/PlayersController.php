@@ -7,19 +7,6 @@ App::uses('AppController', 'Controller');
  */
 class PlayersController extends AppController {
 
-    public function beforeFilter() {
-
-        if ($this->action == 'view')
-        {
-            //$this->Player->setPlayersRankingEvo();
-            //return true;
-            
-
-        }
-    }
-
-
-
 /**
  * index method
  *

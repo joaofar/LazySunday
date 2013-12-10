@@ -3,7 +3,7 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><h2><?php echo $this->Paginator->sort('name', 'Nome');?></h2></th>
-			<th><h2><?php echo $this->Paginator->sort('mean', 'Rating'); ?></h2></th>
+			<th><h2><?php echo $this->Paginator->sort('0.mean', 'Rating'); ?></h2></th>
 			<th><h2><?php echo $this->Paginator->sort('games_played', 'Pre');?></h2></th>
 			<!-- <th><h2><?php // echo $this->Paginator->sort('rating', 'R');?></h2></th> -->
 			<th><h2><?php echo $this->Paginator->sort('wins','V');?></h2></th>
