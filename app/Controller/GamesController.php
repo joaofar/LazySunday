@@ -72,34 +72,42 @@ class GamesController extends AppController {
  * @return void
  */
     public function add() {
+        // POST
         if ($this->request->is('post')) {
 
-            $savegame['Game'] = array_slice($this->request->data['Game'], 0, 1);
-            $savegame['Game']['stage'] = 'roster';
-
-            $saveplayers = array_slice($this->request->data['Game'], 1);
-
+            // create a game
             $this->Game->create();
-            $gameid = $this->Game->save($savegame);
+            if (!$this->Game->save($this->request->data)) {
+                $this->Session->setFlash(__('error creating game'));
+            }
 
-            foreach($saveplayers as $key => $player) {
-                $saveplayer = array('Invite' => array(
-                                    'game_id' => $gameid['Game']['id'],
-                                    'player_id' => str_replace('jogador', '', $key)
-                ));
-                if($player) {
-                    $this->Invite->Create();
-                    if($this->Invite->save($saveplayer)) {
-                        $this->Session->setFlash(__('The game has been saved'));
-                    } else {
-                        $this->Session->setFlash(__('The game could not be saved. Please, try again.'));
-                    }
+            // prepare invites
+            foreach($this->request->data['Invite'] as $key => $player) {
+                
+                if ($player['value']) {
+                    // se a checkbox tiver sido cruzada adiciona-se o game_id e fica pronto para ser salvo
+                    $this->request->data['Invite'][$key]['game_id'] = $this->Game->id;
+                } else {
+                    // caso contrário retira-se esse jogador da array
+                    unset($this->request->data['Invite'][$key]);
                 }
             }
-            $this->redirect(array('action' => 'view', $gameid['Game']['id']));
+
+            // save invites
+            if ($this->Invite->saveMany($this->request->data['Invite'])) {
+                $this->Session->setFlash(__('jogo criado com sucesso'));
+            } else {
+                $this->Session->setFlash(__('erro a salvar os invites'));
+            }
+
+            // redirect
+            $this->redirect(array(
+                'action' => 'view', 
+                $this->Game->id
+                ));
         }
 
-        
+        // VIEW
         $players = $this->Player->find('all', array(
             'order' => array('conv' => 'asc'),
             'fields' => array('id', 'name'),
@@ -292,6 +300,11 @@ class GamesController extends AppController {
             $this->rateGame($game['Game']['id']);
         }
     }
+
+public function cssTest()
+{
+    
+}
 
 /**
  * rateGame

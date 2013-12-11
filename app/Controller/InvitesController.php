@@ -126,7 +126,10 @@ class InvitesController extends AppController {
             }
         }
 
-        $this->redirect(array('controller' => 'Games', 'action' => 'roster', $id));
+        $this->redirect(array(
+        	'controller' => 'Games', 
+        	'action' => 'roster', 
+        	$id));
     }
 
 /**
