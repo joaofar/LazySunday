@@ -3,6 +3,9 @@
 @import 'flexbox';
 
 // COLORS
+// $green: #233621;
+// $green: #033001;
+$green: #214422;
 $red: #cc0000;
 $black: #000000;
 $orange: #ff9900;
@@ -33,7 +36,7 @@ body {
    @extend html;
    @include font_default;
    background-image: url(../img/noise.png);
-   background-color: #233621;
+   background-color: $green;
    background-size: 20%;
    color: white;
 }

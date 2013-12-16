@@ -17,6 +17,7 @@ $goals = array_reverse($goals, true);
             chart: {
                 renderTo: 'pgraph',
                 height: '300'
+                // backgroundColor:'rgba(255, 255, 255, 0.1)'
                 //width: '730'
             },
             credits: {
