@@ -1,23 +1,15 @@
 <div class="games index">
-    <table cellpadding="0" cellspacing="0">
-    <tr>
-
-        <th><h2><?php echo $this->Paginator->sort('id', 'id');?></h2></th>
-
-        <th><h2>link</h2></th>
-        <th><h2><?php echo $this->Paginator->sort('Team.0.score', 'A');?></h2></th>
-        <th><h2><?php echo $this->Paginator->sort('Team.1.score', 'B');?></h2></th>
-        <th><h2><?php echo $this->Paginator->sort('date', 'data');?></h2></th>
-    </tr>
+    <table>
     <?php foreach ($games as $game): ?>
     <tr>
         
+        
         <td><?php echo h($game['Game']['id']); ?>&nbsp;</td>
-
-        <td><?php echo $this->Html->link(__('ver jogo >>>'), array('action' => $game['Game']['stage'], $game['Game']['id'])); ?>&nbsp;</td>
+        <td><?php echo $this->Html->link(__($game['Game']['stage']), array('action' => $game['Game']['stage'], $game['Game']['id'])); ?>&nbsp;</td>
         <td><?php echo h($game['Team'][0]['score']); ?>&nbsp;</td>
         <td><?php echo h($game['Team'][1]['score']); ?>&nbsp;</td>
         <td><?php echo h($this->Time->format('d M, Y', $game['Game']['date'])); ?>&nbsp;</td>
+
 
     </tr>
 <?php endforeach; ?>

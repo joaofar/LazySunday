@@ -1,0 +1,288 @@
+// IMPORT
+@import 'compass';
+@import 'flexbox';
+
+// COLORS
+$red: #cc0000;
+$black: #000000;
+$orange: #ff9900;
+$blue: #66ccff;
+
+// FONTS
+@mixin font_default{
+   font-family: 'Alegreya Sans SC', sans-serif;
+   // font-family: 'Exo 2', sans-serif;
+   // font-family: 'Electrolize', sans-serif;
+}
+@mixin font_logo{
+   font-family: 'Exo 2', sans-serif;
+}
+@mixin font_score{
+   font-family: 'Black Ops One', cursive;
+}
+
+
+// CSS
+*, html {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   @extend html;
+   @include font_default;
+   background-image: url(../img/noise.png);
+   background-color: #233621;
+   background-size: 20%;
+   color: white;
+}
+
+table{
+   width: 100%;
+   border-collapse: collapse;
+   caption{
+      font-size: 1.5em;
+   }
+   tr{
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
+      &:last-child{
+         border-bottom: none;
+      }
+      td{
+         padding: 0.3em;
+         text-align: center;
+      }
+   }
+}
+
+a{
+  color: $blue;
+}
+
+// PAGINATOR 
+.index.games{
+   // border:1px solid white;
+
+   .paging{
+      @include display-flex();
+      @include justify-content(space-between);
+      .current{
+         background-color: rgba(0, 0, 0, 0.2);
+         @include border-radius(15px);
+      }
+
+      span{
+         padding: 0.5em;
+      }
+   }
+
+   table{
+      tr{
+         
+         &:first-child{
+            background-color: rgba(0, 0, 0, 0.2);
+            td{
+               &:nth-child(3), &:nth-child(4){
+                  color: $orange;
+                  
+               }
+            }
+         }
+
+         td{
+            &:nth-child(3), &:nth-child(4){
+               @include font_score;
+               font-size: 1.70em;
+            }
+         }
+         &:hover{
+            background-color: rgba(255, 153, 0, 0.1);
+            cursor: pointer;
+         }
+      }
+   }
+}
+
+div#navigation, #content, #footer{
+   padding: 1em;
+}
+
+div#container {
+   @include display-flex();
+   @include flex-direction(column);
+   max-width: 64em;
+   margin: 0 auto;
+}
+
+div#header {
+   @include display-flex();
+   @include align-items(flex-end);
+   
+   a{
+      text-decoration: none;
+      transition: 1s;
+      &:hover{
+         transition: 0.2s;
+      }
+   }
+   
+
+   #logo{
+      padding-bottom: 6pt;
+      @include font_logo;
+      margin-right: auto;
+      font-size: 4.5em;
+      a{
+         display: block;
+         color: white;
+         opacity: 0.2;
+         &:hover{
+            opacity: 0.5;
+         }
+      }
+   }
+   
+   ul{
+      @include display-flex();
+      @include justify-content(space-around);
+      width: 20em;
+      border-top: 7px solid rgba(255, 255, 255, 0.2);
+      font-size: 1.75em;
+
+      a{
+         opacity: 0.5;
+         &:hover{
+            opacity: 1;
+         }
+      }
+
+      li{
+      display: inline;
+      }
+   }
+} 
+
+
+// CONTENT WRAPPER
+div#wrapper{
+   @include display-flex();
+   // border: 1px solid white;
+   border: 7px solid rgba(255, 255, 255, 0.2);
+}
+
+// NAVIGATION
+div#navigation{
+   background-color: rgba(0, 0, 0, 0.2);
+   @include flex(1);
+   border-right: 6px solid rgba(255, 255, 255, 0.2);
+
+   .ranking{
+
+      margin-top: 1em;
+      margin-bottom: 1em;
+      td{
+         padding: 0.2em;
+         &:nth-child(3){
+         color: $orange;
+         font-size: 1.2em;
+         }
+      }
+      
+   }
+   table{
+      tr{
+         th{
+         }
+      }
+   }
+}
+
+// CONTENT
+div#content{
+   @include flex(4);
+   font-size: 1.2em;
+   background-color: rgba(0, 0, 0, 0.2);
+   
+
+
+   .content{
+
+   .score{
+      @include display-flex();
+      @include justify-content(center);
+      @include align-content(center);
+      @include font_score;
+      font-size: 4em;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.75);
+      li{
+         display: inline;
+         padding: 0 20pt 0 20pt;
+         @include border-radius(12px, 12px);
+         &:first-child{
+            background-color: $red;
+         }
+         &:last-child{
+            background-color: $black;
+         }
+      }
+   }
+
+   .teamsContainer{
+      padding: 20pt 0 20pt 0;
+      @include display-flex();
+      @include justify-content(space-around);
+      @include align-content(center);
+      @include align-items(stretch);
+      
+      li{
+         display: inline;
+      }
+      div{
+         &:first-child{
+            table{
+            }
+
+         }
+         &:last-child{
+            table{
+            }
+         }
+      }
+
+      .team{
+         table{
+            tr {
+               td{
+                  padding: 5pt 7pt 5pt 7pt;
+                  &:nth-child(4){
+                     color: #ff9900;
+                     font-size: 20pt;
+                  }
+               }
+            }
+         }
+      }
+
+   }
+      
+   }
+}
+
+// FOOTER
+div#footer{
+   @include display-flex();
+   @include justify-content(flex-end);
+   opacity: 0.5;
+}
+
+
+
+
+
+
+
+
+
+

@@ -35,6 +35,7 @@ class AppController extends Controller {
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
 
     public $components = array('Session', 'DebugKit.Toolbar');
+    public $helpers = array('Js' => array('Jquery'));
 
 /**
  * sidebarMenuItem method

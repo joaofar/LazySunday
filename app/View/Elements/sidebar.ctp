@@ -5,9 +5,11 @@
 </script>
 <?php $data = $this->requestAction('Players/sidebarStats'); ?>
 
-<div class=sideTitle>game stats:</div>
-<div class=sideContent>
+<!-- GAME STATS -->
+<div class=stats>
     <table class="sidebar">
+        <caption>game stats</caption>
+
         <tr>
             <td>nº jogos: </td>
             <td><?php echo $data['nGames']; ?></td>
@@ -21,10 +23,10 @@
 
 </div>
 
-<div class=sideTitle>rating: (min <?php echo $data['n_min_pre']; ?> presenças)</div>
-<!--<div class=sideHeuristica>(vitorias/presencas)</div>-->
-<div class=sideContent>
+<!-- RANKING -->
+<div class=ranking>
     <table class="sidebar">
+        <caption>ranking</caption>
         <?php
         $i = 1;
         foreach ($data['trueSkill'] as $player): ?>
@@ -36,14 +38,14 @@
                     <span class="sparktristate"><?php echo $player['tristate'] ?></span>
                 </td>
             </tr>
-            <?php endforeach; ?>
-
+        <?php endforeach; ?>
     </table>
 </div>
 
-<div class=sideTitle>player stats:</div>
-<div class=sideContent>
+<!-- PLAYER STATS -->
+<div class=stats>
     <table class="sidebar">
+        <caption>player stats</caption>
         <tr>
             <td>golos p/j: </td>
             <td><?php echo $data['topGoalscorer']['Player']['name']; ?>
@@ -67,7 +69,5 @@
                 (<?php echo $data['defensiveInfluence']['Player']['team_conceded_average']; ?>)</td>
         </tr>
     </table>
-
-
 </div>
 

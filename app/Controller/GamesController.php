@@ -29,7 +29,8 @@ class GamesController extends AppController {
   //           )));
         $this->paginate = array(
             'order' => array('id' => 'DESC'),
-            'contain' => array('Team.score')
+            'contain' => array('Team.score'),
+            'limit' => 10
             );
 
         $this->set('games', $this->paginate());
