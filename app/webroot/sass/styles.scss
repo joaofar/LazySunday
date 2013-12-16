@@ -81,7 +81,7 @@ a{
       tr{
          
          &:first-child{
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.1);
             td{
                &:nth-child(3), &:nth-child(4){
                   color: $orange;
@@ -97,7 +97,7 @@ a{
             }
          }
          &:hover{
-            background-color: rgba(255, 153, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);
             cursor: pointer;
          }
       }

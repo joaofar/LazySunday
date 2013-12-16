@@ -59,7 +59,7 @@ a {
     padding: 0.5em; }
 /* line 83, ../sass/styles.scss */
 .index.games table tr:first-child {
-  background-color: rgba(0, 0, 0, 0.2); }
+  background-color: rgba(0, 0, 0, 0.1); }
   /* line 86, ../sass/styles.scss */
   .index.games table tr:first-child td:nth-child(3), .index.games table tr:first-child td:nth-child(4) {
     color: #ff9900; }
@@ -69,7 +69,7 @@ a {
   font-size: 1.70em; }
 /* line 99, ../sass/styles.scss */
 .index.games table tr:hover {
-  background-color: rgba(255, 153, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
   cursor: pointer; }
 
 /* line 107, ../sass/styles.scss */
