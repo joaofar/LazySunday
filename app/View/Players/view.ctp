@@ -341,23 +341,23 @@ $goals = array_reverse($goals, true);
 
     <div id="pgraph" class="playerGraph">
         <p>pgrapgh</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
 
     <div id="pgraph5" class="playerGraph">
         <p>pgraph2</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
     <div id="pgraph3" class="playerGraph">
         <p>pgraph3</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
     <div id="pgraph4" class="playerGraph">
         <p>pgraph4</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
 

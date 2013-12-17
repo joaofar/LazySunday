@@ -197,7 +197,7 @@ class PlayersController extends AppController {
         $players['trueSkill'] = $this->Rating->rankingList(20);
 
         foreach ($players['trueSkill'] as $key => $player) {
-            $players['trueSkill'][$key]['tristate'] = $this->Team->tristate($player['id'], 7);
+            $players['trueSkill'][$key]['tristate'] = $this->Team->tristate($player['id'], 6);
         }
 
 

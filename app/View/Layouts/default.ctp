@@ -18,11 +18,11 @@
 	<link href='http://fonts.googleapis.com/css?family=Black+Ops+One' rel='stylesheet' type='text/css'>
 
 	<!-- SCRIPTS -->
-	<?php echo $this->Html->script('jquery-1.7.2.min'); ?>
-	<?php echo $this->Html->script('jquery.sparkline'); ?>
-	<?php echo $this->Html->script('highcharts'); ?>
-	<?php echo $this->Html->script('highcharts-more'); ?>
-	<?php echo $this->Html->script('lazyfoot'); ?>
+	<?php echo $this->Html->script(array(
+		'/app/webroot/bower_components/jquery/jquery.min',
+		'/app/webroot/bower_components/jquery.sparkline/jquery.sparkline.min',
+		'/app/webroot/bower_components/highcharts/highcharts',
+		'lazyfoot')); ?>
 
 	<?php echo $scripts_for_layout; ?>
 </head>
@@ -48,6 +48,7 @@
 </div>
 
 <?php echo $this->Js->writeBuffer(); ?>
+<script src="//localhost:35729/livereload.js"></script>
 </body>
 
 </html>

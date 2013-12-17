@@ -83,11 +83,13 @@ a{
    table{
       tr{
          
-         &:first-child{
+         &:hover{
             background-color: rgba(0, 0, 0, 0.1);
+            cursor: pointer;
             td{
                &:nth-child(3), &:nth-child(4){
                   color: $orange;
+                  transition: 0.5s;
                   
                }
             }
@@ -98,10 +100,6 @@ a{
                @include font_score;
                font-size: 1.70em;
             }
-         }
-         &:hover{
-            background-color: rgba(0, 0, 0, 0.2);
-            cursor: pointer;
          }
       }
    }

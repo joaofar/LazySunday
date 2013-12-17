@@ -1,1 +1,0 @@
-$(document).ready(function(){$(".index tr").click(function(){var e=$(this).find("a").attr("href");e&&(window.location=e)})});

@@ -32,3 +32,5 @@ app/webroot/img/shirt_gradient_2.png
 app/.sass-cache/
 
 *.scssc
+
+node_modules
