@@ -1,10 +1,15 @@
-/* line 29, ../sass/styles.scss */
+@import url("http://fonts.googleapis.com/css?family=Alegreya+Sans+SC");
+@import url("http://fonts.googleapis.com/css?family=Exo+2");
+@import url("http://fonts.googleapis.com/css?family=Electrolize");
+@import url("http://fonts.googleapis.com/css?family=Black+Ops+One");
+@import url("http://fonts.googleapis.com/css?family=Sonsie+One");
+/* line 36, ../sass/styles.scss */
 *, html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box; }
 
-/* line 35, ../sass/styles.scss */
+/* line 42, ../sass/styles.scss */
 body {
   font-family: 'Alegreya Sans SC', sans-serif;
   background-image: url(../img/noise.png);
@@ -12,29 +17,43 @@ body {
   background-size: 20%;
   color: white; }
 
-/* line 44, ../sass/styles.scss */
+/* line 51, ../sass/styles.scss */
 table {
   width: 100%;
   border-collapse: collapse; }
-  /* line 47, ../sass/styles.scss */
+  /* line 54, ../sass/styles.scss */
   table caption {
     font-size: 1.5em; }
-  /* line 50, ../sass/styles.scss */
+  /* line 57, ../sass/styles.scss */
   table tr {
     border-bottom: 1px dotted rgba(255, 255, 255, 0.1); }
-    /* line 52, ../sass/styles.scss */
+    /* line 59, ../sass/styles.scss */
     table tr:last-child {
       border-bottom: none; }
-    /* line 55, ../sass/styles.scss */
+    /* line 62, ../sass/styles.scss */
     table tr td {
       padding: 0.3em;
       text-align: center; }
 
-/* line 62, ../sass/styles.scss */
+/* line 69, ../sass/styles.scss */
 a {
   color: #66ccff; }
 
-/* line 70, ../sass/styles.scss */
+/* line 73, ../sass/styles.scss */
+h2 {
+  font-size: 1.2em; }
+
+/* line 78, ../sass/styles.scss */
+.link tr, .index tr {
+  transition: 0.5s; }
+  /* line 79, ../sass/styles.scss */
+  .link tr:hover, .index tr:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    color: #ff9900;
+    transition: 0.5s; }
+
+/* line 94, ../sass/styles.scss */
 .index.games .paging {
   display: -webkit-box;
   display: -moz-box;
@@ -46,7 +65,7 @@ a {
   -ms-flex-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between; }
-  /* line 73, ../sass/styles.scss */
+  /* line 97, ../sass/styles.scss */
   .index.games .paging .current {
     background-color: rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 15px;
@@ -54,27 +73,19 @@ a {
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
     border-radius: 15px; }
-  /* line 78, ../sass/styles.scss */
+  /* line 102, ../sass/styles.scss */
   .index.games .paging span {
     padding: 0.5em; }
-/* line 86, ../sass/styles.scss */
-.index.games table tr:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-  cursor: pointer; }
-  /* line 90, ../sass/styles.scss */
-  .index.games table tr:hover td:nth-child(3), .index.games table tr:hover td:nth-child(4) {
-    color: #ff9900;
-    transition: 0.5s; }
-/* line 99, ../sass/styles.scss */
+/* line 110, ../sass/styles.scss */
 .index.games table tr td:nth-child(3), .index.games table tr td:nth-child(4) {
   font-family: 'Black Ops One', cursive;
   font-size: 1.70em; }
 
-/* line 108, ../sass/styles.scss */
+/* line 119, ../sass/styles.scss */
 div#navigation, #content, #footer {
   padding: 1em; }
 
-/* line 112, ../sass/styles.scss */
+/* line 123, ../sass/styles.scss */
 div#container {
   display: -webkit-box;
   display: -moz-box;
@@ -89,7 +100,7 @@ div#container {
   max-width: 64em;
   margin: 0 auto; }
 
-/* line 119, ../sass/styles.scss */
+/* line 130, ../sass/styles.scss */
 div#header {
   display: -webkit-box;
   display: -moz-box;
@@ -101,28 +112,28 @@ div#header {
   -ms-flex-align: end;
   -webkit-align-items: flex-end;
   align-items: flex-end; }
-  /* line 123, ../sass/styles.scss */
+  /* line 134, ../sass/styles.scss */
   div#header a {
     text-decoration: none;
     transition: 1s; }
-    /* line 126, ../sass/styles.scss */
+    /* line 137, ../sass/styles.scss */
     div#header a:hover {
       transition: 0.2s; }
-  /* line 132, ../sass/styles.scss */
+  /* line 143, ../sass/styles.scss */
   div#header #logo {
     padding-bottom: 6pt;
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Sonsie One', cursive;
     margin-right: auto;
     font-size: 4.5em; }
-    /* line 137, ../sass/styles.scss */
+    /* line 148, ../sass/styles.scss */
     div#header #logo a {
       display: block;
       color: white;
       opacity: 0.2; }
-      /* line 141, ../sass/styles.scss */
+      /* line 152, ../sass/styles.scss */
       div#header #logo a:hover {
         opacity: 0.5; }
-  /* line 147, ../sass/styles.scss */
+  /* line 158, ../sass/styles.scss */
   div#header ul {
     display: -webkit-box;
     display: -moz-box;
@@ -132,29 +143,30 @@ div#header {
     -ms-flex-pack: distribute;
     -webkit-justify-content: space-around;
     justify-content: space-around;
-    width: 20em;
-    border-top: 7px solid rgba(255, 255, 255, 0.2);
+    width: 18em;
+    border-top: 3px dashed rgba(255, 255, 255, 0.2);
     font-size: 1.75em; }
-    /* line 154, ../sass/styles.scss */
+    /* line 165, ../sass/styles.scss */
     div#header ul a {
       opacity: 0.5; }
-      /* line 156, ../sass/styles.scss */
+      /* line 167, ../sass/styles.scss */
       div#header ul a:hover {
         opacity: 1; }
-    /* line 161, ../sass/styles.scss */
+    /* line 172, ../sass/styles.scss */
     div#header ul li {
       display: inline; }
 
-/* line 169, ../sass/styles.scss */
+/* line 180, ../sass/styles.scss */
 div#wrapper {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  border: 7px solid rgba(255, 255, 255, 0.2); }
+  border: 7px solid rgba(255, 255, 255, 0.2);
+  min-width: 40em; }
 
-/* line 176, ../sass/styles.scss */
+/* line 188, ../sass/styles.scss */
 div#navigation {
   background-color: rgba(0, 0, 0, 0.2);
   -webkit-box-flex: 1;
@@ -162,20 +174,21 @@ div#navigation {
   -ms-flex: 1;
   -webkit-flex: 1;
   flex: 1;
-  border-right: 6px solid rgba(255, 255, 255, 0.2); }
-  /* line 181, ../sass/styles.scss */
+  border-right: 3px dashed rgba(255, 255, 255, 0.2);
+  min-width: 13.8em; }
+  /* line 194, ../sass/styles.scss */
   div#navigation .ranking {
     margin-top: 1em;
     margin-bottom: 1em; }
-    /* line 185, ../sass/styles.scss */
+    /* line 198, ../sass/styles.scss */
     div#navigation .ranking td {
       padding: 0.2em; }
-      /* line 187, ../sass/styles.scss */
+      /* line 200, ../sass/styles.scss */
       div#navigation .ranking td:nth-child(3) {
         color: #ff9900;
         font-size: 1.2em; }
 
-/* line 203, ../sass/styles.scss */
+/* line 216, ../sass/styles.scss */
 div#content {
   -webkit-box-flex: 4;
   -moz-box-flex: 4;
@@ -183,8 +196,9 @@ div#content {
   -webkit-flex: 4;
   flex: 4;
   font-size: 1.2em;
-  background-color: rgba(0, 0, 0, 0.2); }
-  /* line 212, ../sass/styles.scss */
+  background-color: rgba(0, 0, 0, 0.2);
+  min-width: 24em; }
+  /* line 225, ../sass/styles.scss */
   div#content .content .score {
     display: -webkit-box;
     display: -moz-box;
@@ -203,20 +217,20 @@ div#content {
     font-size: 4em;
     font-weight: bold;
     color: rgba(255, 255, 255, 0.75); }
-    /* line 220, ../sass/styles.scss */
+    /* line 233, ../sass/styles.scss */
     div#content .content .score li {
       display: inline;
       padding: 0 20pt 0 20pt;
       -webkit-border-radius: 12px 12px;
       -moz-border-radius: 12px / 12px;
       border-radius: 12px / 12px; }
-      /* line 224, ../sass/styles.scss */
+      /* line 237, ../sass/styles.scss */
       div#content .content .score li:first-child {
         background-color: #cc0000; }
-      /* line 227, ../sass/styles.scss */
+      /* line 240, ../sass/styles.scss */
       div#content .content .score li:last-child {
         background-color: black; }
-  /* line 233, ../sass/styles.scss */
+  /* line 246, ../sass/styles.scss */
   div#content .content .teamsContainer {
     padding: 20pt 0 20pt 0;
     display: -webkit-box;
@@ -235,18 +249,18 @@ div#content {
     -ms-flex-align: stretch;
     -webkit-align-items: stretch;
     align-items: stretch; }
-    /* line 240, ../sass/styles.scss */
+    /* line 253, ../sass/styles.scss */
     div#content .content .teamsContainer li {
       display: inline; }
-    /* line 258, ../sass/styles.scss */
+    /* line 271, ../sass/styles.scss */
     div#content .content .teamsContainer .team table tr td {
       padding: 5pt 7pt 5pt 7pt; }
-      /* line 260, ../sass/styles.scss */
+      /* line 273, ../sass/styles.scss */
       div#content .content .teamsContainer .team table tr td:nth-child(4) {
         color: #ff9900;
         font-size: 20pt; }
 
-/* line 275, ../sass/styles.scss */
+/* line 288, ../sass/styles.scss */
 div#footer {
   display: -webkit-box;
   display: -moz-box;

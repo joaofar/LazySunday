@@ -26,13 +26,21 @@ module.exports = function(grunt) {
 
     //WATCH
     watch: {
+        app: {
+          options: { livereload: true },
+          files: ['app/Model/**', 'app/View/**', 'app/Controller/**']
+        },
         compass: {
           files: ['app/webroot/sass/*.scss'],
           tasks: ['compass']
         },
-        livereload: {
+        css: {
           options: { livereload: true },
-          files: ['app/webroot/css/*.css', 'app/View/**']
+          files: ['app/webroot/css/*.css']
+        },
+        js: {
+          options: { livereload: true },
+          files: ['app/webroot/js/*.js']
         }
     },
 
@@ -45,6 +53,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['watch']);
 
 };

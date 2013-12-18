@@ -11,12 +11,6 @@
     echo $this->Html->css('styles');
     ?>
 
-	<!-- FONT -->
-	<link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Black+Ops+One' rel='stylesheet' type='text/css'>
-
 	<!-- SCRIPTS -->
 	<?php echo $this->Html->script(array(
 		'/app/webroot/bower_components/jquery/jquery.min',
@@ -28,8 +22,8 @@
 </head>
 
 <body>
-<div id="container">
 
+<div id="container">
 	<div id="header">
 		<div id="logo"><?php echo $this->Html->link('lazyfoot', array('controller' => 'Games', 'action' => 'index')); ?></div>
 		<ul id="menu">
@@ -48,7 +42,7 @@
 </div>
 
 <?php echo $this->Js->writeBuffer(); ?>
-<script src="//localhost:35729/livereload.js"></script>
+<script src="//0.0.0.0:35729/livereload.js"></script>
 </body>
 
 </html>

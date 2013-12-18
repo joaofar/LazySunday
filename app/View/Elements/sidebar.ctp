@@ -25,7 +25,7 @@
 
 <!-- RANKING -->
 <div class=ranking>
-    <table class="sidebar">
+    <table class="sidebar link">
         <caption>ranking</caption>
         <?php
         $i = 1;

@@ -12,13 +12,20 @@ $orange: #ff9900;
 $blue: #66ccff;
 
 // FONTS
+@import url('http://fonts.googleapis.com/css?family=Alegreya+Sans+SC');
+@import url('http://fonts.googleapis.com/css?family=Exo+2');
+@import url('http://fonts.googleapis.com/css?family=Electrolize');
+@import url('http://fonts.googleapis.com/css?family=Black+Ops+One');
+@import url('http://fonts.googleapis.com/css?family=Sonsie+One');
+
 @mixin font_default{
    font-family: 'Alegreya Sans SC', sans-serif;
    // font-family: 'Exo 2', sans-serif;
    // font-family: 'Electrolize', sans-serif;
 }
 @mixin font_logo{
-   font-family: 'Exo 2', sans-serif;
+   // font-family: 'Exo 2', sans-serif;
+   font-family: 'Sonsie One', cursive;
 }
 @mixin font_score{
    font-family: 'Black Ops One', cursive;
@@ -63,6 +70,23 @@ a{
   color: $blue;
 }
 
+h2{
+   font-size: 1.2em;
+}
+
+.link,.index{
+      tr{
+         &:hover{
+            background-color: rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            color: $orange;
+            transition: 0.5s;
+         }
+         transition: 0.5s;
+      }
+      
+   }
+
 // PAGINATOR 
 .index.games{
    // border:1px solid white;
@@ -82,19 +106,6 @@ a{
 
    table{
       tr{
-         
-         &:hover{
-            background-color: rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            td{
-               &:nth-child(3), &:nth-child(4){
-                  color: $orange;
-                  transition: 0.5s;
-                  
-               }
-            }
-         }
-
          td{
             &:nth-child(3), &:nth-child(4){
                @include font_score;
@@ -147,8 +158,8 @@ div#header {
    ul{
       @include display-flex();
       @include justify-content(space-around);
-      width: 20em;
-      border-top: 7px solid rgba(255, 255, 255, 0.2);
+      width: 18em;
+      border-top: 3px dashed rgba(255, 255, 255, 0.2);
       font-size: 1.75em;
 
       a{
@@ -170,13 +181,15 @@ div#wrapper{
    @include display-flex();
    // border: 1px solid white;
    border: 7px solid rgba(255, 255, 255, 0.2);
+   min-width: 40em;
 }
 
 // NAVIGATION
 div#navigation{
    background-color: rgba(0, 0, 0, 0.2);
    @include flex(1);
-   border-right: 6px solid rgba(255, 255, 255, 0.2);
+   border-right: 3px dashed rgba(255, 255, 255, 0.2);
+   min-width: 13.8em;
 
    .ranking{
 
@@ -204,7 +217,7 @@ div#content{
    @include flex(4);
    font-size: 1.2em;
    background-color: rgba(0, 0, 0, 0.2);
-   
+   min-width: 24em;
 
 
    .content{
