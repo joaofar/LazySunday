@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width">
     <?php echo $this->Html->charset(); ?>
     <title>
         <?php echo 'lazyfoot' ?>:
@@ -44,5 +45,6 @@
 <?php echo $this->Js->writeBuffer(); ?>
 <script src="//0.0.0.0:35729/livereload.js"></script>
 </body>
+
 
 </html>

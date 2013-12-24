@@ -48,7 +48,7 @@
                     <!-- nome do jogador -->
                     <td><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $id)); ?></td>
                     <!-- golos / assistências -->
-                    <td class="goalsAssists" style="text-align: right">
+                    <td class="orange" style="text-align: right">
                         <?php
                             // se se gravar apenas os golos das equipas, isto dá erro ao ver o jogo
                             // é portanto preciso filtrar os casos onde não há golos

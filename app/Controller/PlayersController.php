@@ -71,6 +71,7 @@ class PlayersController extends AppController {
         $this->set('goals', $this->Player->goalsAssists($id, Configure::read('limit')));
 	}
 
+
 /**
  * add method
  *

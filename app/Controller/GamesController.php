@@ -277,20 +277,7 @@ class GamesController extends AppController {
  */
 
     public function teste() {
-
-
-        $data = array(
-            'Game' => array('team_a' => 24, 'team_b' => 42, 'stage' => 66),
-            'Player' => array('id' => 20)
-            );
-
-        // $this->Game->saveAll($data);
-
-        // $this->set('teste', $this->rateAllGames());
-        // $this->Session->setFlash(__('teste'));
-        // $this->set('teste', $this->Invite->invites($id));
-        // $this->set('teste', $this->Rating->ratingExists(21, 11));
-        // $this->set('teste', $this->Game->saveAll($data));
+        $this->set('teste', null);
     }
 
     public function rateAllGames() {

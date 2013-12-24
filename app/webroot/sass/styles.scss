@@ -3,28 +3,21 @@
 @import 'flexbox';
 
 // COLORS
-// $green: #233621;
-// $green: #033001;
 $green: #214422;
-$red: #cc0000;
+$red: #AE130E;
 $black: #000000;
 $orange: #ff9900;
 $blue: #66ccff;
 
 // FONTS
 @import url('http://fonts.googleapis.com/css?family=Alegreya+Sans+SC');
-@import url('http://fonts.googleapis.com/css?family=Exo+2');
-@import url('http://fonts.googleapis.com/css?family=Electrolize');
 @import url('http://fonts.googleapis.com/css?family=Black+Ops+One');
 @import url('http://fonts.googleapis.com/css?family=Sonsie+One');
 
 @mixin font_default{
    font-family: 'Alegreya Sans SC', sans-serif;
-   // font-family: 'Exo 2', sans-serif;
-   // font-family: 'Electrolize', sans-serif;
 }
 @mixin font_logo{
-   // font-family: 'Exo 2', sans-serif;
    font-family: 'Sonsie One', cursive;
 }
 @mixin font_score{
@@ -52,6 +45,11 @@ table{
    width: 100%;
    border-collapse: collapse;
    caption{
+      @include border-radius(25pt);
+      background-color: rgba(255, 255, 255, 0.055);
+      padding:2pt 12pt;
+      // border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+      margin: 10pt;
       font-size: 1.5em;
    }
    tr{
@@ -69,7 +67,13 @@ table{
 a{
   color: $blue;
 }
-
+button{
+   color: white;
+   background-color: rgba(0, 0, 0, 0.2);
+   font-size: 1em;
+   border: 0;
+   padding: 5pt;
+}
 h2{
    font-size: 1.2em;
 }
@@ -129,6 +133,7 @@ div#container {
 
 div#header {
    @include display-flex();
+   @include flex-flow(row wrap);
    @include align-items(flex-end);
    
    a{
@@ -139,7 +144,6 @@ div#header {
       }
    }
    
-
    #logo{
       padding-bottom: 6pt;
       @include font_logo;
@@ -179,9 +183,9 @@ div#header {
 // CONTENT WRAPPER
 div#wrapper{
    @include display-flex();
+   @include flex-flow(row wrap-reverse);
    // border: 1px solid white;
    border: 7px solid rgba(255, 255, 255, 0.2);
-   min-width: 40em;
 }
 
 // NAVIGATION
@@ -214,13 +218,13 @@ div#navigation{
 
 // CONTENT
 div#content{
-   @include flex(4);
+   @include flex(3);
    font-size: 1.2em;
    background-color: rgba(0, 0, 0, 0.2);
-   min-width: 24em;
+   min-width: 20em;
 
 
-   .content{
+   
 
    .score{
       @include display-flex();
@@ -247,6 +251,7 @@ div#content{
       padding: 20pt 0 20pt 0;
       @include display-flex();
       @include justify-content(space-around);
+      @include flex-flow(row wrap);
       @include align-content(center);
       @include align-items(stretch);
       
@@ -266,29 +271,71 @@ div#content{
       }
 
       .team{
-         table{
-            tr {
-               td{
-                  padding: 5pt 7pt 5pt 7pt;
-                  &:nth-child(4){
-                     color: #ff9900;
-                     font-size: 20pt;
-                  }
-               }
+         padding: 10pt;
+         width: 18em;
+         ul{
+            @include display-flex();
+            @include justify-content(space-between);
+         }
+         .vermelhos span{
+            background-color: $red;
+         }
+         .pretos span{
+            background-color: $black;
+         }
+         .banco span{
+            background-color: rgba(255, 255, 255, 0.1);
+         }
+         span{
+            // @include border-radius(25pt);
+            padding: 5pt;
+            // width: 100%;
+         }
+
+         .null {
+            a{
+               color: #999999;
+            }
+            color: #999999;
+         }
+
+         td{
+            padding: 5pt 0pt 5pt 0pt;
+            &:first-child{
+               // width: 15%;
             }
          }
+         .orange{
+            color: #ff9900;
+            font-size: 20pt; 
+         }        
+         .button{
+            padding: 0;
+         }
+         .OK button{
+            &:hover{
+               background-color: green;
+            }
+         }
+         .NA button{
+            &:hover{
+               background-color: red;
+            }
+         }
+             
+         
       }
 
    }
       
-   }
+   
 }
 
 // FOOTER
 div#footer{
    @include display-flex();
    @include justify-content(flex-end);
-   opacity: 0.5;
+   opacity: 3.5;
 }
 
 

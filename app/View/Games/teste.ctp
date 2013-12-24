@@ -1,1 +1,1 @@
-<?php debug($teste); ?>
+<?php echo $this->element('team_box') ?>
