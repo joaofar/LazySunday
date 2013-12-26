@@ -43,7 +43,7 @@
 </div>
 
 <?php echo $this->Js->writeBuffer(); ?>
-<script src="//0.0.0.0:35729/livereload.js"></script>
+<!-- <script src="//0.0.0.0:35729/livereload.js"></script> -->
 </body>
 
 
