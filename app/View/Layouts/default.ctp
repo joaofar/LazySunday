@@ -35,7 +35,9 @@
 	</div>
 
 	<div id="wrapper">
-	<div id="navigation"><?php echo $this->element('sidebar'); ?></div>
+	<div id="navigation">
+	<?php echo $this->element('sidebar_menu'); ?>
+	<?php echo $this->element('sidebar'); ?></div>
 
 	<div id="content"> <?php echo $this->fetch('content'); ?></div>
 	</div>
@@ -43,7 +45,7 @@
 </div>
 
 <?php echo $this->Js->writeBuffer(); ?>
-<!-- <script src="//0.0.0.0:35729/livereload.js"></script> -->
+<script src="//0.0.0.0:35729/livereload.js"></script>
 </body>
 
 

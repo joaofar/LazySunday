@@ -77,7 +77,9 @@ button{
 h2{
    font-size: 1.2em;
 }
-
+ul{
+   list-style-type: none;   
+}
 .link,.index{
       tr{
          &:hover{
@@ -194,6 +196,16 @@ div#navigation{
    @include flex(1);
    border-right: 3px dashed rgba(255, 255, 255, 0.2);
    min-width: 13.8em;
+   li{
+      padding: 3pt;
+      border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+      &:first-child{
+         padding-top: 0;
+      }
+      &:last-child{
+         border-bottom: none;
+      }
+   }
 
    .ranking{
 
@@ -208,12 +220,7 @@ div#navigation{
       }
       
    }
-   table{
-      tr{
-         th{
-         }
-      }
-   }
+   
 }
 
 // CONTENT
