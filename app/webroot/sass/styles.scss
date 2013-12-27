@@ -29,7 +29,6 @@ $blue: #66ccff;
 *, html {
    margin: 0;
    padding: 0;
-   box-sizing: border-box;
 }
 
 body {
@@ -66,6 +65,9 @@ table{
 
 a{
   color: $blue;
+}
+fieldset{
+   border: 0;
 }
 button{
    color: white;

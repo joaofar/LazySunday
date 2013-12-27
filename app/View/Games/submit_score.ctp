@@ -18,7 +18,7 @@
     
 
     <!-- FORM / SUBMIT GOALS -->
-    <?php echo $this->Form->Create('Goal', array(
+    <?php echo $this->Form->Create('', array(
         'url' => array('controller' => 'Games', 'action' => 'submitScore', $game['Game']['id']),
         'inputDefaults' => array('label' => false)
         )); ?>
@@ -35,14 +35,18 @@
                 
                 
                 <?php foreach($teams[$i]['Player'] as $player): ?>
-                
-                <?php echo $this->Form->hidden($j.'.game_id', array('value' => $game['Game']['id'])); ?>
-                <?php echo $this->Form->hidden($j.'.player_id', array('value' => $player['id'])); ?>
-                <?php echo $this->Form->hidden($j.'.team_id', array('value' => $teams[$i]['Team']['id'])); ?>
+                <!-- GOALS -->
+                <?php echo $this->Form->hidden('Goal.'.$j.'.game_id', array('value' => $game['Game']['id'])); ?>
+                <?php echo $this->Form->hidden('Goal.'.$j.'.team_id', array('value' => $teams[$i]['Team']['id'])); ?>
+                <?php echo $this->Form->hidden('Goal.'.$j.'.player_id', array('value' => $player['id'])); ?>
+                <!-- ASSISTS -->
+                <?php echo $this->Form->hidden('Assist.'.$j.'.game_id', array('value' => $game['Game']['id'])); ?>
+                <?php echo $this->Form->hidden('Assist.'.$j.'.team_id', array('value' => $teams[$i]['Team']['id'])); ?>
+                <?php echo $this->Form->hidden('Assist.'.$j.'.player_id', array('value' => $player['id'])); ?>
                     <tr>
                         <td><?php echo $player['name']; ?></td>
-                        <td><?php echo $this->Form->input($j.'.goals'); ?></td>
-                        <td><?php echo $this->Form->input($j.'.assists'); ?></td>
+                        <td><?php echo $this->Form->input('Goal.'.$j.'.goals'); ?></td>
+                        <td><?php echo $this->Form->input('Assist.'.$j.'.assists'); ?></td>
                     </tr>
                 <?php $j++; ?> 
                 <?php endforeach; ?>

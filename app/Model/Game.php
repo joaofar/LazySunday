@@ -54,6 +54,19 @@ class Game extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+		'Assist' => array(
+			'className' => 'Assist',
+			'foreignKey' => 'game_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
 		'Invite' => array(
 			'className' => 'Invite',
 			'foreignKey' => 'game_id',
@@ -535,8 +548,14 @@ class Game extends AppModel {
 	{
 		// save Goals/Assists
         if (isset($data['Goal'])) {
+        	// save assists
+        	if (isset($data['Assist'])) {
+        		if (!$this->Assist->saveMany($data['Assist'])) {
+        			return false;
+        		}
+        	}
             // save all goals and assists
-            if(!$this->Goal->saveMany($data['Goal'])){
+        if (!$this->Goal->saveMany($data['Goal'])) {
                 return false;
             }
             
