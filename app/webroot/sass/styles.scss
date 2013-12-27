@@ -29,6 +29,7 @@ $blue: #66ccff;
 *, html {
    margin: 0;
    padding: 0;
+   @include box-sizing(border-box);
 }
 
 body {

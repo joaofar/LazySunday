@@ -4,9 +4,12 @@
 /* line 29, ../sass/styles.scss */
 *, html, body {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
-/* line 34, ../sass/styles.scss */
+/* line 35, ../sass/styles.scss */
 body {
   font-family: 'Alegreya Sans SC', sans-serif;
   background-image: url(../img/noise.png);
@@ -14,11 +17,11 @@ body {
   background-size: 20%;
   color: white; }
 
-/* line 43, ../sass/styles.scss */
+/* line 44, ../sass/styles.scss */
 table {
   width: 100%;
   border-collapse: collapse; }
-  /* line 46, ../sass/styles.scss */
+  /* line 47, ../sass/styles.scss */
   table caption {
     -webkit-border-radius: 25pt;
     -moz-border-radius: 25pt;
@@ -29,26 +32,26 @@ table {
     padding: 2pt 12pt;
     margin: 10pt;
     font-size: 1.5em; }
-  /* line 54, ../sass/styles.scss */
+  /* line 55, ../sass/styles.scss */
   table tr {
     border-bottom: 1px dotted rgba(255, 255, 255, 0.1); }
-    /* line 56, ../sass/styles.scss */
+    /* line 57, ../sass/styles.scss */
     table tr:last-child {
       border-bottom: none; }
-    /* line 59, ../sass/styles.scss */
+    /* line 60, ../sass/styles.scss */
     table tr td {
       padding: 0.3em;
       text-align: center; }
 
-/* line 66, ../sass/styles.scss */
+/* line 67, ../sass/styles.scss */
 a {
   color: #66ccff; }
 
-/* line 69, ../sass/styles.scss */
+/* line 70, ../sass/styles.scss */
 fieldset {
   border: 0; }
 
-/* line 72, ../sass/styles.scss */
+/* line 73, ../sass/styles.scss */
 button {
   color: white;
   background-color: rgba(0, 0, 0, 0.2);
@@ -56,25 +59,25 @@ button {
   border: 0;
   padding: 5pt; }
 
-/* line 79, ../sass/styles.scss */
+/* line 80, ../sass/styles.scss */
 h2 {
   font-size: 1.2em; }
 
-/* line 82, ../sass/styles.scss */
+/* line 83, ../sass/styles.scss */
 ul {
   list-style-type: none; }
 
-/* line 86, ../sass/styles.scss */
+/* line 87, ../sass/styles.scss */
 .link tr, .index tr {
   transition: 0.5s; }
-  /* line 87, ../sass/styles.scss */
+  /* line 88, ../sass/styles.scss */
   .link tr:hover, .index tr:hover {
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
     color: #ff9900;
     transition: 0.5s; }
 
-/* line 102, ../sass/styles.scss */
+/* line 103, ../sass/styles.scss */
 .index.games .paging {
   display: -webkit-box;
   display: -moz-box;
@@ -86,7 +89,7 @@ ul {
   -ms-flex-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between; }
-  /* line 105, ../sass/styles.scss */
+  /* line 106, ../sass/styles.scss */
   .index.games .paging .current {
     background-color: rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 15px;
@@ -94,19 +97,19 @@ ul {
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
     border-radius: 15px; }
-  /* line 110, ../sass/styles.scss */
+  /* line 111, ../sass/styles.scss */
   .index.games .paging span {
     padding: 0.5em; }
-/* line 118, ../sass/styles.scss */
+/* line 119, ../sass/styles.scss */
 .index.games table tr td:nth-child(3), .index.games table tr td:nth-child(4) {
   font-family: 'Black Ops One', cursive;
   font-size: 1.70em; }
 
-/* line 127, ../sass/styles.scss */
+/* line 128, ../sass/styles.scss */
 div#navigation, #content, #footer {
   padding: 1em; }
 
-/* line 131, ../sass/styles.scss */
+/* line 132, ../sass/styles.scss */
 div#container {
   display: -webkit-box;
   display: -moz-box;
@@ -121,7 +124,7 @@ div#container {
   max-width: 64em;
   margin: 0 auto; }
 
-/* line 138, ../sass/styles.scss */
+/* line 139, ../sass/styles.scss */
 div#header {
   display: -webkit-box;
   display: -moz-box;
@@ -136,28 +139,28 @@ div#header {
   -ms-flex-align: end;
   -webkit-align-items: flex-end;
   align-items: flex-end; }
-  /* line 143, ../sass/styles.scss */
+  /* line 144, ../sass/styles.scss */
   div#header a {
     text-decoration: none;
     transition: 1s; }
-    /* line 146, ../sass/styles.scss */
+    /* line 147, ../sass/styles.scss */
     div#header a:hover {
       transition: 0.2s; }
-  /* line 151, ../sass/styles.scss */
+  /* line 152, ../sass/styles.scss */
   div#header #logo {
     padding-bottom: 6pt;
     font-family: 'Sonsie One', cursive;
     margin-right: auto;
     font-size: 4.5em; }
-    /* line 156, ../sass/styles.scss */
+    /* line 157, ../sass/styles.scss */
     div#header #logo a {
       display: block;
       color: white;
       opacity: 0.2; }
-      /* line 160, ../sass/styles.scss */
+      /* line 161, ../sass/styles.scss */
       div#header #logo a:hover {
         opacity: 0.5; }
-  /* line 166, ../sass/styles.scss */
+  /* line 167, ../sass/styles.scss */
   div#header ul {
     display: -webkit-box;
     display: -moz-box;
@@ -170,17 +173,17 @@ div#header {
     width: 18em;
     border-top: 3px dashed rgba(255, 255, 255, 0.2);
     font-size: 1.75em; }
-    /* line 173, ../sass/styles.scss */
+    /* line 174, ../sass/styles.scss */
     div#header ul a {
       opacity: 0.5; }
-      /* line 175, ../sass/styles.scss */
+      /* line 176, ../sass/styles.scss */
       div#header ul a:hover {
         opacity: 1; }
-    /* line 180, ../sass/styles.scss */
+    /* line 181, ../sass/styles.scss */
     div#header ul li {
       display: inline; }
 
-/* line 188, ../sass/styles.scss */
+/* line 189, ../sass/styles.scss */
 div#wrapper {
   display: -webkit-box;
   display: -moz-box;
@@ -192,7 +195,7 @@ div#wrapper {
   flex-flow: row wrap-reverse;
   border: 7px solid rgba(255, 255, 255, 0.2); }
 
-/* line 196, ../sass/styles.scss */
+/* line 197, ../sass/styles.scss */
 div#navigation {
   background-color: rgba(0, 0, 0, 0.2);
   -webkit-box-flex: 1;
@@ -202,29 +205,29 @@ div#navigation {
   flex: 1;
   border-right: 3px dashed rgba(255, 255, 255, 0.2);
   min-width: 13.8em; }
-  /* line 201, ../sass/styles.scss */
+  /* line 202, ../sass/styles.scss */
   div#navigation li {
     padding: 3pt;
     border-bottom: 1px dotted rgba(255, 255, 255, 0.2); }
-    /* line 204, ../sass/styles.scss */
+    /* line 205, ../sass/styles.scss */
     div#navigation li:first-child {
       padding-top: 0; }
-    /* line 207, ../sass/styles.scss */
+    /* line 208, ../sass/styles.scss */
     div#navigation li:last-child {
       border-bottom: none; }
-  /* line 212, ../sass/styles.scss */
+  /* line 213, ../sass/styles.scss */
   div#navigation .ranking {
     margin-top: 1em;
     margin-bottom: 1em; }
-    /* line 216, ../sass/styles.scss */
+    /* line 217, ../sass/styles.scss */
     div#navigation .ranking td {
       padding: 0.2em; }
-      /* line 218, ../sass/styles.scss */
+      /* line 219, ../sass/styles.scss */
       div#navigation .ranking td:nth-child(3) {
         color: #ff9900;
         font-size: 1.2em; }
 
-/* line 229, ../sass/styles.scss */
+/* line 230, ../sass/styles.scss */
 div#content {
   -webkit-box-flex: 3;
   -moz-box-flex: 3;
@@ -234,7 +237,7 @@ div#content {
   font-size: 1.2em;
   background-color: rgba(0, 0, 0, 0.2);
   min-width: 20em; }
-  /* line 238, ../sass/styles.scss */
+  /* line 239, ../sass/styles.scss */
   div#content .score {
     display: -webkit-box;
     display: -moz-box;
@@ -253,20 +256,20 @@ div#content {
     font-size: 4em;
     font-weight: bold;
     color: rgba(255, 255, 255, 0.75); }
-    /* line 246, ../sass/styles.scss */
+    /* line 247, ../sass/styles.scss */
     div#content .score li {
       display: inline;
       padding: 0 20pt 0 20pt;
       -webkit-border-radius: 12px 12px;
       -moz-border-radius: 12px / 12px;
       border-radius: 12px / 12px; }
-      /* line 250, ../sass/styles.scss */
+      /* line 251, ../sass/styles.scss */
       div#content .score li:first-child {
         background-color: #ae130e; }
-      /* line 253, ../sass/styles.scss */
+      /* line 254, ../sass/styles.scss */
       div#content .score li:last-child {
         background-color: black; }
-  /* line 259, ../sass/styles.scss */
+  /* line 260, ../sass/styles.scss */
   div#content .teamsContainer {
     padding: 20pt 0 20pt 0;
     display: -webkit-box;
@@ -288,14 +291,14 @@ div#content {
     -ms-flex-align: stretch;
     -webkit-align-items: stretch;
     align-items: stretch; }
-    /* line 267, ../sass/styles.scss */
+    /* line 268, ../sass/styles.scss */
     div#content .teamsContainer li {
       display: inline; }
-    /* line 282, ../sass/styles.scss */
+    /* line 283, ../sass/styles.scss */
     div#content .teamsContainer .team {
       padding: 10pt;
       width: 18em; }
-      /* line 285, ../sass/styles.scss */
+      /* line 286, ../sass/styles.scss */
       div#content .teamsContainer .team ul {
         display: -webkit-box;
         display: -moz-box;
@@ -307,42 +310,42 @@ div#content {
         -ms-flex-pack: justify;
         -webkit-justify-content: space-between;
         justify-content: space-between; }
-      /* line 289, ../sass/styles.scss */
+      /* line 290, ../sass/styles.scss */
       div#content .teamsContainer .team .vermelhos span {
         background-color: #ae130e; }
-      /* line 292, ../sass/styles.scss */
+      /* line 293, ../sass/styles.scss */
       div#content .teamsContainer .team .pretos span {
         background-color: black; }
-      /* line 295, ../sass/styles.scss */
+      /* line 296, ../sass/styles.scss */
       div#content .teamsContainer .team .banco span {
         background-color: rgba(255, 255, 255, 0.1); }
-      /* line 298, ../sass/styles.scss */
+      /* line 299, ../sass/styles.scss */
       div#content .teamsContainer .team span {
         padding: 5pt; }
-      /* line 304, ../sass/styles.scss */
+      /* line 305, ../sass/styles.scss */
       div#content .teamsContainer .team .null {
         color: #999999; }
-        /* line 305, ../sass/styles.scss */
+        /* line 306, ../sass/styles.scss */
         div#content .teamsContainer .team .null a {
           color: #999999; }
-      /* line 311, ../sass/styles.scss */
+      /* line 312, ../sass/styles.scss */
       div#content .teamsContainer .team td {
         padding: 5pt 0pt 5pt 0pt; }
-      /* line 317, ../sass/styles.scss */
+      /* line 318, ../sass/styles.scss */
       div#content .teamsContainer .team .orange {
         color: #ff9900;
         font-size: 20pt; }
-      /* line 321, ../sass/styles.scss */
+      /* line 322, ../sass/styles.scss */
       div#content .teamsContainer .team .button {
         padding: 0; }
-      /* line 325, ../sass/styles.scss */
+      /* line 326, ../sass/styles.scss */
       div#content .teamsContainer .team .OK button:hover {
         background-color: green; }
-      /* line 330, ../sass/styles.scss */
+      /* line 331, ../sass/styles.scss */
       div#content .teamsContainer .team .NA button:hover {
         background-color: red; }
 
-/* line 344, ../sass/styles.scss */
+/* line 345, ../sass/styles.scss */
 div#footer {
   display: -webkit-box;
   display: -moz-box;
