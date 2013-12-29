@@ -181,6 +181,60 @@ class GamesController extends AppController {
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
     }
 
+    public function roster_closed($id)
+    {
+        $this->isStage($id, 'roster_closed');
+        $teams = $this->Team->find('all', array(
+            'conditions' => array('game_id' => $id),
+            'fields' => array('id'),
+            'contain' => array('Player.fields' => array('id', 'name'))
+            ));
+        $this->set(compact('teams'));
+
+        if ($this->request->is('post')) {
+            foreach ($teams as $key => $team) {
+                // move player to new team
+                if ($team['Team']['id'] != $this->request->data['Team']['id']) {
+                    unset($save);
+                    // team id
+                    $save['Team']['id'] = $team['Team']['id'];  
+                    // existing team players 
+                    // this array has to have this format in order for the save to work:
+                    // http://patisserie.keensoftware.com/en/pages/how-to-save-habtm-data-in-cakephp
+                    foreach ($team['Player'] as $player) {
+                        $save['Player']['Player'][] = $player['id'];
+                    }
+                    // add changed player
+                    $save['Player']['Player'][] = $this->request->data['Player']['id'];
+
+                    // save team
+                    $this->Team->save($save);
+
+                // remove player from his current team
+                } else {
+                    unset($save);
+                    $save['Team']['id'] = $team['Team']['id'];  
+
+                    foreach ($team['Player'] as $player) {
+                        if ($player['id'] != $this->request->data['Player']['id']) {
+                            $save['Player']['Player'][] = $player['id'];
+                        }
+                    }
+                    // save team
+                    $this->Team->save($save);
+                }
+                
+            }
+            // refresh teams after update    
+            $teams = $this->Team->find('all', array(
+            'conditions' => array('game_id' => $id),
+            'fields' => array('id'),
+            'contain' => array('Player.fields' => array('id', 'name'))
+            ));
+            $this->set(compact('teams'));
+        }
+    }
+    
 /**
  * admin method
  *
@@ -277,7 +331,15 @@ class GamesController extends AppController {
  */
 
     public function teste() {
-        $this->set('teste', null);
+        $data = array(
+            'Team' => array(
+                'id' => 229
+                ),
+            'Player' => array(
+                'Player' => array(20, 14, 17, 21, 42)
+                ));
+
+        $this->set('teste', $this->Team->save($data));
     }
 
     public function rateAllGames() {
