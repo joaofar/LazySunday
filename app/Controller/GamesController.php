@@ -181,15 +181,42 @@ class GamesController extends AppController {
         $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
     }
 
-    public function roster_closed($id)
+    public function roster_closedTeams($id)
     {
-        $this->isStage($id, 'roster_closed');
         $teams = $this->Team->find('all', array(
             'conditions' => array('game_id' => $id),
             'fields' => array('id'),
-            'contain' => array('Player.fields' => array('id', 'name'))
-            ));
+            'contain' => array(
+                'Player.fields' => array('id', 'name'),
+                'Player' => array(
+                    'Rating' => array(
+                        'limit' => 1, 
+                        'fields' => array('mean')
+                        )
+                    )
+                )
+            )
+        );
+
+        //team value
+        foreach ($teams as $t_key => $team) {
+            $teams[$t_key]['Team']['value'] = 0;
+            foreach ($team['Player'] as $player) {
+                $teams[$t_key]['Team']['value'] += $player['Rating'][0]['mean'];
+            }
+        }    
+
+        return $teams;
+    }
+
+    public function roster_closed($id)
+    {
+        $this->isStage($id, 'roster_closed');
+
+        $teams = $this->roster_closedTeams($id);
         $this->set(compact('teams'));
+
+        
 
         if ($this->request->is('post')) {
             foreach ($teams as $key => $team) {
@@ -220,18 +247,13 @@ class GamesController extends AppController {
                             $save['Player']['Player'][] = $player['id'];
                         }
                     }
+
                     // save team
                     $this->Team->save($save);
                 }
-                
             }
             // refresh teams after update    
-            $teams = $this->Team->find('all', array(
-            'conditions' => array('game_id' => $id),
-            'fields' => array('id'),
-            'contain' => array('Player.fields' => array('id', 'name'))
-            ));
-            $this->set(compact('teams'));
+            $this->set('teams', $this->roster_closedTeams($id));
         }
     }
     

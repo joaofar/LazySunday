@@ -96,7 +96,7 @@ class Team extends AppModel {
             'dependent' => false,
             'conditions' => '',
             'fields' => '',
-            'order' => '',
+            'order' => 'id DESC',
             'limit' => '',
             'offset' => '',
             'exclusive' => '',
