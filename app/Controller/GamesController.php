@@ -310,9 +310,9 @@ class GamesController extends AppController {
     public function gs($id = null) {
 
         //generatedTeams
-        $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->invites($id)));
+        $this->set('teams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
 
-        $this->layout = 'gs'; //this will use the pdf.ctp layout
+        $this->layout = 'gs'; //this will use the gs.ctp layout
         $this->render();
     }
 
