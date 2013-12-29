@@ -57,13 +57,8 @@ class GamesController extends AppController {
 
         $game = $this->Game->findById($id);
 
-        if($game['Game']['stage'] == 'roster') {
-        //Teams
-        $this->set('generatedTeams', $this->Team->generate($id, $this->Invite->get($id, 'invited')));
-        } else {
         //Game details
         $this->set('details', $this->Game->details($id));
-        }
 
 	}
 

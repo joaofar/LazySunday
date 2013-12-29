@@ -2,7 +2,7 @@
 @import url("http://fonts.googleapis.com/css?family=Black+Ops+One");
 @import url("http://fonts.googleapis.com/css?family=Sonsie+One");
 /* line 29, ../sass/styles.scss */
-*, html, body {
+* {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;

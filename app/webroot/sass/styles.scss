@@ -26,15 +26,15 @@ $blue: #66ccff;
 
 
 // CSS
-*, html {
+* {
    margin: 0;
    padding: 0;
    @include box-sizing(border-box);
 }
 
 body {
-   @extend html;
    @include font_default;
+   @extend html;
    background-image: url(../img/noise.png);
    background-color: $green;
    background-size: 20%;
