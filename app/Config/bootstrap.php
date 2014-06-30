@@ -72,6 +72,8 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 
+// CakePlugin::load('DebugKit');
+
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter . By Default CakePHP bundles two filters:
  *
@@ -108,5 +110,11 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-//Número de jogos a considerar no rating
+//Variáveis Globais
 Configure::write('limit', 20);
+Configure::write('n_min_pre', 20);
+
+//Variáveis de Rating
+Configure::write('MEAN', 5);
+Configure::write('STANDARD_DEVIATION', 5/3);
+

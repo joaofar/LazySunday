@@ -4,7 +4,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('game_id');?></th>
-			<th><?php echo $this->Paginator->sort('golos');?></th>
+			<th><?php echo $this->Paginator->sort('score');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('modified');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
@@ -14,9 +14,9 @@
 	<tr>
 		<td><?php echo h($team['Team']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($team['Game']['data'], array('controller' => 'games', 'action' => 'view', $team['Game']['id'])); ?>
+			<?php echo $this->Html->link($team['Game']['date'], array('controller' => 'games', 'action' => 'view', $team['Game']['id'])); ?>
 		</td>
-		<td><?php echo h($team['Team']['golos']); ?>&nbsp;</td>
+		<td><?php echo h($team['Team']['score']); ?>&nbsp;</td>
 		<td><?php echo h($team['Team']['created']); ?>&nbsp;</td>
 		<td><?php echo h($team['Team']['modified']); ?>&nbsp;</td>
 		<td class="actions">

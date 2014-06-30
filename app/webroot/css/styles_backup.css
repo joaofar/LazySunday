@@ -1,0 +1,599 @@
+/* CSS Reset */
+* {
+    vertical-align: baseline;
+    font-weight: inherit;
+    font-family: inherit;
+    font-style: inherit;
+    font-size: 100%;
+    border: 0 none;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+}
+/****** Layout */
+html, body {
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    background-image: url(../img/body_bg.gif);
+    /*background-image: url(../img/background.png);*/
+    /*background-repeat: repeat-y;
+    background-position: center center;*/
+}
+
+input{
+    margin: 10px;
+}
+
+table {
+    background-color: white;
+}
+
+
+#noOverlapTop {
+    clear: both;
+    height: 200px;
+}
+#noOverlap {
+    clear: both;
+    height: 50px;
+}
+
+/********* Header */
+#header {
+    width: 100%;
+    background-image: url(../img/header_soccer.jpg);
+    height: 77px;
+    background-position: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+#headerLogo {
+    /* [disabled]margin-top: auto; */
+    margin-right: auto;
+    margin-left: auto;
+    width: 200px;
+    font-size: 2em;
+    /* [disabled]margin-bottom: auto; */
+    position: relative;
+}
+#headerMenu {
+    width:970px;
+    height:55px;
+    z-index:1;
+    background-image: url(../img/menubar.png);
+    top: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+}
+#topMenu {
+    width: 230px;
+    height: 50px;
+    position: relative;
+    float: left;
+}
+#bottomMenu {
+    height: 50px;
+    width: 730px;
+    position: relative;
+    float: left;
+}
+#menu {
+    font-size: 14px;
+    line-height: 45px;
+    color: #313131;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'LatoBold', Arial, Helvetica, sans-serif;
+    text-shadow: 0 1px 1px white;
+    font-weight: bold;
+}
+#header #headerMenu #bottomMenu #menu li {
+    display: block;
+    float: left;
+    position: relative;
+    list-style: none;
+    padding: 5px 5px 0 0;
+    margin: 0;
+}
+#header #headerMenu #bottomMenu #menu li a {
+    display: block;
+    color: #313131;
+    height: 40px;
+    text-decoration: none;
+    padding: 0 20px;
+    text-transform: uppercase;
+}
+#header #headerMenu #bottomMenu #menu li a:hover {
+    outline:none;
+    color:#b62121;
+    text-decoration:none
+}
+#topMenuLogo {
+    line-height: 45px;
+    color: #D8D8D8;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+    padding-top: 5px;
+    padding-left: 30px;
+}
+
+/*********** Middle */
+#outerWrapper {
+    margin-top: -200px;
+    margin-right: auto;
+    margin-bottom: -50px;
+    margin-left: auto;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    width: 960px;
+}
+#contentWrapper {
+    width: 100%;
+    overflow: auto;
+}
+#contentInnerWrapper {
+    float: left;
+    width: 760px;
+    position: relative;
+}
+#content {
+    /*height: 700px;*/
+    border-radius: 8px 8px 8px 8px;
+    background-color: #E8E8E8;
+    margin: 5px;
+    padding: 10px;
+    /*overflow: auto;*/
+    text-align: center;
+}
+#sidebarWrapper {
+    float: left;
+    position: relative;
+    width: 195px;
+    height: 680px;
+
+}
+#sidebarContent {
+    padding: 5px;
+    border-radius: 8px 8px 8px 8px;
+    margin: 5px;
+    background-color: #E8E8E8;
+    /*height: 400px;*/
+    text-align: center;
+}
+
+/******** Footer */
+#footerWrapper {
+    height: 50px;
+    width: 960px;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+}
+#footerContent {
+    border-radius: 8px 8px 0 0;
+    background-color: #000;
+    height: 50px;
+}
+#credits {
+    font-size: 12px;
+    line-height: 50px;
+    color: #FFF;
+    text-align: right;
+    padding-right: 10px;
+}
+/******** Fonts/Headings */
+h1,h2,h3,h4,h5,h6{
+    font-weight:normal;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#000;
+    line-height:1.2em}
+
+h1{
+    font-size:24px;}
+
+h2{
+    font-size:18px;
+    margin-bottom:15px}
+
+h3{
+    font-size:14px;
+    margin-bottom:10px;}
+
+h4{
+    font-size:10px;
+    margin-bottom:10px;}
+
+/******* Views */
+div.view {
+    float:left;
+    padding:5px;
+    width:100%;
+    white-space: nowrap;
+}
+
+div.index {
+}
+
+div.index table{
+    width: 100%;
+}
+
+div.index table td{
+    padding: 7px;
+}
+
+#escuros_null{
+    color: #bbbbbb;
+}
+#brancos_null{
+    color:#CCC;
+}
+
+/* Sidebar */
+div.sideTitle {
+    font-weight: normal;
+    text-align: left;
+    color: #777777;
+    margin-bottom: 3px;
+    padding-left: 5px;
+}
+div.sideHeuristica {
+    font-size: 0.8em;
+    font-weight: normal;
+    text-align: left;
+    color: #777777;
+    margin-bottom: 3px;
+    padding-left: 5px;
+}
+div.sideContent {
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+table.sidebar {
+    border-collapse:collapse;
+    padding: 20px;
+}
+
+table.sidebar tr{
+    border:1px dotted white;
+}
+
+table.sidebar td{
+    padding: 6px;
+}
+
+/* td */
+td.num {
+    text-align: right;
+}
+
+td.rank {
+    text-align: left;
+    font-weight: bold;
+}
+
+td.player {
+    text-align: left;
+}
+
+/* Generated Teams */
+div.team{
+    float:left;
+    width:48%;
+    border-left: 2px solid #E8E8E8;
+
+
+}
+div.team table {
+    background-color: #f5f5f5;
+    border-collapse: collapse;
+    width: 100%;
+
+}
+div.team table th{
+    border-bottom: 2px solid #E8E8E8;
+    padding: 8px;
+
+}
+div.team table tr{
+    border-bottom: 2px solid #E8E8E8;
+
+}
+div.team table td{
+    padding: 8px;
+
+}
+
+div.teams {
+    height: 600px;
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+
+}
+div.teams table td{
+    padding: 2px;
+
+}
+
+
+
+
+/******* Admin **/
+ul
+{
+    list-style-type: none;
+}
+
+div.admin_sidebar {
+    float:left;
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+    padding: 10px;
+}
+
+div.notinvited {
+    float:left;
+    padding: 10px;
+    margin-left: 50px;
+}
+
+div.submit_goals {
+    float:left;
+}
+
+div.adminTeam {
+    float:left;
+    padding: 10px;
+    margin-left: 50px;
+}
+
+div.adminTeam input{
+    width: 30px;
+}
+
+div.adminTeam table td{
+    padding: 3px;
+}
+
+/******* GAME VIEW **/
+div #gameViewTime {
+    border-radius: 10px 10px 10px 10px;
+    background-color: white;
+    padding: 10px;
+}
+
+div #gameViewTime table{
+    width: 100%;
+}
+
+div.team1 {
+    float: left;
+}
+div.team2 {
+    float: left;
+    /*background-image: url(../img/vermelhos.png);*/
+}
+
+div.teamContainer {
+    
+    float: left;
+    height: 318px;
+    width: 363px;
+}
+
+div#pretos {
+  height: 100%;  
+}
+
+div#vermelhos {
+  height: 100%;  
+}
+
+div#vermelhos tr{
+}
+
+div.teamHeader table {
+    padding-top: 20px;
+    margin-left: 84px;
+}
+
+/* ROSTER TABLES */
+div.teamContent caption{
+    font-size: 14pt;
+    font-weight: bold;
+}
+div.teamContent table{
+    width: 85%;
+    border-spacing: 0;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+div.teamContent table th{
+    border-bottom: 2px solid black;
+    font-variant: small-caps;
+    padding: 12px 0px 6px 0px;
+    font-weight: bold;
+}
+div.teamContent table th.teamName{
+    font-size: 16pt;
+    text-align: left;
+    padding-left: 6px;
+}
+div.teamContent table th{
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 30px;
+}
+div.teamContent table th.pretos{
+background-image: url(../img/small_shirt_1.png);
+}
+div.teamContent table th.vermelhos{
+background-image: url(../img/small_shirt_0.png);
+}
+div.teamContent table th.banco{
+background-image: url(../img/small_shirt_2.png);
+}
+div.teamContent table th.out{
+background-image: url(../img/small_shirt_3.png);
+}
+
+div.teamContent table tr{
+    border-bottom: 1px dotted #CCC;
+}
+
+div.teamContent table td{
+    padding: 3px 2px 3px 2px;
+}
+
+div.teamContent td.null{
+    color: #CCC;
+    font-size: 10pt;
+}
+div.teamContent td.pretos{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #333333;
+}
+div.teamContent td.vermelhos{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #cc3300;
+}
+div.teamContent td.banco{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #CCC;
+}
+div.teamContent td.out{
+    width: 30px;
+    color: white;
+    font-size: 10pt;
+    text-align: center;
+    background-color: #cc3300;
+}
+
+div.teamContent td.name{
+    width: 50%;
+    font-variant: small-caps;
+}
+
+div.teamContent td.rating{
+    font-size: 10pt;
+}
+
+/*OK/NA buttons*/
+div.teamContent button{
+    padding: 6px;
+    font-variant: small-caps;
+}
+
+div.teamContent td.OK button:hover{
+    color: white;
+    background-color: #33cc00;
+}
+div.teamContent td.NA button:hover{
+    background-color: #cc3300;
+    color: white;
+}
+
+
+
+
+.score{
+    font-size: 48pt;
+    font-weight: bold;
+}
+
+.convPts{
+    font-size: 24pt;
+    font-weight: bold;
+}
+
+.teamPoints{
+    font-size: 20pt;
+}
+
+.nomejogador{
+    font-weight:bold;
+    font-size: 14pt;
+}
+
+.smalltext{
+    font-size: 8pt;
+}
+
+.shirticon{
+    background-image: url(../img/small-shirt_red(48x42).png);
+}
+
+/******* Players **/
+div.index tr:nth-child(odd)		{ background-color:#eee; }
+div.index tr:nth-child(even)		{ background-color:#fff; }
+
+
+/******* INVITES **/
+#invbase { height: auto; position: relative; width: 100%; top: 20px;}
+#invbase .box { background-color: #FFF; height: 40px; width: 95%; border: 1px solid #CCC; border-radius: 20px 0px 0px 20px; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%; position: relative; }
+
+#invbase .state { position: absolute; height: 18px; width: 18px; left: 0px; top: 0px; background-color: #0FF; margin: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid #CCC; }
+/*#invbase .state:hover { background-color: #F30; }*/
+
+#invbase .rating { height: 18px; width: 140px; border: 1px solid #CCC; position: absolute; left: 60px; background-color: #E1FFFF; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; top: 0px; }
+#invbase .ratingvalor {
+    background-color: #ffc500;
+    height: 18px;
+    width: 40px;
+    border: 1px solid #CCC;
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+#invbase .rating_n { font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; color: #999; position: absolute; left: 220px; width: 50px; top: 10px; }
+
+#invbase .player { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #999; position: absolute; left: 280px; width: 200px; top: 12px; }
+
+#invbase .presence_off { position: absolute; height: 20px; width: 40px; top: 0px; background-color: #FFEFD7; margin: 10px; border: 1px solid #CCC; right: 0%; }
+#invbase .presence_off button { height: 20px; width: 40px; top: 0px; background-color: #FFEFD7; right: 0%; }
+#invbase .presence_txt { font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: bold; color: #CCC; line-height: 20px; text-align: center; cursor: pointer;}
+#invbase .presence_txt button { font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: bold; color: #CCC; line-height: 20px; text-align: center; cursor: pointer;}
+#invbase .presence_on { position: absolute; height: 20px; width: 40px; top: 0px; background-color: #CFC; margin: 10px; border: 1px solid #CCC; right: 50px; }
+#invbase .presence_on button { height: 20px; width: 40px; top: 0px; background-color: #CFC; right: 50px; }
+#invbase .presence_off:hover { background-color: #F90; }
+#invbase .presence_off button:hover { background-color: #F90; }
+#invbase .presence_txt:hover { color: #333; }
+#invbase .presence_txt button:hover { color: #333; }
+#invbase .presence_on:hover { background-color: #3F0; }
+#invbase .presence_on button:hover { background-color: #3F0; }
+
+#legendainvites { height: auto; position: relative; width: 100%; top: 20px;}
+#legendainvites .box { height: 40px; width: 95%; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%; position: relative; }
+#legendainvites .state {float: right; height: 18px; width: 18px; left: 0px; top: 0px; background-color: #0FF; margin: 10px; border-radius: 10px 10px 10px 10px; border: 1px solid #CCC; }
+#legendainvites .desc { position: relative; top: 12px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: normal; color: #999; line-height: 18px; float: right;}
+
+table.ratingstable {
+    float: left;
+    margin: 20px;
+}
+
+a:link, a:visited { color:green; }
+a:hover { color: #b62121; }
+
+.playerGraph {
+    /*float: left; */
+}

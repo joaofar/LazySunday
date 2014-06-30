@@ -1,28 +1,31 @@
 <div class="games index">
     <table>
-        <tr colspan="4">
-            <!--<td><?php /*echo $this->Html->link(__('New Game'), array('action' => 'add')); */?></td>-->
-        </tr>
-        <?php foreach ($games as $game): ?>
-            <tr>
-                <td><h1><?php echo $this->Html->link(__('>>>'), array('action' => 'view', $game['Game']['id'])); ?>&nbsp;</h1></td>
-                <td><?php echo $this->Time->format('d M, Y', $game['Game']['data']); ?>&nbsp;</td>
-                <td><?php echo $game['Game']['team_a']." : ".$game['Game']['team_b']; ?>&nbsp;</td>
-                <td>
-                    <?php
-                        if($game['Game']['estado'] == 0) {
-                            echo "Convocatória";
-                        }
-                        elseif ($game['Game']['estado'] == 1) {
-                            echo "A decorrer...";
-                        }
-                        else {
-                            echo "Terminado";
-                        }
+    <?php foreach ($games as $game): ?>
+    <tr>
+        
+        
+        <td><?php echo h($game['Game']['id']); ?>&nbsp;</td>
+        <td><?php echo $this->Html->link(__($game['Game']['stage']), array('action' => $game['Game']['stage'], $game['Game']['id'])); ?>&nbsp;</td>
+        <td><?php echo h($game['Team'][0]['score']); ?>&nbsp;</td>
+        <td><?php echo h($game['Team'][1]['score']); ?>&nbsp;</td>
+        <td><?php echo h($this->Time->format('d M, Y', $game['Game']['date'])); ?>&nbsp;</td>
 
-                    ?>
-                    &nbsp;</td>
-            </tr>
-        <?php endforeach; ?>
+
+    </tr>
+<?php endforeach; ?>
     </table>
+    <p>
+    <?php
+    echo $this->Paginator->counter(array(
+    'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+    ));
+    ?>  </p>
+
+    <div class="paging">
+    <?php
+        echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+        echo $this->Paginator->numbers(array('separator' => ''));
+        echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+    ?>
+    </div>
 </div>

@@ -8,17 +8,17 @@
 		</dd>
 		<dt><?php echo __('Player'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($goal['Player']['nome'], array('controller' => 'players', 'action' => 'view', $goal['Player']['id'])); ?>
+			<?php echo $this->Html->link($goal['Player']['name'], array('controller' => 'players', 'action' => 'view', $goal['Player']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Game'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($goal['Game']['data'], array('controller' => 'games', 'action' => 'view', $goal['Game']['id'])); ?>
+			<?php echo $this->Html->link($goal['Game']['date'], array('controller' => 'games', 'action' => 'view', $goal['Game']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Golos'); ?></dt>
 		<dd>
-			<?php echo h($goal['Goal']['golos']); ?>
+			<?php echo h($goal['Goal']['goals']); ?>
 			&nbsp;
 		</dd>
 	</dl>

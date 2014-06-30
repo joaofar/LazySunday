@@ -8,12 +8,12 @@
 		</dd>
 		<dt><?php echo __('Game'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($team['Game']['data'], array('controller' => 'games', 'action' => 'view', $team['Game']['id'])); ?>
+			<?php echo $this->Html->link($team['Game']['date'], array('controller' => 'games', 'action' => 'view', $team['Game']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Golos'); ?></dt>
 		<dd>
-			<?php echo h($team['Team']['golos']); ?>
+			<?php echo h($team['Team']['goals']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
@@ -61,11 +61,11 @@
 		foreach ($team['Player'] as $player): ?>
 		<tr>
 			<td><?php echo $player['id'];?></td>
-			<td><?php echo $player['nome'];?></td>
-			<td><?php echo $player['presencas'];?></td>
-			<td><?php echo $player['ranking'];?></td>
-			<td><?php echo $player['vitorias'];?></td>
-			<td><?php echo $player['golos'];?></td>
+			<td><?php echo $player['name'];?></td>
+			<td><?php echo $player['games_played'];?></td>
+			<td><?php // echo $player['ranking'];?></td>
+			<td><?php echo $player['wins'];?></td>
+			<td><?php echo $player['goals'];?></td>
 			<td><?php echo $player['created'];?></td>
 			<td><?php echo $player['modified'];?></td>
 			<td class="actions">

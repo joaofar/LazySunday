@@ -34,12 +34,25 @@ class AppController extends Controller {
 
     public $uses = array('Game', 'Invite', 'Goal', 'Team', 'Player', 'PlayersTeam', 'Rating');
 
-    //Minimum number of attendances required to be accepted in the rating table
-    const N_MIN_PRE = 20;
-    //echo Configure::read('LazySunday.n_min_pre');
+    public $components = array('Session');
+    public $helpers = array('Js' => array('Jquery'));
 
-    function beforeFilter() {
-
-
+/**
+ * sidebarMenuItem method
+ *
+ * cria um item para o menu da sidebar
+ * @param  string $title      
+ * @param  string $controller 
+ * @param  string $action     
+ * @param  string $value      
+ * @return array
+ */
+    public function sidebarMenuItem($title, $controller, $action, $value = null)
+    {
+    	return array(
+    		'title' => $title,
+    		'controller' => $controller,
+    		'action' => $action,
+    		'value' => $value);
     }
 }

@@ -41,7 +41,27 @@ class Invite extends AppModel {
 		),
 	);
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+ //The Associations below have been created with all possible keys, those that are not needed can be removed
+
+/**
+ * hasMany associations
+ * 
+ * @var array
+ */
+public $hasMany = array(
+		'Rating' => array(
+			'className' => 'Rating',
+			'foreignKey' => '',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		));
 
 /**
  * belongsTo associations
@@ -65,29 +85,81 @@ class Invite extends AppModel {
 		)
 	);
 
-
 /**
- * invites method
+ * get method
  *
- * @param string $id
+ * @param  int $id   game_id
+ * @param  string $type ('invited', 'not_invited' e null devolve ambos)
  * @return array
  */
-    public function invites($id) {
-        $options = array('order' => array('Player.conv' => 'asc', 'Player.rating' => 'desc'), 'conditions' => array('game_id' => $id), 'recursive' => 1);
-        $invites = $this->find('all', $options);
-        $players = $this->Player->find('list');
+	public function get($id, $type = null)
+	{	
+		//find invites
+		$invites = $this->find('list', array(
+			'order' => array('Player.conv' => 'asc'),
+	        'conditions' => array('game_id' => $id),
+	        'fields' => array('player_id'),
+	        'contain' => array('Player.fields' => array('Player.conv'))
+	        ));
 
-        foreach($invites as $invite) {
-            $invite_list[$invite['Invite']['player_id']] = null;
-        }
-        foreach($players as $key => $player) {
-            if(!array_key_exists($key, $invite_list)) {
-                $notinvited[$key] = $player;
-            }
-        }
+		//find invited Players, and invite status
+		$invited = $this->Player->find('all', array(
+			'conditions' => array('id' => $invites),
+			'order' => array('conv' => 'ASC'),
+			'contain' => array(
+				'Rating.fields' => array('mean'), 
+				'Rating.limit' => 1,
+				'Invite.conditions' => array('game_id' => $id),
+				'Invite.fields' => array('available','id'),
+				'Invite.limit' => 1
+				)));
 
-        return array('invites' => $invites,
-                     'notinvited' => $notinvited);
+		if ($type == 'invited') {
+			$return[$type] = $invited;
+		} elseif($type == 'not_invited' || $type == null) {
+			//find not invited players
+			$notInvited = $this->Player->find('all', array(
+				'conditions' => array('id !=' => $invites),
+				'contain' => array(
+					'Rating.fields' => array('mean'), 
+					'Rating.limit' => 1
+					)));
 
-    }
+			if ($type == 'not_invited') {
+				$return[$type] = $notInvited;
+			} else {
+				$return = array(
+					'invited' => $invited, 
+					'not_invited' => $notInvited
+					);
+			}
+		}
+
+		//create array for view
+		foreach ($return as $type => $players) {
+		
+			foreach ($players as $player) {
+
+				if ($type == 'not_invited') {
+					$player['Invite'][0] = array('id' => null, 'available' => null);
+				}
+
+				if (!isset($player['Rating'][0]['mean'])) {
+					$player['Rating'][0]['mean'] = $this->Rating->get($player['Player']['id']);
+				}
+
+				$list[$type][] = array(
+					'id' => $player['Player']['id'],
+					'name' => $player['Player']['name'],
+					'mean' => $player['Rating'][0]['mean'],
+					'invite_id' => $player['Invite'][0]['id'],
+					'available' => $player['Invite'][0]['available']
+					);
+			}
+		}
+		return $list;
+	}
+
+
+
 }

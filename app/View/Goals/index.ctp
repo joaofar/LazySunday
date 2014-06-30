@@ -5,7 +5,7 @@
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('player_id');?></th>
 			<th><?php echo $this->Paginator->sort('game_id');?></th>
-			<th><?php echo $this->Paginator->sort('golos');?></th>
+			<th><?php echo $this->Paginator->sort('goals');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -13,12 +13,12 @@
 	<tr>
 		<td><?php echo h($goal['Goal']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($goal['Player']['nome'], array('controller' => 'players', 'action' => 'view', $goal['Player']['id'])); ?>
+			<?php echo $this->Html->link($goal['Player']['name'], array('controller' => 'players', 'action' => 'view', $goal['Player']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($goal['Game']['data'], array('controller' => 'games', 'action' => 'view', $goal['Game']['id'])); ?>
+			<?php echo $this->Html->link($goal['Game']['date'], array('controller' => 'games', 'action' => 'view', $goal['Game']['id'])); ?>
 		</td>
-		<td><?php echo h($goal['Goal']['golos']); ?>&nbsp;</td>
+		<td><?php echo h($goal['Goal']['goals']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $goal['Goal']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $goal['Goal']['id'])); ?>

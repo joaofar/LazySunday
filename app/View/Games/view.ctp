@@ -1,119 +1,76 @@
-<div id="gameViewTime">
+
+
+<div class="title">
     <table>
         <tr>
 <!--            <td>Jogo nº--><?php //echo $n_games;?><!-- / id: (--><?php //echo $id;?><!--)</td>-->
             <td>id: (<?php echo $id;?>)</td>
-            <td><?php  echo $this->Time->format('[H:i]  D, d M Y ', $game['Game']['data']); ?></td>
+            <td><?php  echo $this->Time->format('[H:i]  D, d M Y ', $game['Game']['date']); ?></td>
         </tr>
     </table>
 </div>
-    <?php //debug($generatedTeams['out']); ?>
 
-
-    <!--- JOGO TERMINADO --->
-
-<?php if($game['Game']['estado'] == 2): ?>
-    <div class=teams>
-        <?php for($i = 1; $i <= 2; $i++): ?>
-            <!--- Team  --->
-            <div class="teamContainer">
-
-                    <!--- HEADER --->
-                    <div class="equipa_res">
-                        <table>
-                            <tr>
-                                <td class="score">[<?php echo ${'team_'.$i.'_score'}; ?>]</td>
-                                <td class="teamPoints">
-                                    <?php
-                                        $teamPoints = 0;
-                                        foreach(${'team_'.$i.'_data'} as $data){
-                                            $teamPoints += $data['curr_rating'];
-                                                }
-                                    echo $teamPoints;
-                                    ?>pts
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <!--- CONTENT --->
-                    <div>
-                        <table>
-                            <?php foreach(${'team_'.$i.'_data'} as $nomejogador => $data): ?>
-                            <tr>
-                                <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
-                                <td class="smalltext"style="text-align: right"><?php echo $data['curr_rating']; ?>rt</td>
-                                <td class="smalltext" style="text-align: left">(<?php echo $data['peso']; ?>%)</td>
-                                <td class="nomejogador"><?php echo $this->Html->link(__($nomejogador), array('controller' => 'Players', 'action' => 'view', $data['id'])); ?></td>
-                                <td style="text-align: right"><?php echo $data['golos']."(".$data['assistencias'].")"; ?></td>
-
-                                <td style="text-align: right"><?php echo $data['player_points']; ?>pts</td>
-                                <td class="smalltext" style="text-align: right">(<?php echo $data['basePts']; ?> +</td>
-                                <td class="smalltext" style="text-align: left"><?php echo $data['spPts']; ?>)</td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </table>
-                    </div>
-
-            </div>
-        <?php endfor; ?>
-    </div>
-<?php endif; ?>
-
-
-    <!--- CONVOCATÓRIA --->
-    <!--- O código é reusado 4 vezes para gerar quatro listas: 2 x equipas, 1 x banco e 1 x out --->
-<?php if($game['Game']['estado'] == 0): ?>
-    <?php   echo $this->Form->Create('Invite', array('action' => 'updateInvites/'.$game['Game']['id'])); ?>
-        <div class="teams">
-            <?php for($i = 1; $i <= 4; $i++): ?>
-                <?php
-                    switch ($i) {
-                        case 1: $list = $generatedTeams['teams']['team_'.$i]; $header = $generatedTeams['teams']['team_'.$i.'_rating']; break;
-                        case 2: $list = $generatedTeams['teams']['team_'.$i]; $header = $generatedTeams['teams']['team_'.$i.'_rating']; break;
-                        case 3: $list = $generatedTeams['banco'];             $header = 'Banco'                                       ; break;
-                        case 4: $list = $generatedTeams['out'];               $header = 'Out'                                         ; break;
-
-                    }
-                ?>
-
-                <?php if(isset($list)): ?>
-                <div class="teamContainer">
-                    <div class="equipa_res">
-                        <table>
-                            <tr>
-                                <td class="convPts">[<?php echo $header; ?>]</td>
-                                <td class="teamPoints"> </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <div class="equipa">
-                        <table>
-                            <?php if($list != null): ?>
-                                <?php foreach($list as $key => $player):?>
-
-                                    <tr id=<?php if($player['available'] != 1) { echo 'escuros_null'; } ?>>
-                                        <td><?php
-                                            if($player['available'] != 1) { echo $this->Html->image('null.png'); }
-                                            else{ echo $this->Html->image('ok.png'); } ?></td>
-                                        <td class="shirticon"><?php echo $this->Html->image('small_shirt_'.$i.'.png'); ?></td>
-                                        <td class="num"><?php echo $key; ?>º</td>
-
-                                        <td class="nomejogador"><?php echo $player['name']; ?></td>
-                                        <td><?php echo $player['rating']; ?> rt</td>
-                                        <td><?php echo $this->Form->button('NA', array('name' => $player['id'], 'value' => 0, 'div' => false)); ?></td>
-                                        <td><?php echo $this->Form->button('OK', array('name' => $player['id'], 'value' => 1, 'div' => false)); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </table>
-                    </div>
-                </div>
-                <?php endif; ?>
-
-             <?php endfor; ?>
+<div class="content">
+<!-- GAME SCORE -->
+        <div class="score">
+            <ul>
+                <li><?php echo $details[0]['Team']['score']; ?></li>
+                <li></li>
+                <li><?php echo $details[1]['Team']['score']; ?></li>
+            </ul>
         </div>
-    <?php echo $this->Form->end(); ?>
-<?php endif; ?>
+        
+        <div class="teamsContainer">
+    <?php for($i = 0; $i <= 1; $i++): ?>
+        <?php $teamName = ($i == 0) ? 'vermelhos' : 'pretos' ;?>
+        <!-- Team  -->
+        <div class="team">
+        <!-- CONTENT -->
+        
+            <table>
+            <!-- <caption>
+                <ul>
+                    <li><?php echo $this->Html->image('small-shirt-white.png'); ?></li>
+                    <li><?php echo $teamName ?></li>
+                </ul>
+            </caption> -->
+                <?php foreach($details[$i]['Player'] as $id => $player): ?>
+                <tr>
+                    <!-- shirt icon -->
+                    <!-- <td class="shirticon"><?php echo $this->Html->image('small-shirt-white.png'); ?></td> -->
+                    <!-- previous rating -->
+                    <!-- <td class="smalltext"style="text-align: right"><?php echo round($player['previousRating'], 1); ?>rt</td> -->
 
+                    <!-- difference -->
+                    <td class="smalltext" style="text-align: left"><?php echo round($player['difference'], 3); ?></td>
+                    <!-- current rating -->
+                    <td><?php echo round($player['currentRating'], 1); ?>pts</td>
+                    <!-- nome do jogador -->
+                    <td><?php echo $this->Html->link(__($player['name']), array('controller' => 'Players', 'action' => 'view', $id)); ?></td>
+                    <!-- golos / assistências -->
+                    <td class="orange" style="text-align: right">
+                        <?php
+                            // se se gravar apenas os golos das equipas, isto dá erro ao ver o jogo
+                            // é portanto preciso filtrar os casos onde não há golos
+                            if (isset($player['goals'])) {
+                                echo $player['goals']; 
+                            }
+                            if (isset($player['assists'])) {
+                                echo "(".$player['assists'].")"; 
+                            }
+                        ?></td>
+
+                    
+                    
+                    <!-- <td class="smalltext" style="text-align: left"><?php echo $player['standardDeviation']; ?></td> -->
+                </tr>
+                <?php endforeach; ?>
+            </table>
+
+        </div>
+    <?php endfor; ?>
+</div>
+</div>
+
+
+    

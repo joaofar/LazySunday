@@ -1,9 +1,12 @@
 <?php
-//debug($goals);
-$playerEvo = array_reverse($playerEvo, true);
+
+$mean = array_reverse($mean, true);
+$standardDeviation = array_reverse($standardDeviation, true);// $difEvo = array_reverse($difEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, 20, true);
 $winLoseStats = array_reverse($winLoseStats, true);
 $goals = array_reverse($goals, true);
+
+//debug($playerEvo);
 ?>
 
 <!-- GRAFICO 1 RATING EVO -->
@@ -14,13 +17,17 @@ $goals = array_reverse($goals, true);
             chart: {
                 renderTo: 'pgraph',
                 height: '300'
+                // backgroundColor:'rgba(255, 255, 255, 0.1)'
                 //width: '730'
             },
             credits: {
                 enabled: false
             },
             title: {
-                text: 'Evolução do Rating'
+                text: 'rating'
+            },
+            subtitle: {
+                text: 'evolução nos últimos jogos'
             },
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -32,14 +39,15 @@ $goals = array_reverse($goals, true);
                 },
                 title: {
                     enabled: false,
-                    text: 'rating evo',
+                    text: 'mean',
                     style: {
                         color: 'red'
                     }
                 }
-            }],
+                }
+            ],
             xAxis: {
-                categories: [<?php foreach($playerEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
+                categories: [<?php foreach($mean as $gameId => $value) { echo($gameId); echo ', '; } ?>]
             },
             plotOptions: {
                 spline: {
@@ -59,10 +67,80 @@ $goals = array_reverse($goals, true);
             legend: {
                 enabled: false
             },
-            series: [{
-                name: 'avg',
-                type: 'spline',
-                data: [<?php foreach($playerEvo as $data) { echo($data['ratEvo']); echo ', '; } ?>]}
+            series: [
+                {
+                    name: 'mean',
+                    type: 'spline',
+                    data: [<?php foreach($mean as $value) { echo(round($value, 2)); echo ', '; } ?>]
+                },
+            ]
+        });
+    });
+</script>
+
+<!-- GRAFICO 5 STANDARD DEVIATION -->
+<script>
+    var chart1; // globally available
+    $(document).ready(function() {
+        chart5 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'pgraph5',
+                height: '300'
+                //width: '730'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: 'grau de incerteza do rating'
+            },
+            subtitle: {
+                text: '(um valor mais baixo é melhor)'
+            },
+            yAxis: [{ // Primary yAxis
+                labels: {
+                    enabled: false,
+                    format: '{value} rt',
+                    style: {
+                        color: 'red'
+                    }
+                },
+                title: {
+                    enabled: false,
+                    text: 'mean',
+                    style: {
+                        color: 'red'
+                    }
+                }
+                }
+            ],
+            xAxis: {
+                categories: [<?php foreach($standardDeviation as $gameId => $value) { echo($gameId); echo ', '; } ?>]
+            },
+            plotOptions: {
+                spline: {
+                    dataLabels: {
+                        enabled: true,
+                        color: 'black'
+                    },
+                    lineWidth: 4,
+                    // color: 'red',
+                    marker: {
+                        enabled: true
+                    }
+                },
+
+
+            },
+            legend: {
+                enabled: false
+            },
+            series: [
+                {
+                    name: 'mean',
+                    type: 'spline',
+                    data: [<?php foreach($standardDeviation as $value) { echo(round($value, 2)); echo ', '; } ?>]
+                },
             ]
         });
     });
@@ -82,7 +160,7 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Pontos por Jogo'
+                text: 'diferencial'
             },
             yAxis: [{ // Secondary yAxis
                 title: {
@@ -103,7 +181,7 @@ $goals = array_reverse($goals, true);
             }
             ],
             xAxis: {
-                categories: [<?php foreach($playerEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
+                categories: [<?php foreach($difEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
             },
             plotOptions: {
                 column: {
@@ -121,7 +199,7 @@ $goals = array_reverse($goals, true);
                 name: 'game points',
                 type: 'column',
                 yAxis: 0,
-                data: [<?php foreach($playerEvo as $data) { echo($data['gamePts']); echo ', '; } ?>]}
+                data: [<?php foreach($difEvo as $data) { echo($data); echo ', '; } ?>]}
             ]
         });
     });
@@ -141,7 +219,10 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Diferença de Golos'
+                text: 'diferença de golos'
+            },
+            subtitle: {
+                text: 'A tua equipa ganhou ou perdeu por:'
             },
             yAxis: [{ // Terciary yAxis
                 title: {
@@ -203,7 +284,7 @@ $goals = array_reverse($goals, true);
                 enabled: false
             },
             title: {
-                text: 'Golos e Assistências'
+                text: 'golos e assistências'
             },
             yAxis: [{ // Primary yAxis
                 title: {
@@ -244,39 +325,39 @@ $goals = array_reverse($goals, true);
                 name: 'golos',
                 type: 'column',
                 yAxis: 0,
-                data: [<?php foreach($goals as $goal) { echo($goal['Goal']['golos']); echo ', '; } ?>]
+                data: [<?php foreach($goals as $goal) { echo($goal['Goal']['goals']); echo ', '; } ?>]
             },
                 {
                     name: 'assistências',
                     type: 'column',
                     yAxis: 0,
-                    data: [<?php foreach($goals as $goal) { echo($goal['Goal']['assistencias']); echo ', '; } ?>]
+                    data: [<?php foreach($goals as $goal) { echo($goal['Goal']['assists']); echo ', '; } ?>]
                 }]
         });
     });
 </script>
 
-
+    <div><h1><?php echo $player['Player']['name']; ?></h1></div>
 
     <div id="pgraph" class="playerGraph">
         <p>pgrapgh</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
 
-    <div id="pgraph2" class="playerGraph">
+    <div id="pgraph5" class="playerGraph">
         <p>pgraph2</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
     <div id="pgraph3" class="playerGraph">
         <p>pgraph3</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
     <div id="pgraph4" class="playerGraph">
         <p>pgraph4</p>
-        <?php echo $this->Html->script('highcharts'); ?>
+        <?php // echo $this->Html->script('highcharts'); ?>
     </div>
 
 

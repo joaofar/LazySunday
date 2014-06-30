@@ -110,15 +110,12 @@ class InvitesController extends AppController {
  * @return void
  */
     public function addInvites($id = null) {
-        $this->Game->id = $id;
 
-        $invites = $this->request->data['Game'];
-
-        foreach($invites as $key => $invite) {
-            $jogadorId = str_replace('jogador', '', $key);
-
-            if($invite) {
-                $saveInvite = array('Invite' => array('game_id' => $id, 'player_id' => $jogadorId, 'available' => null));
+        foreach($this->request->data['Player'] as $player) {
+            if ($player['value'] == 1) {
+                $saveInvite = array('Invite' => array(
+                	'game_id' => $id, 
+                	'player_id' => $player['id']));
 
                 $this->Invite->Create();
                 if($this->Invite->save($saveInvite)) {
@@ -129,34 +126,39 @@ class InvitesController extends AppController {
             }
         }
 
-        $this->redirect('/games/view/'.$id);
+        $this->redirect(array(
+        	'controller' => 'Games', 
+        	'action' => 'roster', 
+        	$id));
     }
 
 /**
- * updateInvites method
+ * update method
  *
- * @param string $id
+ * @param boolean $reply resposta do jogador ao convite [0, 1]
  * @return void
  */
-    public function updateInvites($id = null) {
+    public function update($reply) {
+    	if (!$this->request->is('post')) {
+			throw new MethodNotAllowedException();
+		}
+		$this->Invite->id = $this->request->data['Invite']['id'];
+		if (!$this->Invite->exists()) {
+			throw new NotFoundException(__('Invalid invite'));
+		}
 
+		$this->Invite->set('available', $reply);
+		if ($this->Invite->save()) {
+			$this->Session->setFlash(__('saved'));
+		} else {
+			$this->Session->setFlash(__('error saving'));
+		}
+		
 
-        if($this->request->data) {
-
-            end($this->request->data);
-            $playerAvailability = each($this->request->data);
-
-            $options = array('conditions' => array('Invite.game_id' => $id, 'Invite.player_id' => $playerAvailability['key']));
-            $currentInvite = $this->Invite->find('first', $options);
-
-            if($currentInvite['Invite']['available'] != $playerAvailability['value']) {
-                $currentInvite['Invite']['available'] = $playerAvailability['value'];
-                $this->Invite->save($currentInvite);
-            }
-        }
-
-        $this->redirect('/games/view/'.$id);
-
+        $this->redirect(array(
+        	'controller' => 'Games', 
+        	'action' => 'roster', 
+        	$this->request->data['Game']['id']));
     }
 
 /**
@@ -171,8 +173,6 @@ class InvitesController extends AppController {
     public function sendEmails($id = null) {
         $invites = $this->Invite->invites($id);
 
-        //debug($invites['invites'][0]);
-
         // init
         $email = new CakeEmail('gmail');
         $email->template('convocatoria', 'pbento');
@@ -185,7 +185,7 @@ class InvitesController extends AppController {
 
         // a data e' a mesma para todos os invites
         // TODO: formatar a data
-        $gameDateSql = $invites['invites'][0]['Game']['data'];
+        $gameDateSql = $invites['invites'][0]['Game']['date'];
         //echo $this->Time->format('d M, Y', $gameDateSql);
         $email->viewVars(array('gameDate' => $gameDateSql));
 

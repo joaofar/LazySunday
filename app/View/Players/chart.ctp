@@ -250,7 +250,7 @@
 </script>
 
 <!--<div class="players view">
-<h2><?php /* echo __($player['Player']['nome']);*/?></h2>-->
+<h2><?php /* echo __($player['Player']['name']);*/?></h2>-->
 
 <div id="pgraph" class="playerGraph">
     <?php echo $this->Html->script('highcharts'); ?>

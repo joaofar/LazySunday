@@ -29,7 +29,7 @@ class Team extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'golos' => array(
+		'goals' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -76,6 +76,32 @@ class Team extends AppModel {
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => ''
+        ),
+        'Assist' => array(
+            'className' => 'Assist',
+            'foreignKey' => 'team_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'Rating' => array(
+            'className' => 'Rating',
+            'foreignKey' => 'team_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
         )
     );
 
@@ -108,124 +134,104 @@ class Team extends AppModel {
  * @param string $id
  * @return array
  */
-    public function generate($id = null, $invitedPlayers) {
+    public function generate($id, $invited) {
+        //find teams
+        $currentTeams = $this->find('all', array('conditions' => array('Team.game_id' => $id)));
 
-        //Find Teams
-        $options = array('conditions' => array('Team.game_id' => $id));
-        $currentTeams = $this->find('all', $options);
-
-        //Create Teams if they don't exist
+        //create teams if they don't exist
         for($i = count($currentTeams); $i < 2; $i++) {
             $this->Create();
             $team = array('Team' => array('game_id' => $id));
             $currentTeams[$i] = $this->save($team);
         }
 
-        //Array of Available Players
-        $i = 0;
-        $teams['available'] = 0;
-        $banco = array();
-        $out = array();
-        foreach($invitedPlayers['invites'] as $invite) {
-
-            if($invite['Invite']['available'] === null) {
-                //por responder
-                $availableList[$i++] = array('id' => $invite['Player']['id'],
-                                            'name' => $invite['Player']['nome'],
-                                            'rating' => $invite['Player']['ratingLouie'],
-                                            'presencas' => $invite['Player']['presencas'],
-                                            'available' => null);
-
-            }
-            elseif($invite['Invite']['available'] == 0) {
-                //Não jogam
-                $out[] = array('id' => $invite['Player']['id'],
-                            'name' => $invite['Player']['nome'],
-                            'rating' => $invite['Player']['ratingLouie'],
-                            'presencas' => $invite['Player']['presencas'],
-                            'available' => 0);
-            }
-            else {
-                //Jogam
-                $availableList[$i++] = array('id' => $invite['Player']['id'],
-                                            'name' => $invite['Player']['nome'],
-                                            'rating' => $invite['Player']['ratingLouie'],
-                                            'presencas' => $invite['Player']['presencas'],
-                                            'available' => 1);
-
-                    //sum players that said yes
-                    $teams['available'] += 1;
+        //invited players sorting
+        foreach ($invited['invited'] as $player) {
+            if ($player['available'] == true || is_null($player['available'])) {
+                $available[] = $player;
+            } else {
+                $out[] = $player;
             }
         }
 
-
-        if(!isset($availableList)) {
+        if(!isset($available)) {
             return null;
         }
 
+        if(!isset($out)) {
+            $out = array();
+        }
+
         //Creates empty spots in case players < 10
-        while(count($availableList) < 10) {
-            $availableList[$i++] = array('id' => 0,
+        while(count($available) < 10) {
+            $available[] = array(
+                'id' => 0,
                 'name' => '__ ? __   ',
-                'rating' => null,
-                'presencas' => 0,
+                'mean' => null,
                 'available' => null);
         }
+
         //criar uma array com os jogadores extra, o banco
-        $bancoRaw = array_slice($availableList, 10, null, true);
-        for($i = 11; $i <= (count($bancoRaw) + 10); $i++){
-            $banco[$i] = $bancoRaw[$i-1];
-        }
+        $bench = array_slice($available, 10, null, true);
 
         //Cut the array so it has max 10 players
-        $availableList = array_slice($availableList, 0, 10);
+        $lineUp = array_slice($available, 0, 10);
 
-        //Sort by rating
-        foreach ($availableList as $key => $row) {
-            $player_id[$key]  = $row['id'];
-            $rating[$key] = $row['rating'];
+        //quantos jogadores do lineUp principal já disseram que sim
+        //vai servir para fazer validação na altura de salvar as equipas
+        $lineUpStatus = array();
+        foreach ($lineUp as $player) {
+            if ($player['available'] == true) {
+                $lineUpStatus[] = $player;
+            }
         }
 
-        array_multisort($rating, SORT_DESC, $player_id, SORT_ASC, $availableList);
+        //Sort by rating
+        foreach ($lineUp as $key => $row) {
+            $player_id[$key]  = $row['id'];
+            $mean[$key] = $row['mean'];
+        }
+        array_multisort($mean, SORT_DESC, $player_id, SORT_ASC, $lineUp);
 
 
         $ratingTotal = 0;
-        $i = 1;
         //Find the overall rating of the 10 players
-        foreach($availableList as $player) {
-            $ratingTotal += $player['rating'];
-            $players[$i++] = $player;
+        foreach($lineUp as $player) {
+            $ratingTotal += $player['mean'];
         }
         //ideal ranking for each team
         $idealTeamRating = $ratingTotal / 2;
 
 
-        $len = count($players);
+        $len = count($lineUp);
         $bestComb = $ratingTotal;
+        // $teams[0]['Team'] = '';
         //do all combinations of players and save the best one
-        for ($i = 1; $i < $len - 2; $i++)
-        {
-            for ($j = $i + 1; $j < $len - 1; $j++)
-            {
+        for ($i = 1; $i < $len - 2; $i++) {
+            for ($j = $i + 1; $j < $len - 1; $j++) {
                 for ($k = $j + 1; $k < $len; $k++) {
-
                     for ($m = $k + 1; $m < $len; $m++) {
-
                         for ($n = $m + 1; $n < $len; $n++) {
                             //Team Rating
-                            $teamRating = $players[$i]['rating'] + $players[$j]['rating'] + $players[$k]['rating'] + $players[$m]['rating'] + $players[$n]['rating'];
-                            //If the difference between this Team rating and the ideal rating is smaller, save as best combination
+                            $teamRating = $lineUp[$i]['mean'] + 
+                                $lineUp[$j]['mean'] + 
+                                $lineUp[$k]['mean'] + 
+                                $lineUp[$m]['mean'] + 
+                                $lineUp[$n]['mean'];
+                            //If the difference between this Team rating and the ideal rating is smaller, 
+                            //save as best combination
                             if(abs($idealTeamRating - $teamRating) < $bestComb) {
                                 $bestComb = abs($idealTeamRating - $teamRating);
+                                
+                                $teams[0]['Player'] = array(
+                                    $i => $lineUp[$i],
+                                    $j => $lineUp[$j],
+                                    $k => $lineUp[$k],
+                                    $m => $lineUp[$m],
+                                    $n => $lineUp[$n],
+                                    );
 
-                                unset($teams['team_1']);
-                                $teams['team_1'][$i] = $players[$i];
-                                $teams['team_1'][$j] = $players[$j];
-                                $teams['team_1'][$k] = $players[$k];
-                                $teams['team_1'][$m] = $players[$m];
-                                $teams['team_1'][$n] = $players[$n];
-
-                                $teams['team_1_rating'] = $teamRating;
+                                $teams[0]['Team']['rating'] = $teamRating;
                             }
                         }
                     }
@@ -234,27 +240,28 @@ class Team extends AppModel {
         }
 
 
-        //remove players from team_1 from the available list to end up with team 2
+        //remove players from the first team from the available list to end up with team 2
         for ($i = 1; $i <= 10; $i++) {
-            foreach($teams['team_1'] as $key => $team_1){
-                if(isset($players[$i]) and ($i == $key)){
-
-                    unset($players[$i]);
+            foreach($teams[0]['Player'] as $key => $player){
+                if(isset($lineUp[$i]) and ($i == $key)){
+                    unset($lineUp[$i]);
                 }
             }
         }
-        //setup variables for team_2
-        $teams['team_2'] = $players;
-        $teams['team_2_rating'] = $ratingTotal - $teams['team_1_rating'];
+        //setup variables for the other team
+        $teams[1]['Player'] = $lineUp;
+        $teams[1]['Team']['rating'] = $ratingTotal - $teams[0]['Team']['rating'];
 
-        //Team_id
-        $teams['team_1_id'] = $currentTeams[0]['Team']['id'];
-        $teams['team_2_id'] = $currentTeams[1]['Team']['id'];
+        //add team id
+        $teams[0]['Team']['id'] = $currentTeams[0]['Team']['id'];
+        $teams[1]['Team']['id'] = $currentTeams[1]['Team']['id'];
 
         //devolve uma array com 3 arrays interiores
         return $list = array('teams' => $teams,
-                             'banco' => $banco,
-                             'out' => $out);
+                             'bench' => $bench,
+                             'out' => $out,
+                             'lineUpStatus' => count($lineUpStatus)
+                             );
     }
 
     public function players($id = null){
@@ -262,6 +269,54 @@ class Team extends AppModel {
         $options = array('conditions' => array('team_id' => $id));
         return $this->PlayersTeam->find('all', $options);
     }
+
+/**
+ * isWinner method
+ * 
+ * @param  int  $teamID
+ * @return boolean
+ */
+    public function isWinner($teamID)
+    {
+        return $this->find('count', array(
+            'conditions' => array('Team.id' => $teamID, 'Team.is_winner' => 1) ));
+    }
+
+/**
+ * tristate method
+ * 
+ * Gera uma série com os últimos resultados de um jogador (vitórias, derrotas),
+ * para ser usado pelo sparklines na sidebar
+ * @param  int $playerId
+ * @param  int $limit    número de resultados pretendidos
+ * @return string
+ */
+    public function tristate($playerId, $limit = null)
+    {
+        $tristate = null;
+
+        $teams = $this->PlayersTeam->find('all', array(
+            'conditions' => array('PlayersTeam.player_id' => $playerId),
+            'order' => array('PlayersTeam.id' => 'desc'),
+            'limit' => $limit));
+
+        //inverter porque queremos os resultados mais recentes à direita
+        $teams = array_reverse($teams);
+
+        //trocar o '0' por '-1' para o sparklines
+        foreach ($teams as $team) {
+            if (!$this->isWinner($team['PlayersTeam']['team_id'])) {
+                $tristate .= '-1,';
+            } else {
+                $tristate .= '1,';
+            }
+        }
+
+        //tirar a última virgula (porque não é necessária) e devolver
+        return rtrim($tristate, ",");
+    }
+
+
 
 
 

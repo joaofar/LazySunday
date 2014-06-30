@@ -1,62 +1,52 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width">
     <?php echo $this->Html->charset(); ?>
     <title>
-        <?php echo 'LazyFoot' ?>:
+        <?php echo 'lazyfoot' ?>:
         <?php echo $title_for_layout; ?>
     </title>
     <?php
     echo $this->Html->meta('icon');
-
     echo $this->Html->css('styles');
     ?>
-    <script src="<?php echo $this->webroot; ?>js/jquery-1.7.2.min.js" type="text/javascript" ></script>
-    <script src="<?php echo $this->webroot; ?>js/jquery.sparkline.js" type="text/javascript" ></script>
-    <script src="<?php echo $this->webroot; ?>js/highcharts.js" type="text/javascript"></script>
-    <script src="<?php echo $this->webroot; ?>js/highcharts-more.js" type="text/javascript"></script>
-    <?php echo $scripts_for_layout; ?>
+
+	<!-- SCRIPTS -->
+	<?php echo $this->Html->script(array(
+		'/app/webroot/bower_components/jquery/jquery.min',
+		'/app/webroot/bower_components/jquery.sparkline/jquery.sparkline.min',
+		'/app/webroot/bower_components/highcharts/highcharts',
+		'lazyfoot')); ?>
+
+	<?php echo $scripts_for_layout; ?>
 </head>
 
 <body>
-<div id="header">
-    <div id="headerMenu">
-        <div id="topMenu">
-            <div id="topMenuLogo">Lazyfoot</div>
-        </div>
-        <div id="bottomMenu">
-            <ul id="menu">
-                <li><a href="<?php echo $this->webroot; ?>Games">Jogos</a></li>
-                <li><a href="<?php echo $this->webroot; ?>Players/index/20">Jogadores c/ 20pre</a></li>
-                <li><a href="<?php echo $this->webroot; ?>Players/index">Jogadores</a></li>
-<!--                <li><a href="--><?php //echo $this->webroot; ?><!--Players/chart">Stats</a></li>-->
-            </ul>
-        </div>
-    </div>
+
+<div id="container">
+	<div id="header">
+		<div id="logo"><?php echo $this->Html->link('lazyfoot', array('controller' => 'Games', 'action' => 'index')); ?></div>
+		<ul id="menu">
+	        <li><?php echo $this->Html->link('Jogos', array('controller' => 'Games', 'action' => 'index')); ?></li>
+	        <li><?php echo $this->Html->link('Jogadores c/20 pre', array('controller' => 'Players', 'action' => 'index', 20)); ?></li>
+	        <li><?php echo $this->Html->link('Jogadores', array('controller' => 'Players', 'action' => 'index')); ?></li>
+	    </ul>
+	</div>
+
+	<div id="wrapper">
+	<div id="navigation">
+	<?php echo $this->element('sidebar_menu'); ?>
+	<?php echo $this->element('sidebar'); ?></div>
+
+	<div id="content"> <?php echo $this->fetch('content'); ?></div>
+	</div>
+<div id="footer"><p><u>LazyFoot</u> beta...<?php echo date('F Y'); ?></p></div>
 </div>
 
-<div id="outerWrapper">
-    <div id="contentWrapper">
-        <div id="noOverlapTop"></div>
-        <div id="sidebarWrapper">
-            <div id="sidebarContent">
-                <h3><?php echo $this->element('sidebar');?></h3>
-            </div>
-        </div>
-        <div id="contentInnerWrapper">
-            <div id="content">
-                <?php echo $this->Session->flash(); ?>
-
-                <?php echo $content_for_layout; ?>
-            </div>
-        </div>
-        <div id="noOverlap"></div>
-    </div>
-</div>
-<div id="footerWrapper">
-    <div id="footerContent">
-        <div id="credits"><u>LazyFoot</u> beta...<?php echo date('F'); ?> 2012</div>
-    </div>
-</div>
+<?php echo $this->Js->writeBuffer(); ?>
+<script src="//0.0.0.0:35729/livereload.js"></script>
 </body>
+
+
 </html>

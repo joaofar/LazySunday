@@ -39,7 +39,7 @@ class Goal extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'golos' => array(
+		'goals' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -67,16 +67,23 @@ class Goal extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Player' => array(
-			'className' => 'Player',
-			'foreignKey' => 'player_id',
+		'Game' => array(
+			'className' => 'Game',
+			'foreignKey' => 'game_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Game' => array(
-			'className' => 'Game',
-			'foreignKey' => 'game_id',
+		'Team' => array(
+			'className' => 'Team',
+			'foreignKey' => 'team_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Player' => array(
+			'className' => 'Player',
+			'foreignKey' => 'player_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
