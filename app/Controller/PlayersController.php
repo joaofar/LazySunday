@@ -68,7 +68,8 @@ class PlayersController extends AppController {
         $this->set('winLoseStats', $this->Game->winLoseStats($id));
 
         //para o gráfico 'Golos e Assistências'
-        $this->set('goals', $this->Player->goalsAssists($id, Configure::read('limit')));
+        $this->set('goalsAssists', $this->Player->goalsAssists($id, Configure::read('limit')));
+
 	}
 
 

@@ -83,6 +83,19 @@ class Player extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+        'Assist' => array(
+            'className' => 'Assist',
+            'foreignKey' => 'player_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => 'id DESC',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
 		'Invite' => array(
 			'className' => 'Invite',
 			'foreignKey' => 'player_id',
@@ -538,7 +551,7 @@ class Player extends AppModel {
 
 /**
  * STATS
- * goalsAssists() method
+ * goals() method
  *
  * @param
  * @return array
@@ -546,17 +559,45 @@ class Player extends AppModel {
 
     public function goalsAssists($id, $limit) {
 
-        //golos e assistências dos últimos X jogos
-        $options = array('conditions' => array('player_id' => $id),
-            'order' => array('Goal.id' => 'desc'),
-            'limit' => $limit);
-        return $this->Goal->find('all', $options);
+        //jogos em que este jogador participou com ou sem discriminação de golos
+        $player = $this->find('all', array(
+            'conditions' => array('id =' => $id),
+            'contain' => array(
+                'Game' => array(
+                    'order' => array('Game.id' => 'desc'),
+                    'limit' => 20))
+            ));
+
+        foreach ($player[0]['Game'] as $game) {
+             $goals = $this->Goal->find('first', array(
+                'conditions' => array(
+                    'game_id' => $game['id'],
+                    'player_id' => $id
+                    )));
+
+             $assists = $this->Assist->find('first', array(
+                'conditions' => array(
+                    'game_id' => $game['id'],
+                    'player_id' => $id
+                    )));
+
+            if (!isset($goals['Goal']['goals'])) {
+                $goals['Goal']['goals'] = '-0.5';
+            }
+            
+            if (!isset($assists['Assist']['assists'])) {
+                $assists['Assist']['assists'] = '-0.5';
+            }
+
+             $goalsAssists[$game['id']] = array(
+                'Goals' => $goals['Goal']['goals'],
+                'Assists' => $assists['Assist']['assists']
+                );
+            
+        }
+
+        return $goalsAssists;
 
     }
-
-
-
-
-
 
 }

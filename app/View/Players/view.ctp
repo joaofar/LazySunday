@@ -4,7 +4,9 @@ $mean = array_reverse($mean, true);
 $standardDeviation = array_reverse($standardDeviation, true);// $difEvo = array_reverse($difEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, 20, true);
 $winLoseStats = array_reverse($winLoseStats, true);
-$goals = array_reverse($goals, true);
+$goalsAssists = array_reverse($goalsAssists, true);
+//debug($goalsAssists);
+//debug($goals);
 
 //debug($playerEvo);
 ?>
@@ -27,7 +29,7 @@ $goals = array_reverse($goals, true);
                 text: 'rating'
             },
             subtitle: {
-                text: 'evolução nos últimos jogos'
+                text: '(evolução nos últimos jogos)'
             },
             yAxis: [{ // Primary yAxis
                 labels: {
@@ -222,7 +224,7 @@ $goals = array_reverse($goals, true);
                 text: 'diferença de golos'
             },
             subtitle: {
-                text: 'A tua equipa ganhou ou perdeu por:'
+                text: '(A tua equipa ganhou ou perdeu por... )'
             },
             yAxis: [{ // Terciary yAxis
                 title: {
@@ -286,6 +288,9 @@ $goals = array_reverse($goals, true);
             title: {
                 text: 'golos e assistências'
             },
+            subtitle: {
+                text: '(valores negativos referem-se a jogos nos quais não houve registo de golos/assist)'
+            },
             yAxis: [{ // Primary yAxis
                 title: {
                     enabled: false,
@@ -305,7 +310,7 @@ $goals = array_reverse($goals, true);
             }
             ],
             xAxis: {
-                categories: [<?php foreach($goals as $goal) { echo($goal['Goal']['game_id']); echo ', '; } ?>]
+                categories: [<?php foreach($goalsAssists as $key => $games) { echo $key; echo ', '; } ?>]
             },
             plotOptions: {
                 column: {
@@ -325,13 +330,13 @@ $goals = array_reverse($goals, true);
                 name: 'golos',
                 type: 'column',
                 yAxis: 0,
-                data: [<?php foreach($goals as $goal) { echo($goal['Goal']['goals']); echo ', '; } ?>]
+                data: [<?php foreach($goalsAssists as $game) { echo $game['Goals']; echo ', '; } ?>]
             },
                 {
                     name: 'assistências',
                     type: 'column',
                     yAxis: 0,
-                    data: [<?php foreach($goals as $goal) { echo($goal['Goal']['assists']); echo ', '; } ?>]
+                    data: [<?php foreach($goalsAssists as $game) { echo $game['Assists']; echo ', '; } ?>]
                 }]
         });
     });
