@@ -283,12 +283,12 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-    public function updateStats($id) {
+    public function updateStats($id, $limit) {
         if($id == 'all'){
         $this->set('updateStats', $this->Player->updateStats_allPlayers());
         }
         else{
-        $this->set('updateStats', $this->Player->updateStats($id));
+        $this->set('updateStats', $this->Player->updateStats($id, $limit));
         }
     }
 

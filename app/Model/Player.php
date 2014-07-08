@@ -296,11 +296,11 @@ class Player extends AppModel {
  * @param string $id
  * @return array
  */
-    public function equipaMS($id = null) {
+    public function equipaMS($id = null, $limit = null) {
 
         //data
         $player = $this->find('first', array('conditions' => array('Player.id' => $id), 'recursive' => 1));
-        $presencas = $this->countPresencas($id);
+        $presencas = $this->countGamesPlayed($id);
         if($presencas <= $limit){
             $presencas_limit = $presencas;
         }else{
@@ -394,7 +394,7 @@ class Player extends AppModel {
 
         $players = $this->find('all');
         foreach($players as $player) {
-            $this->updateStats($player['Player']['id']);
+            $this->updateStats($player['Player']['id'], 20);
         }
     }
 
@@ -405,7 +405,7 @@ class Player extends AppModel {
  * @param int $id
  * @return void
  */
-    public function updateStats($id) {
+    public function updateStats($id, $limit) {
         //GAMES PLAYED
         $Player['games_played'] = $this->countGamesPlayed($id);
 
@@ -433,15 +433,15 @@ class Player extends AppModel {
         $assists = $this->assists($id, $limit);
         
         $Player['assists'] = $assists['assists'];
-        $Player['assists_average'] = $assists['assists_average'];
+        $Player['assists_average'] = $assists['assist_p_jogo'];
 
         //EQUIPA M/S
         $teamSC = $this->equipaMS($id, $limit);
         //EQUIPA M/S (DESDE SEMPRE)
         $Player['team_scored'] = $teamSC['M'];
-        $Player['team_scored_average'] = $teamSC['M_average'];
-        $Player['equipa_s'] = $teamSC['S'];
-        $Player['equipa_s_average'] = $teamSC['S_average'];
+        $Player['team_scored_average'] = $teamSC['M_p_jogo'];
+        $Player['team_conceded'] = $teamSC['S'];
+        $Player['team_conceded_average'] = $teamSC['S_p_jogo'];
 
         //SAVE PLAYER DATA
         $this->id = $id;
@@ -492,9 +492,9 @@ class Player extends AppModel {
         $gameId = 59;
 
         //encontrar as assistências que são guardadas na tabela dos golos
-        $games = $this->Goal->find('all', array(
+        $games = $this->Assist->find('all', array(
             'conditions' => array('game_id >=' => $gameId, 'player_id =' => $id),
-            'order' => array('Goal.id' => 'desc')));
+            'order' => array('Assist.id' => 'desc')));
 
 
         //nº de jogos com assistências
@@ -515,11 +515,11 @@ class Player extends AppModel {
 
 
         //somar assistências totais
-        $assists['assist'] = 0;
+        $assists['assists'] = 0;
         foreach($games as $game){
-            //criar lista para poder cortar e usar mais tarde noas stats com limite
-            $assistsList[] = $game['Goal']['assists'];
-            $assists['assist'] += $game['Goal']['assists'];
+            //criar lista para poder cortar e usar mais tarde nas stats com limite
+            $assistsList[] = $game['Assist']['assists'];
+            $assists['assists'] += $game['Assist']['assists'];
         }
 
         //somar assistências dentro do limite definido
@@ -531,8 +531,8 @@ class Player extends AppModel {
 
 
         //assistências por jogo desde sempre
-        if($assists['assist'] != 0){
-        $assists['assist_p_jogo'] = round($assists['assist'] / $nGames, 2);
+        if($assists['assists'] != 0){
+        $assists['assist_p_jogo'] = round($assists['assists'] / $nGames, 2);
         }else{
         $assists['assist_p_jogo'] = 0;
         }
