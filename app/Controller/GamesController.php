@@ -278,7 +278,9 @@ class GamesController extends AppController {
             $this->sidebarMenuItem('enviar emails', 'Invites', 'sendEmails', $id),
             $this->sidebarMenuItem('gravar equipas', 'Players', 'saveTeams', $id),
             $this->sidebarMenuItem('apagar jogo', 'Games', 'delete', $id),
-            $this->sidebarMenuItem('voltar à convocatória', 'Games', 'roster', $id)
+            $this->sidebarMenuItem('voltar à convocatória', 'Games', 'roster', $id),
+            $this->sidebarMenuItem('alterar equipas', 'Games', 'roster_closed', $id),
+            $this->sidebarMenuItem('colocar resultado', 'Games', 'submitScore', $id)
             );
 
         $this->set('sidebarMenu', $sidebarMenu);

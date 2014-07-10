@@ -82,10 +82,25 @@ class PlayersController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Player->create();
 			if ($this->Player->save($this->request->data)) {
-				$this->Session->setFlash(__('The player has been saved'));
-				$this->redirect(array('action' => 'index'));
+                // Salva a ordem da convocatória igual ao id 
+                // para evitar que jogadores novos apareceçam no inicio das listas
+                $this->Player->saveField('conv', $this->Player->id);
+                // $this->Player->save();
+
+                // Se o save for bem sucedido, criar um rating inicial para o jogador
+                $this->Rating->create();
+                $rating = array('Rating' => array(
+                    'player_id' => $this->Player->id,
+                    'mean' => 5,
+                    'standard_deviation' => 1.666));
+                if ($this->Rating->save($rating)) {
+                    $this->Session->setFlash(__('The player has been saved'));
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('Player rating could not be saved. Please, try again.'));
+                }				
 			} else {
-				$this->Session->setFlash(__('The player could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Player could not be saved. Please, try again.'));
 			}
 		}
 		$teams = $this->Player->Team->find('list');
