@@ -245,7 +245,9 @@ class Player extends AppModel {
  * @return int
  */
     public function countWins($id = null, $limit = null) {
-        $options = array('conditions' => array('player_id' => $id), 'limit' => $limit);
+        $options = array('conditions' => array(
+            'player_id' => $id), 
+            'limit' => $limit);
         $gamesPlayed = $this->PlayersTeam->find('all', $options);
 
         $wins = 0;
@@ -411,20 +413,25 @@ class Player extends AppModel {
 
         //WINS
         $Player['wins'] = $this->countWins($id, null);
+        $Player['wins_limit'] = $this->countWins($id, $limit);
 
         //WIN PERCENTAGE
         if($Player['wins'] == 0){
             $Player['win_percentage'] = 0;
+            $Player['win_percentage_limit'] = 0;
         }else{
             $Player['win_percentage'] = round($Player['wins'] / $Player['games_played'], 3);
+            $Player['win_percentage_limit'] = round($Player['wins_limit'] / $limit, 3);
         }
 
         //GOALS
         $Player['goals'] = $this->countGoals($id, null);
+        $Player['goals_limit'] = $this->countGoals($id, $limit);
 
         //GOALS AVERAGE
         if($Player['goals'] != 0) {
             $Player['goals_average'] = round($Player['goals'] / $Player['games_played'], 2);
+            $Player['goals_average_limit'] = round($Player['goals_limit'] / $limit, 2);
         }else{
             $Player['goals_average'] = 0;
         }
@@ -433,7 +440,9 @@ class Player extends AppModel {
         $assists = $this->assists($id, $limit);
         
         $Player['assists'] = $assists['assists'];
+        $Player['assists_limit'] = $assists['assist_limit'];
         $Player['assists_average'] = $assists['assist_p_jogo'];
+        $Player['assists_average_limit'] = $assists['assist_p_jogo_limit'];
 
         //EQUIPA M/S
         $teamSC = $this->equipaMS($id, $limit);
@@ -442,6 +451,11 @@ class Player extends AppModel {
         $Player['team_scored_average'] = $teamSC['M_p_jogo'];
         $Player['team_conceded'] = $teamSC['S'];
         $Player['team_conceded_average'] = $teamSC['S_p_jogo'];
+        //EQUIPA M/S (LIMIT)
+        $Player['team_scored_limit'] = $teamSC['M_limit'];
+        $Player['team_scored_average_limit'] = $teamSC['M_p_jogo_limit'];
+        $Player['team_conceded_limit'] = $teamSC['S_limit'];
+        $Player['team_conceded_average_limit'] = $teamSC['S_p_jogo_limit'];
 
         //SAVE PLAYER DATA
         $this->id = $id;

@@ -342,7 +342,64 @@ $goalsAssists = array_reverse($goalsAssists, true);
     });
 </script>
 
-    <div><h1><?php echo $player['Player']['name']; ?></h1></div>
+    <div>
+        <table>
+            <caption><?php echo $player['Player']['name']; ?></caption>
+            <thead>
+                <tr>
+                    <td>Presenças</td>
+                    <td>Vitórias</td>
+                    <td>Vitórias/Presenças</td>
+                    <td>Último jogo</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo $player['Player']['games_played']; ?></td>
+                    <td><?php echo $player['Player']['wins']; ?></td>
+                    <td><?php echo $player['Player']['win_percentage']; ?></td>
+                    <td><?php echo $player['Player']['last_game']; ?></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>últimos 20 jogos</td>
+                    <td>desde sempre</td>
+                </tr>
+            </thead>
+            <tbody>
+             <tr>
+                    <td>Vitórias</td>
+                    <td><?php echo $player['Player']['win_percentage_limit'].'  ('.$player['Player']['wins_limit'].')'; ?></td>
+                    <td><?php echo $player['Player']['win_percentage'].' ('.$player['Player']['wins'].')'; ?></td>
+                </tr>
+                <tr>
+                    <td>Golos</td>
+                    <td><?php echo $player['Player']['goals_average_limit'].'  ('.$player['Player']['goals_limit'].')'; ?></td>
+                    <td><?php echo $player['Player']['goals_average'].' ('.$player['Player']['goals'].')'; ?></td>
+                </tr>
+                <tr>
+                    <td>Assistências</td>
+                    <td><?php echo $player['Player']['assists_average_limit'].'  ('.$player['Player']['assists_limit'].')'; ?></td>
+                    <td><?php echo $player['Player']['assists_average'].' ('.$player['Player']['assists'].')'; ?></td>
+                </tr>
+                <tr>
+                    <td>Equipa Marcados</td>
+                    <td><?php echo $player['Player']['team_scored_average_limit'].'  ('.$player['Player']['team_scored_limit'].')'; ?></td>
+                    <td><?php echo $player['Player']['team_scored_average'].' ('.$player['Player']['team_scored'].')'; ?></td>
+                </tr>
+                <tr>
+                    <td>Equipa Sofridos</td>
+                    <td><?php echo $player['Player']['team_conceded_average_limit'].'  ('.$player['Player']['team_conceded_limit'].')'; ?></td>
+                    <td><?php echo $player['Player']['team_conceded_average'].' ('.$player['Player']['team_conceded'].')'; ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div id="pgraph" class="playerGraph">
         <p>pgrapgh</p>
