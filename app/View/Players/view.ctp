@@ -343,27 +343,12 @@ $goalsAssists = array_reverse($goalsAssists, true);
 </script>
 
     <div>
-        <table>
-            <caption><?php echo $player['Player']['name']; ?></caption>
-            <thead>
-                <tr>
-                    <td>Presenças</td>
-                    <td>Vitórias</td>
-                    <td>Vitórias/Presenças</td>
-                    <td>Último jogo</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><?php echo $player['Player']['games_played']; ?></td>
-                    <td><?php echo $player['Player']['wins']; ?></td>
-                    <td><?php echo $player['Player']['win_percentage']; ?></td>
-                    <td><?php echo $player['Player']['last_game']; ?></td>
-                </tr>
-            </tbody>
-        </table>
+        
+            
+           
 
         <table>
+            <caption><?php echo $player['Player']['name']; ?></caption>
             <thead>
                 <tr>
                     <td></td>
@@ -374,16 +359,16 @@ $goalsAssists = array_reverse($goalsAssists, true);
             <tbody>
              <tr>
                     <td>Vitórias</td>
-                    <td><?php echo $player['Player']['win_percentage_limit'].'  ('.$player['Player']['wins_limit'].')'; ?></td>
-                    <td><?php echo $player['Player']['win_percentage'].' ('.$player['Player']['wins'].')'; ?></td>
+                    <td><?php echo $player['Player']['win_percentage_limit'].'  ('.$player['Player']['wins_limit'].' / 20)'; ?></td>
+                    <td><?php echo $player['Player']['win_percentage'].' ('.$player['Player']['wins'].' / '.$player['Player']['games_played'].')'; ?></td>
                 </tr>
                 <tr>
-                    <td>Golos</td>
+                    <td>Golos p/ Jogo (Total)</td>
                     <td><?php echo $player['Player']['goals_average_limit'].'  ('.$player['Player']['goals_limit'].')'; ?></td>
                     <td><?php echo $player['Player']['goals_average'].' ('.$player['Player']['goals'].')'; ?></td>
                 </tr>
                 <tr>
-                    <td>Assistências</td>
+                    <td>Assist p/ Jogo (Total)</td>
                     <td><?php echo $player['Player']['assists_average_limit'].'  ('.$player['Player']['assists_limit'].')'; ?></td>
                     <td><?php echo $player['Player']['assists_average'].' ('.$player['Player']['assists'].')'; ?></td>
                 </tr>

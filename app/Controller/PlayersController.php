@@ -332,6 +332,6 @@ class PlayersController extends AppController {
  */
     public function teste($id)
     {
-    $this->set('teste', $this->Invite->getInvited($id));
+    $this->set('teste', $this->Player->countWins($id, 20));
     }
 }

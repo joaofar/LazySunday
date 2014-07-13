@@ -239,25 +239,47 @@ class Player extends AppModel {
     }
 
 /**
- * wins method
+ * countWins method
  *
  * @param string $id
  * @return int
  */
     public function countWins($id = null, $limit = null) {
-        $options = array('conditions' => array(
-            'player_id' => $id), 
-            'limit' => $limit);
-        $gamesPlayed = $this->PlayersTeam->find('all', $options);
+        
+        //procura-se o jogador e associa-se o modelo das equipas onde jogou
+        $teams = $this->find('first', array(
+            'conditions' => array('Player.id' => $id), 
+            'contain' => array(
+                'Team' => array(
+                    'order' => array('Team.id DESC')))));
 
-        $wins = 0;
-        foreach($gamesPlayed as $team){
-        $options = array('conditions' => array('Team.id' => $team['PlayersTeam']['team_id'], 'is_winner' => 1));
-            if($this->Team->find('first', $options)) {
-                $wins += 1;
+        //conta-se o número de vitórias
+        foreach ($teams['Team'] as $key => $team) {
+
+            if ($team['is_winner'] == 1) {
+                if (!isset($wins)) {
+                    $wins = 1;
+                } else {
+                    $wins += 1;
+                }
             }
+
+            //guardar as vitórias num limite definido
+            if (isset($wins)) {
+                if ($key < $limit) {
+                $wins_limit = $wins;
+                }
+            } else {
+                $wins_limit = 0;
+            }
+            
         }
-        return $wins;
+
+        return array(
+            'wins' => $wins,
+            'win_percentage' => round($wins / count($teams['Team']), 2),
+            'wins_limit' => $wins_limit,
+            'win_percentage_limit' => round($wins_limit / $limit, 2));
     }
 
 /**
@@ -411,18 +433,18 @@ class Player extends AppModel {
         //GAMES PLAYED
         $Player['games_played'] = $this->countGamesPlayed($id);
 
-        //WINS
-        $Player['wins'] = $this->countWins($id, null);
-        $Player['wins_limit'] = $this->countWins($id, $limit);
-
-        //WIN PERCENTAGE
-        if($Player['wins'] == 0){
-            $Player['win_percentage'] = 0;
-            $Player['win_percentage_limit'] = 0;
-        }else{
-            $Player['win_percentage'] = round($Player['wins'] / $Player['games_played'], 3);
-            $Player['win_percentage_limit'] = round($Player['wins_limit'] / $limit, 3);
+        //no caso do jogador ter um número de jogos inferior ao limite
+        if ($Player['games_played'] < $limit) {
+            $limit = $Player['games_played'];
         }
+
+        //WINS
+        $wins = $this->countWins($id, $limit);
+        $Player['wins'] = $wins['wins'];
+        $Player['win_percentage'] = $wins['win_percentage'];
+        $Player['wins_limit'] = $wins['wins_limit'];
+        $Player['win_percentage_limit'] = $wins['win_percentage_limit'];
+
 
         //GOALS
         $Player['goals'] = $this->countGoals($id, null);
@@ -431,8 +453,8 @@ class Player extends AppModel {
         //GOALS AVERAGE
         if($Player['goals'] != 0) {
             $Player['goals_average'] = round($Player['goals'] / $Player['games_played'], 2);
-            $Player['goals_average_limit'] = round($Player['goals_limit'] / $limit, 2);
-        }else{
+            $Player['goals_average_limit'] = round($Player['goals_limit'] / $limit, 2);          
+        } else {
             $Player['goals_average'] = 0;
         }
 
