@@ -439,6 +439,9 @@ public function cssTest()
                 'player_id' => $player['id'],
                 'mean' => $player['mean'],
                 'standard_deviation' => $player['standard_deviation'])));
+
+            //update player stats
+            $this->Player->updateStats($player['id'], Configure::read('limit'));
         }
 
         $this->redirect(array('controller' => 'Games', 'action' => 'view', $id));

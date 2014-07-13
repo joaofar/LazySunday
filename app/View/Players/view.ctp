@@ -1,14 +1,16 @@
 <?php
-
+$limit = 20;
 $mean = array_reverse($mean, true);
 $standardDeviation = array_reverse($standardDeviation, true);// $difEvo = array_reverse($difEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, 20, true);
 $winLoseStats = array_reverse($winLoseStats, true);
-$goalsAssists = array_reverse($goalsAssists, true);
-//debug($goalsAssists);
-//debug($goals);
+if (isset($goalsAssists)) {
+    $goalsAssists = array_reverse($goalsAssists, true);
+}
 
-//debug($playerEvo);
+if ($player['Player']['games_played'] < $limit) {
+    $limit = $player['Player']['games_played'];
+}
 ?>
 
 <!-- GRAFICO 1 RATING EVO -->
@@ -359,7 +361,7 @@ $goalsAssists = array_reverse($goalsAssists, true);
             <tbody>
              <tr>
                     <td>Vitórias</td>
-                    <td><?php echo $player['Player']['win_percentage_limit'].'  ('.$player['Player']['wins_limit'].' / 20)'; ?></td>
+                    <td><?php echo $player['Player']['win_percentage_limit'].'  ('.$player['Player']['wins_limit'].' / '.$limit.')'; ?></td>
                     <td><?php echo $player['Player']['win_percentage'].' ('.$player['Player']['wins'].' / '.$player['Player']['games_played'].')'; ?></td>
                 </tr>
                 <tr>
