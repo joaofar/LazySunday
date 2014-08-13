@@ -154,12 +154,12 @@ class PlayersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-    /**
-     * saveTeams method
-     *
-     * @param int $id
-     * @return void
-     */
+/**
+ * saveTeams method
+ *
+ * @param int $id
+ * @return void
+ */
     public function saveTeams($id) {
         // fetch genereated teams
         $teams = $this->Team->generate($id, $this->Invite->get($id, 'invited'));
@@ -219,22 +219,22 @@ class PlayersController extends AppController {
 
 
         //topGoalscorer
-        $op_topGoalscorer = array('order' => array('Player.goals_average' => 'desc', 'Player.games_played' => 'desc'),
+        $op_topGoalscorer = array('order' => array('Player.goals_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
 
         //topAssists
-        $op_topAssists = array('order' => array('Player.assists_average' => 'desc', 'Player.games_played' => 'desc'),
+        $op_topAssists = array('order' => array('Player.assists_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['topAssists'] = $this->Player->find('first', $op_topAssists);
 
         //offensiveInfluence
-        $op_offensive = array('order' => array('Player.team_scored_average' => 'desc', 'Player.games_played' => 'desc'),
+        $op_offensive = array('order' => array('Player.team_scored_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
 
         //defensiveInfluence
-        $op_defensive = array('order' => array('Player.team_conceded_average' => 'asc'),
+        $op_defensive = array('order' => array('Player.team_conceded_average_limit' => 'asc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
 

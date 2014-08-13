@@ -8,10 +8,10 @@
 			<!-- <th><h2><?php // echo $this->Paginator->sort('rating', 'R');?></h2></th> -->
 			<th><h2><?php echo $this->Paginator->sort('wins','V');?></h2></th>
             <th><h2><?php echo $this->Paginator->sort('win_percentage','V/P');?></h2></th>
-            <th><h2><?php echo $this->Paginator->sort('goals_average','G/J (Total)');?></h2></th>
-            <th><h2><?php echo $this->Paginator->sort('assists_average','A/J (Total)');?></h2></th>
-            <th><h2><?php echo $this->Paginator->sort('team_scored_average','EM/J (Total)');?></h2></th>
-            <th><h2><?php echo $this->Paginator->sort('team_conceded_average','ES/J (Total)');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('goals_average_limit','G/J (Total)');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('assists_average_limit','A/J (Total)');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('team_scored_average_limit','EM/J (Total)');?></h2></th>
+            <th><h2><?php echo $this->Paginator->sort('team_conceded_average_limit','ES/J (Total)');?></h2></th>
 	</tr>
 	<?php
 	foreach ($players as $player): ?>
@@ -22,10 +22,10 @@
 		<!-- <td><?php // echo h($player['Player']['rating']); ?>&nbsp;</td> -->
 		<td><?php echo h($player['Player']['wins']); ?>&nbsp;</td>
         <td><?php echo h($player['Player']['win_percentage']); ?>&nbsp;</td>
-        <td><?php echo h($player['Player']['goals_average']); ?> (<?php echo h($player['Player']['goals']); ?>)&nbsp;</td>
-        <td><?php echo h($player['Player']['assists_average']); ?> (<?php echo h($player['Player']['assists']); ?>)&nbsp;</td>
-        <td><?php echo h($player['Player']['team_scored_average']); ?> (<?php echo h($player['Player']['team_scored']); ?>)&nbsp;</td>
-        <td><?php echo h($player['Player']['team_conceded_average']); ?> (<?php echo h($player['Player']['team_conceded']); ?>)&nbsp;</td>
+        <td><?php echo h($player['Player']['goals_average_limit']); ?> (<?php echo h($player['Player']['goals']); ?>)&nbsp;</td>
+        <td><?php echo h($player['Player']['assists_average_limit']); ?> (<?php echo h($player['Player']['assists']); ?>)&nbsp;</td>
+        <td><?php echo h($player['Player']['team_scored_average_limit']); ?> (<?php echo h($player['Player']['team_scored']); ?>)&nbsp;</td>
+        <td><?php echo h($player['Player']['team_conceded_average_limit']); ?> (<?php echo h($player['Player']['team_conceded']); ?>)&nbsp;</td>
 
 	</tr>
 <?php endforeach; ?>
