@@ -650,4 +650,37 @@ class Player extends AppModel {
 
     }
 
+/**
+* idlePLayer method
+* returns true if the player is idle longer than the allowed time defined in $idleTime
+*
+* @param string $id
+* @return bool
+*/
+    public function idle($id) {
+        //max idle time allowed
+        $idleTime = 60;
+
+        //find last game
+        $player = $this->find('all', array(
+            'conditions' => array('id =' => $id),
+            'contain' => array(
+                'Game' => array(
+                    'order' => array('Game.id' => 'desc'),
+                    'limit' => 1))
+            ));
+
+        //compare dates
+        $lastGame = date_create($player[0]['Game'][0]['date']);
+        $currentDate = date_create(date('Y-m-d'));
+        $dateDiff = date_diff($lastGame, $currentDate);
+
+        //check if the player idle longer than allowed
+        if ($dateDiff->days > $idleTime) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

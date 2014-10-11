@@ -332,6 +332,6 @@ class PlayersController extends AppController {
  */
     public function teste($id)
     {
-    $this->set('teste', $this->Player->equipaMS($id, 20));
+    $this->set('teste', $this->Player->idlePlayer($id));
     }
 }
