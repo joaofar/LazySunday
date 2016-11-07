@@ -50,23 +50,23 @@
             <td>golos p/j: </td>
             <td><?php echo $data['topGoalscorer']['Player']['name']; ?>
 
-                (<?php echo $data['topGoalscorer']['Player']['goals_average']; ?>)</td>
+                (<?php echo $data['topGoalscorer']['Player']['goals_average_limit']; ?>)</td>
         </tr>
         <tr>
             <td>assist p/j: </td>
             <td><?php echo $data['topAssists']['Player']['name']; ?>
 
-                (<?php echo $data['topAssists']['Player']['assists_average']; ?>)</td>
+                (<?php echo $data['topAssists']['Player']['assists_average_limit']; ?>)</td>
         </tr>
         <tr>
             <td>EM p/j: </td>
             <td><?php echo $data['offensiveInfluence']['Player']['name']; ?>
-                (<?php echo $data['offensiveInfluence']['Player']['team_scored_average']; ?>)</td>
+                (<?php echo $data['offensiveInfluence']['Player']['team_scored_average_limit']; ?>)</td>
         </tr>
         <tr>
             <td>ES p/j: </td>
             <td><?php echo $data['defensiveInfluence']['Player']['name']; ?>
-                (<?php echo $data['defensiveInfluence']['Player']['team_conceded_average']; ?>)</td>
+                (<?php echo $data['defensiveInfluence']['Player']['team_conceded_average_limit']; ?>)</td>
         </tr>
     </table>
 </div>

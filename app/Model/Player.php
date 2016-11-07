@@ -83,6 +83,19 @@ class Player extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
+        'Assist' => array(
+            'className' => 'Assist',
+            'foreignKey' => 'player_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => 'id DESC',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
 		'Invite' => array(
 			'className' => 'Invite',
 			'foreignKey' => 'player_id',
@@ -226,43 +239,152 @@ class Player extends AppModel {
     }
 
 /**
- * wins method
+ * countWins method
  *
  * @param string $id
- * @return int
+ * @return array
  */
     public function countWins($id = null, $limit = null) {
-        $options = array('conditions' => array('player_id' => $id), 'limit' => $limit);
-        $gamesPlayed = $this->PlayersTeam->find('all', $options);
+        
+        //procura-se o jogador e associa-se o modelo das equipas onde jogou
+        $teams = $this->find('first', array(
+            'conditions' => array('Player.id' => $id), 
+            'contain' => array(
+                'Team' => array(
+                    'order' => array('Team.id DESC')))));
 
-        $wins = 0;
-        foreach($gamesPlayed as $team){
-        $options = array('conditions' => array('Team.id' => $team['PlayersTeam']['team_id'], 'is_winner' => 1));
-            if($this->Team->find('first', $options)) {
-                $wins += 1;
+        //conta-se o número de vitórias
+        foreach ($teams['Team'] as $key => $team) {
+
+            if ($team['is_winner'] == 1) {
+                if (!isset($wins)) {
+                    $wins = 1;
+                } else {
+                    $wins += 1;
+                }
             }
+
+            //guardar as vitórias num limite definido
+            if (isset($wins)) {
+                if ($key < $limit) {
+                $wins_limit = $wins;
+                }
+            } else {
+                $wins_limit = 0;
+            }
+            
         }
-        return $wins;
+
+        //no caso do jogador não ter vitórias
+        if (!isset($wins)) {
+            return array(
+                'wins' => 0,
+                'win_percentage' => 0,
+                'wins_limit' => 0,
+                'win_percentage_limit' => 0);
+        }
+
+        return array(
+            'wins' => $wins,
+            'win_percentage' => round($wins / count($teams['Team']), 2),
+            'wins_limit' => $wins_limit,
+            'win_percentage_limit' => round($wins_limit / $limit, 2));
     }
 
 /**
- * goals method
+ * countGoals method
  *
- * @param string $id
- * @return int
+ * @param int $id, int $limit
+ * @return array [goals, goals_limit]
  */
     public function countGoals($id = null, $limit = null) {
+        //array com todos os golos do jogador
         $options = array('conditions' => array('player_id' => $id),
-                         'order' => array('Goal.id DESC'),
-                         'limit' => $limit);
-        $goals = $this->Goal->find('all', $options);
+                         'order' => array('Goal.id DESC'));
+        $allGoals = $this->Goal->find('all', $options);
 
-        $total = 0;
-        foreach($goals as $goal) {
-            $total += $goal['Goal']['goals'];
+        //número de jogos onde foram registados golos
+        $countGames = count($allGoals);
+
+        //quando o limite é inferior ao número de jogos
+        if ($countGames < $limit) {
+            $limit = $countGames;
         }
 
-        return $total;
+        //no caso do jogador não ter golos
+        if (count($allGoals) == 0) {
+            return array(
+                'goals' => 0, 
+                'goals_limit' => 0,
+                'goals_average' => 0,
+                'goals_average_limit' => 0);
+        }
+
+        //contagem...
+        foreach($allGoals as $key => $goal) {
+            if (!isset($count['goals'])) {
+                $count['goals'] = $goal['Goal']['goals'];
+            } else {
+                $count['goals'] += $goal['Goal']['goals'];
+            }
+
+            //guardar contagem no limite  definido
+            if ($key == ($limit - 1)) {
+                $count['goals_limit'] = $count['goals'];
+            }
+        }
+
+        return array_merge($count, array(
+            'goals_average' => round($count['goals'] / $countGames, 2),
+            'goals_average_limit' => round($count['goals_limit'] / $limit, 2)));
+    }
+
+/**
+ * countAssists method
+ *
+ * @param int $id, int $limit
+ * @return array [assists, assists_limit]
+ */
+    public function countAssists($id = null, $limit = null) {
+        //array com todos os golos do jogador
+        $options = array('conditions' => array('player_id' => $id),
+                         'order' => array('Assist.id DESC'));
+        $allAssists = $this->Assist->find('all', $options);
+
+        //número de jogos onde foram registados golos
+        $countGames = count($allAssists);
+
+        //quando o limite é inferior ao número de jogos
+        if ($countGames < $limit) {
+            $limit = $countGames;
+        }
+
+        //no caso do jogador não ter golos
+        if (count($allAssists) == 0) {
+            return array(
+                'goals' => 0, 
+                'goals_limit' => 0,
+                'goals_average' => 0,
+                'goals_average_limit' => 0);
+        }
+
+        //contagem...
+        foreach($allAssists as $key => $assist) {
+            if (!isset($count['assists'])) {
+                $count['assists'] = $assist['Assist']['assists'];
+            } else {
+                $count['assists'] += $assist['Assist']['assists'];
+            }
+
+            //guardar contagem no limite  definido
+            if ($key == ($limit - 1)) {
+                $count['assists_limit'] = $count['assists'];
+            }
+        }
+
+        return array_merge($count, array(
+            'assists_average' => round($count['assists'] / $countGames, 2),
+            'assists_average_limit' => round($count['assists_limit'] / $limit, 2)));
     }
 
 /**
@@ -283,18 +405,18 @@ class Player extends AppModel {
  * @param string $id
  * @return array
  */
-    public function equipaMS($id = null) {
+    public function equipaMS($id = null, $limit = null) {
 
         //data
-        $player = $this->find('first', array('conditions' => array('Player.id' => $id), 'recursive' => 1));
-        $presencas = $this->countPresencas($id);
+        $player = $this->find('first', array('conditions' => array('Player.id' => $id), 'contain' => array('Team')));
+        $presencas = $this->countGamesPlayed($id);
         if($presencas <= $limit){
             $presencas_limit = $presencas;
         }else{
             $presencas_limit = $limit;
         }
 
-        $games = $this->Game->find('all', array('order' => array('Game.id DESC'), 'recursive' => 1));
+        $games = $this->Game->find('all', array('order' => array('Game.id DESC'), 'contain' => array('Team')));
         $ignoreTeams = array(5, 6, 7, 8, 9, 10);
 
         //init var
@@ -324,8 +446,7 @@ class Player extends AppModel {
                     //... and played in this team
                    if(in_array($team['id'], $teamsPlayed)){
                        $equipaM[$team['game_id']] = $team['score'];
-                   }
-                   else{
+                   } else {
                        $equipaS[$team['game_id']] = $team['score'];
                    }
                 }
@@ -381,7 +502,8 @@ class Player extends AppModel {
 
         $players = $this->find('all');
         foreach($players as $player) {
-            $this->updateStats($player['Player']['id']);
+            echo $player['Player']['id'];
+            $this->updateStats($player['Player']['id'], 20);
         }
     }
 
@@ -392,49 +514,50 @@ class Player extends AppModel {
  * @param int $id
  * @return void
  */
-    public function updateStats($id) {
+    public function updateStats($id, $limit) {
         //GAMES PLAYED
-        $Player['games_played'] = $this->countGamesPlayed($id);
+        $player['games_played'] = $this->countGamesPlayed($id);
+        //no caso do jogador não ter jogos não vale a pena prosseguir com o cálculo
+        if ($player['games_played'] == 0) {
+            return null;
+        }
+
+        //no caso do jogador ter um número de jogos inferior ao limite, o número de jogos
+        //passa a ser o limite
+        if ($player['games_played'] < $limit) {
+            $limit = $player['games_played'];
+        }
 
         //WINS
-        $Player['wins'] = $this->countWins($id, null);
-
-        //WIN PERCENTAGE
-        if($Player['wins'] == 0){
-            $Player['win_percentage'] = 0;
-        }else{
-            $Player['win_percentage'] = round($Player['wins'] / $Player['games_played'], 3);
-        }
+        //a função countWins() cria logo uma array com os campos certos, 
+        //portanto basta juntar o resultado com o array_merge() à array Player
+        $player = array_merge($player, $this->countWins($id, $limit));
 
         //GOALS
-        $Player['goals'] = $this->countGoals($id, null);
-
-        //GOALS AVERAGE
-        if($Player['goals'] != 0) {
-            $Player['goals_average'] = round($Player['goals'] / $Player['games_played'], 2);
-        }else{
-            $Player['goals_average'] = 0;
-        }
+        $player = array_merge($player, $this->countGoals($id, $limit));
 
         //ASSISTS
-        $assists = $this->assists($id, $limit);
+        $player = array_merge($player, $this->countAssists($id, $limit));
         
-        $Player['assists'] = $assists['assists'];
-        $Player['assists_average'] = $assists['assists_average'];
 
         //EQUIPA M/S
         $teamSC = $this->equipaMS($id, $limit);
         //EQUIPA M/S (DESDE SEMPRE)
-        $Player['team_scored'] = $teamSC['M'];
-        $Player['team_scored_average'] = $teamSC['M_average'];
-        $Player['equipa_s'] = $teamSC['S'];
-        $Player['equipa_s_average'] = $teamSC['S_average'];
+        $player['team_scored'] = $teamSC['M'];
+        $player['team_scored_average'] = $teamSC['M_p_jogo'];
+        $player['team_conceded'] = $teamSC['S'];
+        $player['team_conceded_average'] = $teamSC['S_p_jogo'];
+        //EQUIPA M/S (LIMIT)
+        $player['team_scored_limit'] = $teamSC['M_limit'];
+        $player['team_scored_average_limit'] = $teamSC['M_p_jogo_limit'];
+        $player['team_conceded_limit'] = $teamSC['S_limit'];
+        $player['team_conceded_average_limit'] = $teamSC['S_p_jogo_limit'];
 
         //SAVE PLAYER DATA
         $this->id = $id;
         if ($this->exists()) {
-            $this->save(array('Player' => $Player));
-            return $Player;
+            $this->save(array('Player' => $player));
+            return $player;
         }else{
             throw new NotFoundException(__('jogador inválido'));
         }
@@ -468,77 +591,12 @@ class Player extends AppModel {
         if($team['Team']['is_winner']) { return true; } else { return false; }
     }
 
-/**
- * calcula as assistências de um determinado jogador
- *
- * @param none
- * @return none
- */
-    public function assists($id, $limit = null) {
-        //jogo a partir do qual se começou a contar as assistências
-        $gameId = 59;
-
-        //encontrar as assistências que são guardadas na tabela dos golos
-        $games = $this->Goal->find('all', array(
-            'conditions' => array('game_id >=' => $gameId, 'player_id =' => $id),
-            'order' => array('Goal.id' => 'desc')));
-
-
-        //nº de jogos com assistências
-        $nGames = count($games);
-        if($nGames == 0){
-            return array(
-                'all' => array('assists' => 0, 'assists_average' => 0),
-                'limit' => array('assists' => 0, 'assists_average' => 0)
-                );
-        }
-
-        if($nGames < $limit){
-            $nGames_limit = $nGames;
-        }else{
-            $nGames_limit = $limit;
-        }
-
-
-
-        //somar assistências totais
-        $assists['assist'] = 0;
-        foreach($games as $game){
-            //criar lista para poder cortar e usar mais tarde noas stats com limite
-            $assistsList[] = $game['Goal']['assists'];
-            $assists['assist'] += $game['Goal']['assists'];
-        }
-
-        //somar assistências dentro do limite definido
-        $assistsList = array_slice($assistsList, 0, $limit);
-        $assists['assist_limit'] = 0;
-        foreach($assistsList as $assist){
-            $assists['assist_limit'] += $assist;
-        }
-
-
-        //assistências por jogo desde sempre
-        if($assists['assist'] != 0){
-        $assists['assist_p_jogo'] = round($assists['assist'] / $nGames, 2);
-        }else{
-        $assists['assist_p_jogo'] = 0;
-        }
-
-        //assistências por jogo dentro do limite
-        if($assists['assist_limit'] != 0){
-            $assists['assist_p_jogo_limit'] = round($assists['assist_limit'] / $nGames_limit, 2);
-        }else{
-            $assists['assist_p_jogo_limit'] = 0;
-        }
-
-        return $assists;
-    }
 
 
 
 /**
  * STATS
- * goalsAssists() method
+ * goals() method
  *
  * @param
  * @return array
@@ -546,17 +604,83 @@ class Player extends AppModel {
 
     public function goalsAssists($id, $limit) {
 
-        //golos e assistências dos últimos X jogos
-        $options = array('conditions' => array('player_id' => $id),
-            'order' => array('Goal.id' => 'desc'),
-            'limit' => $limit);
-        return $this->Goal->find('all', $options);
+        //jogos em que este jogador participou com ou sem discriminação de golos
+        $player = $this->find('all', array(
+            'conditions' => array('id =' => $id),
+            'contain' => array(
+                'Game' => array(
+                    'order' => array('Game.id' => 'desc'),
+                    'limit' => 20))
+            ));
+
+        foreach ($player[0]['Game'] as $game) {
+             $goals = $this->Goal->find('first', array(
+                'conditions' => array(
+                    'game_id' => $game['id'],
+                    'player_id' => $id
+                    )));
+
+             $assists = $this->Assist->find('first', array(
+                'conditions' => array(
+                    'game_id' => $game['id'],
+                    'player_id' => $id
+                    )));
+
+            if (!isset($goals['Goal']['goals'])) {
+                $goals['Goal']['goals'] = '-0.5';
+            }
+            
+            if (!isset($assists['Assist']['assists'])) {
+                $assists['Assist']['assists'] = '-0.5';
+            }
+
+             $goalsAssists[$game['id']] = array(
+                'Goals' => $goals['Goal']['goals'],
+                'Assists' => $assists['Assist']['assists']
+                );
+            
+        }
+
+        if (isset($goalsAssists)) {
+            return $goalsAssists;
+        } else {
+            return null;
+        }
+        
 
     }
 
+/**
+* idlePLayer method
+* returns true if the player is idle longer than the allowed time defined in $idleTime
+*
+* @param string $id
+* @return bool
+*/
+    public function idle($id) {
+        //max idle time allowed
+        $idleTime = 60;
 
+        //find last game
+        $player = $this->find('all', array(
+            'conditions' => array('id =' => $id),
+            'contain' => array(
+                'Game' => array(
+                    'order' => array('Game.id' => 'desc'),
+                    'limit' => 1))
+            ));
 
+        //compare dates
+        $lastGame = date_create($player[0]['Game'][0]['date']);
+        $currentDate = date_create(date('Y-m-d'));
+        $dateDiff = date_diff($lastGame, $currentDate);
 
-
+        //check if the player idle longer than allowed
+        if ($dateDiff->days > $idleTime) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }

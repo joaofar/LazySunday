@@ -5,13 +5,13 @@
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('email');
-		echo $this->Form->input('Rating.rating', array(
-			'options' => array(
-				'4' => 4, 
-				'5' => 5, 
-				'6' => 6),
-			'selected' => '5'
-			));
+		// echo $this->Form->input('Rating.rating', array(
+		// 	'options' => array(
+		// 		'4' => 4, 
+		// 		'5' => 5, 
+		// 		'6' => 6),
+		// 	'selected' => '5'
+		// 	));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>

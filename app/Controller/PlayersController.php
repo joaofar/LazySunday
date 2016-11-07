@@ -68,7 +68,8 @@ class PlayersController extends AppController {
         $this->set('winLoseStats', $this->Game->winLoseStats($id));
 
         //para o gráfico 'Golos e Assistências'
-        $this->set('goals', $this->Player->goalsAssists($id, Configure::read('limit')));
+        $this->set('goalsAssists', $this->Player->goalsAssists($id, Configure::read('limit')));
+
 	}
 
 
@@ -81,10 +82,25 @@ class PlayersController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Player->create();
 			if ($this->Player->save($this->request->data)) {
-				$this->Session->setFlash(__('The player has been saved'));
-				$this->redirect(array('action' => 'index'));
+                // Salva a ordem da convocatória igual ao id 
+                // para evitar que jogadores novos apareceçam no inicio das listas
+                $this->Player->saveField('conv', $this->Player->id);
+                // $this->Player->save();
+
+                // Se o save for bem sucedido, criar um rating inicial para o jogador
+                $this->Rating->create();
+                $rating = array('Rating' => array(
+                    'player_id' => $this->Player->id,
+                    'mean' => 5,
+                    'standard_deviation' => 1.666));
+                if ($this->Rating->save($rating)) {
+                    $this->Session->setFlash(__('The player has been saved'));
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('Player rating could not be saved. Please, try again.'));
+                }				
 			} else {
-				$this->Session->setFlash(__('The player could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Player could not be saved. Please, try again.'));
 			}
 		}
 		$teams = $this->Player->Team->find('list');
@@ -138,12 +154,12 @@ class PlayersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-    /**
-     * saveTeams method
-     *
-     * @param int $id
-     * @return void
-     */
+/**
+ * saveTeams method
+ *
+ * @param int $id
+ * @return void
+ */
     public function saveTeams($id) {
         // fetch genereated teams
         $teams = $this->Team->generate($id, $this->Invite->get($id, 'invited'));
@@ -203,22 +219,22 @@ class PlayersController extends AppController {
 
 
         //topGoalscorer
-        $op_topGoalscorer = array('order' => array('Player.goals_average' => 'desc', 'Player.games_played' => 'desc'),
+        $op_topGoalscorer = array('order' => array('Player.goals_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
 
         //topAssists
-        $op_topAssists = array('order' => array('Player.assists_average' => 'desc', 'Player.games_played' => 'desc'),
+        $op_topAssists = array('order' => array('Player.assists_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['topAssists'] = $this->Player->find('first', $op_topAssists);
 
         //offensiveInfluence
-        $op_offensive = array('order' => array('Player.team_scored_average' => 'desc', 'Player.games_played' => 'desc'),
+        $op_offensive = array('order' => array('Player.team_scored_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
 
         //defensiveInfluence
-        $op_defensive = array('order' => array('Player.team_conceded_average' => 'asc'),
+        $op_defensive = array('order' => array('Player.team_conceded_average_limit' => 'asc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
         $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
 
@@ -282,12 +298,12 @@ class PlayersController extends AppController {
  * @param string $id
  * @return array
  */
-    public function updateStats($id) {
+    public function updateStats($id, $limit) {
         if($id == 'all'){
         $this->set('updateStats', $this->Player->updateStats_allPlayers());
         }
         else{
-        $this->set('updateStats', $this->Player->updateStats($id));
+        $this->set('updateStats', $this->Player->updateStats($id, $limit));
         }
     }
 
@@ -316,6 +332,6 @@ class PlayersController extends AppController {
  */
     public function teste($id)
     {
-    $this->set('teste', $this->Invite->getInvited($id));
+    $this->set('teste', $this->Player->idlePlayer($id));
     }
 }

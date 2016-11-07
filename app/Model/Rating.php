@@ -208,12 +208,17 @@ class Rating extends AppModel {
 
 		//vai buscar o rating mais actual de cada jogador e cria uma array
 		foreach ($playersList as $id => $name) {
-			$rating = $this->get($id);
 
-			$playerRatingList[] = array(
+			//checka se o jogador está idle (não aparece para jogar há muito tempo)
+			if (!$this->Player->idle($id)) {
+				$rating = $this->get($id);
+
+				$playerRatingList[] = array(
 				'id' => $id,
 				'name' => $name,
 				'mean' => $rating['mean']);
+			}
+			
 		}
 
 		//array_multisort
