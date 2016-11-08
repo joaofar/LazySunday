@@ -208,10 +208,11 @@ class PlayersController extends AppController {
  */
     public function sidebarStats() {
         //min games_played
-        $players['n_min_pre'] = Configure::read('n_min_pre');
+        // $players['n_min_pre'] = Configure::read('n_min_pre');
+        $players['n_min_pre'] = 3;
 
         //ranking TrueSkill
-        $players['trueSkill'] = $this->Rating->rankingList(20);
+        $players['trueSkill'] = $this->Rating->rankingList(3);
 
         foreach ($players['trueSkill'] as $key => $player) {
             $players['trueSkill'][$key]['tristate'] = $this->Team->tristate($player['id'], 6);
@@ -219,24 +220,53 @@ class PlayersController extends AppController {
 
 
         //topGoalscorer
-        $op_topGoalscorer = array('order' => array('Player.goals_average_limit' => 'desc', 'Player.games_played' => 'desc'),
+        while (!isset($players['topGoalscorer'])) {
+            $op_topGoalscorer = array('order' => array('Player.goals_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
-        $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
+            $players['topGoalscorer'] = $this->Player->find('first', $op_topGoalscorer);
+
+            //check if player is idle
+            if($this->Player->idle($players['topGoalscorer']['Player']['id'])) {
+                $players['topGoalscorer'] = null;
+            }
+        }
+        
 
         //topAssists
-        $op_topAssists = array('order' => array('Player.assists_average_limit' => 'desc', 'Player.games_played' => 'desc'),
+        while (!isset($players['topAssists'])) {
+            $op_topAssists = array('order' => array('Player.assists_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
-        $players['topAssists'] = $this->Player->find('first', $op_topAssists);
+            $players['topAssists'] = $this->Player->find('first', $op_topAssists);
+
+            //check if player is idle
+            if($this->Player->idle($players['topAssists']['Player']['id'])) {
+                $players['topAssists'] = null;
+            }
+        }
 
         //offensiveInfluence
-        $op_offensive = array('order' => array('Player.team_scored_average_limit' => 'desc', 'Player.games_played' => 'desc'),
+        while (!isset($players['offensiveInfluence'])) {
+            $op_offensive = array('order' => array('Player.team_scored_average_limit' => 'desc', 'Player.games_played' => 'desc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
-        $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
+            $players['offensiveInfluence'] = $this->Player->find('first', $op_offensive);
+
+            //check if player is idle
+            if($this->Player->idle($players['offensiveInfluence']['Player']['id'])) {
+                $players['offensiveInfluence'] = null;
+            }
+        }
 
         //defensiveInfluence
-        $op_defensive = array('order' => array('Player.team_conceded_average_limit' => 'asc'),
+        while (!isset($players['defensiveInfluence'])) {
+            $op_defensive = array('order' => array('Player.team_conceded_average_limit' => 'asc'),
             'conditions' => array('Player.games_played >=' => $players['n_min_pre']));
-        $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
+            $players['defensiveInfluence'] = $this->Player->find('first', $op_defensive);
+
+            //check if player is idle
+            if($this->Player->idle($players['defensiveInfluence']['Player']['id'])) {
+                $players['defensiveInfluence'] = null;
+            }
+        }
 
         //allGoals
         $goals = $this->Goal->find('all');
