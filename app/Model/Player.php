@@ -683,4 +683,27 @@ class Player extends AppModel {
         }
     }
 
+
+/**
+ * n_min_pre method
+ *
+ * o número minímo de presenças para existirem 10 jogadores no ranking da sidebar
+ * até atingir o número n_min_pre global
+ *
+ * @param int $list_size
+ * @return int
+ */
+    public function n_min_pre_list_size($list_size)
+    {
+
+    //o games_played deste enésimo jogador dar-nos-á o número min de jogos para termos a lista com o tamanho pretendido
+        $player = $this->find('all', array(
+            'order' => array('games_played' => 'desc'),
+            'limit' => $list_size));
+
+        $player = array_reverse($player);
+
+        return $player[0]['Player']['games_played'];
+    }
+
 }
