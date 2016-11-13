@@ -390,7 +390,7 @@ class PlayersController extends AppController {
  */
     public function teste()
     {
-    $this->set('teste', $this->Player->n_min_pre(10));
+    $this->set('teste', $this->Rating->get(105, 297));
     }
 
 

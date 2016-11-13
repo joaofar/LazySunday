@@ -103,28 +103,31 @@ class Rating extends AppModel {
 /**
  * get method
  * 
- * Devolve o rating mais recente do jogador
+ * Devolve o rating correspondente ao jogo com o gameId x
  * @param  int $id player_id
  * @param  int $gameID
  * @return array
  */
 	public function get($id, $gameID = null)
 	{
-		//verificar se o jogador tem ratings
+		//verificar se a variavel gameId existe
 		if (!$gameID) {
 			//se não houver gameID, devolve o mais recente
-			$rating = $this->find('first', array(
-			'conditions' => array('Rating.player_id' => $id),
-			'order' => array('id' => 'desc')
-			));
+			$rating = $this->getLatest($id);
 		} else {
+			//se houver gameId devolve o correspondente
 			$rating = $this->find('first', array(
 			'conditions' => array('Rating.player_id' => $id, 'Rating.game_id <' => $gameID),
 			'order' => array('id' => 'desc')
 			));
+
+			//no caso do jogater ter um rating inicial sem gameId associado
+			if (!$rating) {
+				$rating = $this->getLatest($id);
+			}
 		}
 
-		// se não tiver, cria um novo com valores default
+		// caso não exista nenhum rating cria-se um novo
 		if (!$rating) {
 			$rating['Rating'] = array(
 				'player_id' => $id,
@@ -135,10 +138,25 @@ class Rating extends AppModel {
 			$this->create();
 			$this->save($rating);
             return $rating['Rating'];
-		}else{
+		} else {
 			//se tiver, devolve a última rating
 			return $rating['Rating'];
-		}
+		}	
+	}
+
+/**
+ * getLatest method
+ * 
+ * Devolve o rating mais recente do jogador
+ * @param  int $playerId
+ * @return int
+ */
+	public function getLatest($playerId)
+	{
+		return $this->find('first', array(
+			'conditions' => array('Rating.player_id' => $playerId),
+			'order' => array('id' => 'desc')
+			));
 	}
 
 /**
@@ -161,7 +179,7 @@ class Rating extends AppModel {
 		));
 
 		if(!$previous){
-			//se não existir um rating anteriordevolve o rating default
+			//se não existir um rating anterior devolve o rating default
 			return $this->defaultRating;
 		}else{
 			return $previous['Rating'];
