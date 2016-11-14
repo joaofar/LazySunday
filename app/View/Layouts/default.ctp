@@ -26,10 +26,10 @@
 
 <div id="container">
 	<div id="header">
-		<div id="logo"><?php echo $this->Html->link('lazyfoot', array('controller' => 'Games', 'action' => 'index')); ?></div>
+		<div id="logo"><?php echo $this->Html->link(Configure::read('title'), array('controller' => 'Games', 'action' => 'index')); ?></div>
 		<ul id="menu">
 	        <li><?php echo $this->Html->link('Jogos', array('controller' => 'Games', 'action' => 'index')); ?></li>
-	        <li><?php echo $this->Html->link('Jogadores c/20 pre', array('controller' => 'Players', 'action' => 'index', 20)); ?></li>
+	        <li><?php echo $this->Html->link('Jogadores c/'.Configure::read('n_min_pre').' pre', array('controller' => 'Players', 'action' => 'index', Configure::read('n_min_pre'))); ?></li>
 	        <li><?php echo $this->Html->link('Jogadores', array('controller' => 'Players', 'action' => 'index')); ?></li>
 	    </ul>
 	</div>

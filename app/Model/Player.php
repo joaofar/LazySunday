@@ -164,10 +164,10 @@ class Player extends AppModel {
 	);
 
 /**
- * allPlayers method
+ * currentRating method
  * Devolve uma array com a informação da tabela de jogadores
  *
- * @param
+ * @param int $id
  * @return
  */
 
@@ -417,7 +417,9 @@ class Player extends AppModel {
         }
 
         $games = $this->Game->find('all', array('order' => array('Game.id DESC'), 'contain' => array('Team')));
-        $ignoreTeams = array(5, 6, 7, 8, 9, 10);
+
+        //in case you need to ignore certain games in your database
+        $ignoreTeams = array();
 
         //init var
         $equipaM = array();
@@ -494,16 +496,16 @@ class Player extends AppModel {
  * updateStats_allPlayers
  * actualiza as stats de todos os jogadores
  *
- * @param string $id
+ * @param int $limit
  * @return void
  */
 
-    public function updateStats_allPlayers() {
+    public function updateStats_allPlayers($limit) {
 
         $players = $this->find('all');
         foreach($players as $player) {
             echo $player['Player']['id'];
-            $this->updateStats($player['Player']['id'], 20);
+            $this->updateStats($player['Player']['id'], $limit);
         }
     }
 

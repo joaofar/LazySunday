@@ -111,8 +111,9 @@ CakeLog::config('error', array(
 ));
 
 //Variáveis Globais
-Configure::write('limit', 20);
-Configure::write('n_min_pre', 20);
+Configure::write('title', 'teste');
+Configure::write('limit', 5);
+Configure::write('n_min_pre', 5);
 
 //Variáveis de Rating
 Configure::write('MEAN', 5);

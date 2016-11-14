@@ -1,8 +1,8 @@
 <?php
-$limit = 20;
+$limit = Configure::read('limit');
 $mean = array_reverse($mean, true);
 $standardDeviation = array_reverse($standardDeviation, true);// $difEvo = array_reverse($difEvo, true);
-$winLoseStats = array_slice($winLoseStats, 0, 20, true);
+$winLoseStats = array_slice($winLoseStats, 0, $limit, true);
 $winLoseStats = array_reverse($winLoseStats, true);
 if (isset($goalsAssists)) {
     $goalsAssists = array_reverse($goalsAssists, true);
@@ -354,7 +354,7 @@ if ($player['Player']['games_played'] < $limit) {
             <thead>
                 <tr>
                     <td></td>
-                    <td>últimos 20 jogos</td>
+                    <td>últimos <?php echo $limit; ?> jogos</td>
                     <td>desde sempre</td>
                 </tr>
             </thead>

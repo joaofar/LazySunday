@@ -32,6 +32,10 @@ class PlayersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+
+    //access global variable
+    $limit = Configure::read('limit');
+
 		$this->Player->id = $id;
 		if (!$this->Player->exists()) {
 			throw new NotFoundException(__('Invalid player'));
@@ -43,7 +47,7 @@ class PlayersController extends AppController {
             'fields' => array('Rating.game_id', 'Rating.mean'),
             'conditions' => array('Rating.player_id' => $id),
             'order' => array('Rating.id' => 'desc'),
-            'limit' => 20
+            'limit' => $limit
         )));
 
         //standard deviation
@@ -51,7 +55,7 @@ class PlayersController extends AppController {
             'fields' => array('Rating.game_id', 'Rating.standard_deviation'),
             'conditions' => array('Rating.player_id' => $id),
             'order' => array('Rating.id' => 'desc'),
-            'limit' => 20
+            'limit' => $limit
         )));
 
         //para o gráfico 'rating evo' //diferencial de rating, quanto subiste ou desceste
@@ -358,7 +362,7 @@ class PlayersController extends AppController {
  */
     public function updateStats($id, $limit) {
         if($id == 'all'){
-        $this->set('updateStats', $this->Player->updateStats_allPlayers());
+        $this->set('updateStats', $this->Player->updateStats_allPlayers($limit));
         }
         else{
         $this->set('updateStats', $this->Player->updateStats($id, $limit));
@@ -390,7 +394,7 @@ class PlayersController extends AppController {
  */
     public function teste()
     {
-    $this->set('teste', $this->Rating->get(105, 297));
+    $this->set('teste', $this->updateStats('all', 5));
     }
 
 
