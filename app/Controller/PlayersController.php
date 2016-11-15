@@ -357,15 +357,16 @@ class PlayersController extends AppController {
 /**
  * updateStats method
  *
- * @param string $id
+ * @param string $playerId
  * @return array
  */
-    public function updateStats($id, $limit) {
-        if($id == 'all'){
-        $this->set('updateStats', $this->Player->updateStats_allPlayers($limit));
-        }
-        else{
-        $this->set('updateStats', $this->Player->updateStats($id, $limit));
+    public function updateStats($playerId) {
+        if(!$playerId){
+            //update all players
+            $this->set('updateStats', $this->Player->updateStats_allPlayers(Configure::read('limit')));
+        } else {
+            //update a single player
+            $this->set('updateStats', $this->Player->updateStats($playerId, Configure::read('limit')));
         }
     }
 

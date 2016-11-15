@@ -612,7 +612,7 @@ class Player extends AppModel {
             'contain' => array(
                 'Game' => array(
                     'order' => array('Game.id' => 'desc'),
-                    'limit' => 20))
+                    'limit' => $limit))
             ));
 
         foreach ($player[0]['Game'] as $game) {

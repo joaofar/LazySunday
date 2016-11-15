@@ -4,6 +4,10 @@ $mean = array_reverse($mean, true);
 $standardDeviation = array_reverse($standardDeviation, true);// $difEvo = array_reverse($difEvo, true);
 $winLoseStats = array_slice($winLoseStats, 0, $limit, true);
 $winLoseStats = array_reverse($winLoseStats, true);
+
+echo $this->Html->url(
+    array( "controller" => "games", "action" => "view", "bar"));
+
 if (isset($goalsAssists)) {
     $goalsAssists = array_reverse($goalsAssists, true);
 }
@@ -83,8 +87,8 @@ if ($player['Player']['games_played'] < $limit) {
 </script>
 
 <!-- GRAFICO 5 STANDARD DEVIATION -->
-<script>
-    var chart1; // globally available
+<!-- <script>
+    var chart5; // globally available
     $(document).ready(function() {
         chart5 = new Highcharts.Chart({
             chart: {
@@ -148,66 +152,9 @@ if ($player['Player']['games_played'] < $limit) {
             ]
         });
     });
-</script>
+</script> -->
 
-<!-- GRAFICO 2 PONTOS POR JOGO -->
-<script>
-    var chart2; // globally available
-    $(document).ready(function() {
-        chart2 = new Highcharts.Chart({
-            chart: {
-                renderTo: 'pgraph2',
-                height: '300'
-                //width: '730'
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: 'diferencial'
-            },
-            yAxis: [{ // Secondary yAxis
-                title: {
-                    enabled: false,
-                    text: 'game pts',
-                    style: {
-                        color: 'blue'
-                    }
-                },
-                labels: {
-                    enabled: false,
-                    format: '{value} pts',
-                    style: {
-                        //color: '#4572A7'
-                    }
-                },
-                opposite: false
-            }
-            ],
-            xAxis: {
-                categories: [<?php foreach($difEvo as $gameId => $data) { echo($gameId); echo ', '; } ?>]
-            },
-            plotOptions: {
-                column: {
-                    dataLabels: {
-                        enabled: true,
-                        color: 'black'
-                    },
-                    //color: 'green'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            series: [{
-                name: 'game points',
-                type: 'column',
-                yAxis: 0,
-                data: [<?php foreach($difEvo as $data) { echo($data); echo ', '; } ?>]}
-            ]
-        });
-    });
-</script>
+
 
 <!-- GRAFICO 3 DIFERENÇA DE GOLOS -->
 <script>
@@ -249,25 +196,58 @@ if ($player['Player']['games_played'] < $limit) {
             xAxis: {
                 categories: [<?php foreach($winLoseStats as $key => $goal_dif) { echo($key); echo ', '; } ?>]
             },
+
             plotOptions: {
                 column: {
                     dataLabels: {
                         enabled: true,
                         color: 'black'
                     },
-                    color: 'green'
+                    color: 'green',
+                    states: {
+                        hover: {
+                            color: 'GreenYellow'                                                           
+                        }
+                    }
+                },
+
+                series: {
+                    cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    location.href = this.options.url;
+                                }
+                            }
+                        }
                 }
-
-
+                
             },
+
             legend: {
                 enabled: false
             },
+
             series: [{
                     name: 'golos',
                     type: 'column',
                     yAxis: 0,
-                    data: [<?php foreach($winLoseStats as $goal_dif) { echo($goal_dif); echo ', '; } ?>]
+                    data: [
+                        <?php 
+                            foreach($winLoseStats as $key => $goal_dif) { 
+                                echo('{ y: '.$goal_dif.', ');
+                                echo("url: '".
+                                    $this->Html->url(
+                                        array( "controller" => "Games", 
+                                                "action" => "view", 
+                                                $key), true).
+                                    "' }, ");
+                               // { y: 29.9, url: 'http://bing.com/search?q=foo' }
+                                
+
+                            } 
+                        ?>
+                    ]
                 }]
         });
     });
@@ -394,10 +374,10 @@ if ($player['Player']['games_played'] < $limit) {
     </div>
 
 
-    <div id="pgraph5" class="playerGraph">
-        <p>pgraph2</p>
+   <!-- <div id="pgraph5" class="playerGraph">
+        <p>pgraph5</p>
         <?php // echo $this->Html->script('highcharts'); ?>
-    </div>
+    </div> -->
 
     <div id="pgraph3" class="playerGraph">
         <p>pgraph3</p>

@@ -110,10 +110,15 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+
 //Variáveis Globais
-Configure::write('title', 'teste');
-Configure::write('limit', 5);
-Configure::write('n_min_pre', 5);
+
+//nome do website
+Configure::write('title', 'lazyfoot');
+//histório recente em jogos, limita aos x últimos jogos
+Configure::write('limit', 12);
+//n_min_pre para aparecer nas stats laterais da pag. principal
+Configure::write('n_min_pre', 12);
 
 //Variáveis de Rating
 Configure::write('MEAN', 5);
